@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    private float speed = 5.0f;//プレイヤー速度
+    private float speed;//プレイヤー速度
 
     private float jumpForce = 350f;//プレイヤージャンプ力
 
@@ -32,6 +32,8 @@ public class Player : MonoBehaviour
 
         if(!movechange)
         {
+            speed = 0.05f;
+
             if (Input.GetKey(KeyCode.A))
             {
                 position.x -= speed;
@@ -49,6 +51,8 @@ public class Player : MonoBehaviour
         }
         else
         {
+            speed = 5.0f;
+
             //移動中なら処理を受け付けない
             if (isMoving)
             {
