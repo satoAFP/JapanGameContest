@@ -19,56 +19,67 @@ public class RangeSelection : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        //選択されてるオブジェクトが格納される
         List<GameObject> Objs = managerAccessor.Instance.dataMagager.selectObjs;
 
+        //オブジェクトが選択されている時
         if (!selectionMode)
         {
             for (int i = 0; i < Objs.Count; i++)
             {
-                Vector3 nowMousePos = MouseWorldChange();
-                if (Objs[i].transform.localPosition.x - Objs[i].transform.localScale.x < nowMousePos.x &&
-                    Objs[i].transform.localPosition.x + Objs[i].transform.localScale.x > nowMousePos.x &&
-                    Objs[i].transform.localPosition.y - Objs[i].transform.localScale.x < nowMousePos.y &&
-                    Objs[i].transform.localPosition.y + Objs[i].transform.localScale.x > nowMousePos.y)
+                //マウス座標をワールド座標に変換
+                Vector3 nowMousePos = managerAccessor.Instance.dataMagager.MouseWorldChange();
+                //選択されているオブジェクト内にカーソルがある場合
+                if (Objs[i].transform.localPosition.x - Objs[i].transform.localScale.x / 2 < nowMousePos.x &&
+                    Objs[i].transform.localPosition.x + Objs[i].transform.localScale.x / 2 > nowMousePos.x &&
+                    Objs[i].transform.localPosition.y - Objs[i].transform.localScale.x / 2 < nowMousePos.y &&
+                    Objs[i].transform.localPosition.y + Objs[i].transform.localScale.x / 2 > nowMousePos.y) 
                 {
-                    Debug.Log("aaa");
+                    //オブジェクト選択状態にする
                     editMode = true;
                     break;
                 }
                 else
-                    editMode = false;
+                {
+                    //マウスがクリックされている状態の場合、選択状態を解除しない
+                    if (!Input.GetMouseButton(0))
+                        editMode = false;
+                }
             }
         }
 
+        //オブジェクトが選択されている時
         if (editMode)
         {
             if (Input.GetMouseButton(0))
             {
+                //1フレーム目は処理が通らないようにする
                 if (first2)
-                {
-                    //長押し状態を解除するまではいらないようにする
                     first2 = false;
-                }
                 else
                 {
-                    Vector3 movePower = MouseWorldChange() - beforePos;
-                    
+                    //1フレーム前との誤差を算出
+                    Vector3 movePower = managerAccessor.Instance.dataMagager.MouseWorldChange() - beforePos;
+
+                    //選択されているオブジェクトに加算
                     for (int i = 0; i < Objs.Count; i++)
                     {
                         Objs[i].transform.localPosition += movePower;
                     }
                 }
 
-                editMode = true;
-                beforePos = MouseWorldChange();
+                //座標を記憶
+                beforePos = managerAccessor.Instance.dataMagager.MouseWorldChange();
             }
         }
+        //オブジェクトが選択されていない時
         else
-            first2 = true;
-
-        if (!editMode)
+        {
+            //オブジェクト選択範囲表示
             SelectObj();
 
+            first2 = true;
+        }
         
 
     }
@@ -90,7 +101,7 @@ public class RangeSelection : MonoBehaviour
 
                 //範囲選択用オブジェクトの初期座標設定
                 clone = Instantiate(selectionObj);
-                clone.transform.localPosition = MouseWorldChange();
+                clone.transform.localPosition = managerAccessor.Instance.dataMagager.MouseWorldChange();
 
                 //長押し状態を解除するまではいらないようにする
                 first = false;
@@ -118,18 +129,6 @@ public class RangeSelection : MonoBehaviour
         }
     }
 
-    //マウス座標をワールド座標変換関数
-    private Vector3 MouseWorldChange()
-    {
-        //選択開始時の初期位置記憶
-        Vector3 mousePos = Input.mousePosition;
-        // Z軸修正
-        mousePos.z = 10f;
-        // マウス位置座標をスクリーン座標からワールド座標に変換する
-        Vector3 screenToWorldPointPosition = Camera.main.ScreenToWorldPoint(mousePos);
-
-        return screenToWorldPointPosition;
-    }
 
 
 }

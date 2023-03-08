@@ -20,4 +20,5 @@ public class managerAccessor
 
     //マネージャーの参照
     public DataManager dataMagager;
+    public ObjDataManager objDataManager;
 }
