@@ -4,8 +4,14 @@ using UnityEngine;
 
 public class DataManager : MonoBehaviour
 {
-    [System.NonSerialized] public List<GameObject> selectObjs = new List<GameObject>();
+    [System.NonSerialized] public List<GameObject> selectObjsData = new List<GameObject>();
     [System.NonSerialized] public List<GameObject> copyObjsData = new List<GameObject>();
+
+    [System.NonSerialized] public GameObject rightClickUIClone = null;
+
+    [System.NonSerialized] public bool objsCopy = false;
+    [System.NonSerialized] public bool copyReset = true;
+
 
 
     // Start is called before the first frame update
@@ -29,13 +35,18 @@ public class DataManager : MonoBehaviour
 
     public void CopyButton()
     {
-        DataManager dataManager = managerAccessor.Instance.dataMagager;
+        objsCopy = true;
+    }
 
-        dataManager.copyObjsData.Clear();
-        for (int i = 0; i < dataManager.selectObjs.Count; i++)
+    public void PasteButton()
+    {
+        Debug.Log(managerAccessor.Instance.dataMagager.copyObjsData[0].name);
+        Vector3 moveAmount = MouseWorldChange() - managerAccessor.Instance.dataMagager.copyObjsData[0].transform.localPosition;
+
+        for (int i = 0; i < managerAccessor.Instance.dataMagager.copyObjsData.Count; i++) 
         {
-            Debug.Log("aaa");
-            dataManager.copyObjsData.Add(dataManager.selectObjs[i]);
+            GameObject clone = Instantiate(managerAccessor.Instance.dataMagager.copyObjsData[i]);
+            clone.transform.localPosition += moveAmount;
         }
     }
 }

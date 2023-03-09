@@ -20,7 +20,7 @@ public class RangeSelection : MonoBehaviour
     void FixedUpdate()
     {
         //選択されてるオブジェクトが格納される
-        List<GameObject> Objs = managerAccessor.Instance.dataMagager.selectObjs;
+        List<GameObject> Objs = managerAccessor.Instance.dataMagager.selectObjsData;
 
         //オブジェクトが選択されている時
         if (!selectionMode)
@@ -88,44 +88,59 @@ public class RangeSelection : MonoBehaviour
     //オブジェクト選択範囲表示関数
     private void SelectObj()
     {
-        //長押しで選択範囲表示
-        if (Input.GetMouseButton(0))
+        //Debug.Log(Input.mousePosition);
+        GameObject selectUI = managerAccessor.Instance.dataMagager.rightClickUIClone;
+        if (selectUI != null &&
+            selectUI.GetComponent<RectTransform>().position.x + (selectUI.GetComponent<RectTransform>().sizeDelta.x / 2) > Input.mousePosition.x &&
+            selectUI.GetComponent<RectTransform>().position.x - (selectUI.GetComponent<RectTransform>().sizeDelta.x / 2) < Input.mousePosition.x &&
+            selectUI.GetComponent<RectTransform>().position.y + (selectUI.GetComponent<RectTransform>().sizeDelta.y / 2) > Input.mousePosition.y &&
+            selectUI.GetComponent<RectTransform>().position.y - (selectUI.GetComponent<RectTransform>().sizeDelta.y / 2) < Input.mousePosition.y)
         {
-            if (first)
-            {
-                //選択されているオブジェクトデータの削除
-                managerAccessor.Instance.dataMagager.selectObjs.Clear();
 
-                //選択開始時の初期位置記憶
-                clickStartPos = Input.mousePosition;
-
-                //範囲選択用オブジェクトの初期座標設定
-                clone = Instantiate(selectionObj);
-                clone.transform.localPosition = managerAccessor.Instance.dataMagager.MouseWorldChange();
-
-                //長押し状態を解除するまではいらないようにする
-                first = false;
-            }
-
-            //選択中
-            selectionMode = true;
-            //マウスの移動量で選択範囲算出
-            Vector3 inputData = Input.mousePosition - clickStartPos;
-            //移動量調整
-            inputData.x /= 107;
-            inputData.y /= 107;
-            inputData.z /= 107;
-            //選択範囲入力
-            clone.transform.localScale = inputData;
         }
         else
         {
-            //削除
-            Destroy(clone);
-            first = true;
+            //長押しで選択範囲表示
+            if (Input.GetMouseButton(0))
+            {
+                if (first)
+                {
+                    //選択されているオブジェクトデータの削除
+                    managerAccessor.Instance.dataMagager.selectObjsData.Clear();
 
-            //選択外
-            selectionMode = false;
+                    //選択開始時の初期位置記憶
+                    clickStartPos = Input.mousePosition;
+
+                    //範囲選択用オブジェクトの初期座標設定
+                    clone = Instantiate(selectionObj);
+                    clone.transform.localPosition = managerAccessor.Instance.dataMagager.MouseWorldChange();
+
+                    //長押し状態を解除するまではいらないようにする
+                    first = false;
+                }
+
+                //選択中
+                selectionMode = true;
+                //マウスの移動量で選択範囲算出
+                Vector3 inputData = Input.mousePosition - clickStartPos;
+                //移動量調整
+                inputData.x /= 107;
+                inputData.y /= 107;
+                inputData.z /= 107;
+                //選択範囲入力
+                clone.transform.localScale = inputData;
+            }
+            else
+            {
+                //削除
+                Destroy(clone);
+                first = true;
+
+                managerAccessor.Instance.dataMagager.copyReset = true;
+
+                //選択外
+                selectionMode = false;
+            }
         }
     }
 

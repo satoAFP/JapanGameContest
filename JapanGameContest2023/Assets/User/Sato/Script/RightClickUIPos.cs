@@ -5,7 +5,6 @@ using UnityEngine;
 public class RightClickUIPos : MonoBehaviour
 {
     private bool first = true;
-    private GameObject clone = null;
 
     // Update is called once per frame
     void Update()
@@ -15,11 +14,11 @@ public class RightClickUIPos : MonoBehaviour
             
             if (first)
             {
-                Destroy(clone);
+                Destroy(managerAccessor.Instance.dataMagager.rightClickUIClone);
                 ObjDataManager objm = managerAccessor.Instance.objDataManager;
-                clone = Instantiate(objm.rightClickUI);
-                clone.transform.localPosition = Input.mousePosition;
-                clone.transform.parent = objm.canvas.transform;
+                managerAccessor.Instance.dataMagager.rightClickUIClone = Instantiate(objm.rightClickUI);
+                managerAccessor.Instance.dataMagager.rightClickUIClone.transform.localPosition = Input.mousePosition;
+                managerAccessor.Instance.dataMagager.rightClickUIClone.transform.parent = objm.canvas.transform;
                 first = false;
             }
         }
