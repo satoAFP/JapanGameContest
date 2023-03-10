@@ -28,54 +28,57 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        Vector2 position = transform.position;
-
-        if(!movechange)
+        if(managerAccessor.Instance.dataMagager.playMode)
         {
-            speed = 0.05f;
+            Vector2 position = transform.position;
 
-            if (Input.GetKey(KeyCode.A))
+            if (!movechange)
             {
-                position.x -= speed;
+                speed = 0.05f;
+
+                if (Input.GetKey(KeyCode.A))
+                {
+                    position.x -= speed;
+                }
+                else if (Input.GetKey(KeyCode.D))
+                {
+                    position.x += speed;
+                }
+
+                if (Input.GetKey(KeyCode.Space) && this.jumpCount < 1)
+                {
+                    this.rb.AddForce(transform.up * jumpForce);
+                    jumpCount++;
+                }
             }
-            else if (Input.GetKey(KeyCode.D))
+            else
             {
-                position.x += speed;
+                speed = 5.0f;
+
+                //移動中なら処理を受け付けない
+                if (isMoving)
+                {
+                    return;
+                }
+
+                //移動していない場合の処理
+                //左クリックされたら
+                if (Input.GetMouseButtonDown(0))
+                {
+                    Debug.Log("もべ");
+
+                    //マウスの座標取得
+                    mousePos = Input.mousePosition;
+                    //スクリーン座標をワールド座標に変換
+                    worldPos = Camera.main.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, 10f));
+                    //コルーチンスタート
+                    StartCoroutine(_move());
+                }
             }
 
-            if (Input.GetKey(KeyCode.Space) && this.jumpCount < 1)
-            {
-                this.rb.AddForce(transform.up * jumpForce);
-                jumpCount++;
-            }
+
+            transform.position = position;
         }
-        else
-        {
-            speed = 5.0f;
-
-            //移動中なら処理を受け付けない
-            if (isMoving)
-            {
-                return;
-            }
-
-            //移動していない場合の処理
-            //左クリックされたら
-            if (Input.GetMouseButtonDown(0))
-            {
-                Debug.Log("もべ");
-
-                //マウスの座標取得
-                mousePos = Input.mousePosition;
-                //スクリーン座標をワールド座標に変換
-                worldPos = Camera.main.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, 10f));
-                //コルーチンスタート
-                StartCoroutine(_move());
-            }
-        }
-        
-
-        transform.position = position;
     }
 
     private void OnCollisionEnter2D(Collision2D other)
