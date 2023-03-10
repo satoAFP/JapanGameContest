@@ -45,7 +45,7 @@ public class Player : MonoBehaviour
                     position.x += speed;
                 }
 
-                if (Input.GetKey(KeyCode.Space) && this.jumpCount < 1)
+                if (Input.GetKey(KeyCode.W) && this.jumpCount < 1)
                 {
                     this.rb.AddForce(transform.up * jumpForce);
                     jumpCount++;
