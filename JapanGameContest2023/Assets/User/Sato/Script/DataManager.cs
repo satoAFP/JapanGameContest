@@ -12,7 +12,7 @@ public class DataManager : MonoBehaviour
     [System.NonSerialized] public bool objsCopy = false;
     [System.NonSerialized] public bool copyReset = true;
 
-
+    [System.NonSerialized] public bool playMode = true;
 
     // Start is called before the first frame update
     void Start()
@@ -31,6 +31,11 @@ public class DataManager : MonoBehaviour
         Vector3 screenToWorldPointPosition = Camera.main.ScreenToWorldPoint(mousePos);
 
         return screenToWorldPointPosition;
+    }
+
+    public void ModeChange()
+    {
+        playMode = !playMode;
     }
 
     public void CopyButton()

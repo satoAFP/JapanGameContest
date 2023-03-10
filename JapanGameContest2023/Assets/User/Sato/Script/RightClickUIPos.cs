@@ -9,28 +9,31 @@ public class RightClickUIPos : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButton(1))
+        //ƒLƒƒƒ‰‚ğ‘€ì’†‚Í‘I‘ğ‚Å‚«‚È‚¢
+        if (!managerAccessor.Instance.dataMagager.playMode)
         {
-            
-            if (first)
+            if (Input.GetMouseButton(1))
             {
-                Destroy(managerAccessor.Instance.dataMagager.rightClickUIClone);
-                ObjDataManager objm = managerAccessor.Instance.objDataManager;
-                managerAccessor.Instance.dataMagager.rightClickUIClone = Instantiate(objm.rightClickUI);
-                managerAccessor.Instance.dataMagager.rightClickUIClone.transform.localPosition = Input.mousePosition;
-                managerAccessor.Instance.dataMagager.rightClickUIClone.transform.parent = objm.canvas.transform;
-                first = false;
+
+                if (first)
+                {
+                    Destroy(managerAccessor.Instance.dataMagager.rightClickUIClone);
+                    ObjDataManager objm = managerAccessor.Instance.objDataManager;
+                    managerAccessor.Instance.dataMagager.rightClickUIClone = Instantiate(objm.rightClickUI);
+                    managerAccessor.Instance.dataMagager.rightClickUIClone.transform.localPosition = Input.mousePosition;
+                    managerAccessor.Instance.dataMagager.rightClickUIClone.transform.parent = objm.canvas.transform;
+                    first = false;
+                }
             }
+            else
+                first = true;
+
+            for (int i = 0; i < managerAccessor.Instance.dataMagager.copyObjsData.Count; i++)
+            {
+                Debug.Log(managerAccessor.Instance.dataMagager.copyObjsData[i]);
+            }
+
         }
-        else
-            first = true;
-
-        for(int i=0; i< managerAccessor.Instance.dataMagager.copyObjsData.Count;i++)
-        {
-            Debug.Log(managerAccessor.Instance.dataMagager.copyObjsData[i]);
-        }
-
-
 
         //if (Input.GetMouseButton(0))
         //    Destroy(clone);

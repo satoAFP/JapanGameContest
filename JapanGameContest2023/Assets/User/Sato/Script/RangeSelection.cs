@@ -19,68 +19,71 @@ public class RangeSelection : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        //選択されてるオブジェクトが格納される
-        List<GameObject> Objs = managerAccessor.Instance.dataMagager.selectObjsData;
-
-        //オブジェクトが選択されている時
-        if (!selectionMode)
+        //キャラを操作中は選択できない
+        if (!managerAccessor.Instance.dataMagager.playMode)
         {
-            for (int i = 0; i < Objs.Count; i++)
-            {
-                //マウス座標をワールド座標に変換
-                Vector3 nowMousePos = managerAccessor.Instance.dataMagager.MouseWorldChange();
-                //選択されているオブジェクト内にカーソルがある場合
-                if (Objs[i].transform.localPosition.x - Objs[i].transform.localScale.x / 2 < nowMousePos.x &&
-                    Objs[i].transform.localPosition.x + Objs[i].transform.localScale.x / 2 > nowMousePos.x &&
-                    Objs[i].transform.localPosition.y - Objs[i].transform.localScale.x / 2 < nowMousePos.y &&
-                    Objs[i].transform.localPosition.y + Objs[i].transform.localScale.x / 2 > nowMousePos.y) 
-                {
-                    //オブジェクト選択状態にする
-                    editMode = true;
-                    break;
-                }
-                else
-                {
-                    //マウスがクリックされている状態の場合、選択状態を解除しない
-                    if (!Input.GetMouseButton(0))
-                        editMode = false;
-                }
-            }
-        }
+            //選択されてるオブジェクトが格納される
+            List<GameObject> Objs = managerAccessor.Instance.dataMagager.selectObjsData;
 
-        //オブジェクトが選択されている時
-        if (editMode)
-        {
-            if (Input.GetMouseButton(0))
+            //オブジェクトが選択されている時
+            if (!selectionMode)
             {
-                //1フレーム目は処理が通らないようにする
-                if (first2)
-                    first2 = false;
-                else
+                for (int i = 0; i < Objs.Count; i++)
                 {
-                    //1フレーム前との誤差を算出
-                    Vector3 movePower = managerAccessor.Instance.dataMagager.MouseWorldChange() - beforePos;
-
-                    //選択されているオブジェクトに加算
-                    for (int i = 0; i < Objs.Count; i++)
+                    //マウス座標をワールド座標に変換
+                    Vector3 nowMousePos = managerAccessor.Instance.dataMagager.MouseWorldChange();
+                    //選択されているオブジェクト内にカーソルがある場合
+                    if (Objs[i].transform.localPosition.x - Objs[i].transform.localScale.x / 2 < nowMousePos.x &&
+                        Objs[i].transform.localPosition.x + Objs[i].transform.localScale.x / 2 > nowMousePos.x &&
+                        Objs[i].transform.localPosition.y - Objs[i].transform.localScale.x / 2 < nowMousePos.y &&
+                        Objs[i].transform.localPosition.y + Objs[i].transform.localScale.x / 2 > nowMousePos.y)
                     {
-                        Objs[i].transform.localPosition += movePower;
+                        //オブジェクト選択状態にする
+                        editMode = true;
+                        break;
+                    }
+                    else
+                    {
+                        //マウスがクリックされている状態の場合、選択状態を解除しない
+                        if (!Input.GetMouseButton(0))
+                            editMode = false;
                     }
                 }
+            }
 
-                //座標を記憶
-                beforePos = managerAccessor.Instance.dataMagager.MouseWorldChange();
+            //オブジェクトが選択されている時
+            if (editMode)
+            {
+                if (Input.GetMouseButton(0))
+                {
+                    //1フレーム目は処理が通らないようにする
+                    if (first2)
+                        first2 = false;
+                    else
+                    {
+                        //1フレーム前との誤差を算出
+                        Vector3 movePower = managerAccessor.Instance.dataMagager.MouseWorldChange() - beforePos;
+
+                        //選択されているオブジェクトに加算
+                        for (int i = 0; i < Objs.Count; i++)
+                        {
+                            Objs[i].transform.localPosition += movePower;
+                        }
+                    }
+
+                    //座標を記憶
+                    beforePos = managerAccessor.Instance.dataMagager.MouseWorldChange();
+                }
+            }
+            //オブジェクトが選択されていない時
+            else
+            {
+                //オブジェクト選択範囲表示
+                SelectObj();
+
+                first2 = true;
             }
         }
-        //オブジェクトが選択されていない時
-        else
-        {
-            //オブジェクト選択範囲表示
-            SelectObj();
-
-            first2 = true;
-        }
-        
 
     }
 
