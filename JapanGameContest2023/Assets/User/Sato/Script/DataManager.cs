@@ -41,6 +41,8 @@ public class DataManager : MonoBehaviour
     public void CopyButton()
     {
         objsCopy = true;
+
+        Destroy(managerAccessor.Instance.dataMagager.rightClickUIClone);
     }
 
     public void PasteButton()
@@ -53,5 +55,7 @@ public class DataManager : MonoBehaviour
             GameObject clone = Instantiate(managerAccessor.Instance.dataMagager.copyObjsData[i]);
             clone.transform.localPosition += moveAmount;
         }
+
+        Destroy(managerAccessor.Instance.dataMagager.rightClickUIClone);
     }
 }
