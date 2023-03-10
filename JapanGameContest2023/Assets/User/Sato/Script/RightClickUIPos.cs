@@ -30,7 +30,7 @@ public class RightClickUIPos : MonoBehaviour
 
             for (int i = 0; i < managerAccessor.Instance.dataMagager.copyObjsData.Count; i++)
             {
-                Debug.Log(managerAccessor.Instance.dataMagager.copyObjsData[i]);
+                Debug.Log(managerAccessor.Instance.dataMagager.objsCopy);
             }
 
         }
