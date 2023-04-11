@@ -66,25 +66,37 @@ public class Player : MonoBehaviour
             {
                 speed = 5.0f;
 
-                //移動中なら処理を受け付けない
-                if (isMoving)
-                {
-                    return;
-                }
-
-                //移動していない場合の処理
-                //左クリックされたら
                 if (Input.GetMouseButtonDown(0))
                 {
                     Debug.Log("もべ");
-
                     //マウスの座標取得
                     mousePos = Input.mousePosition;
                     //スクリーン座標をワールド座標に変換
-                    worldPos = Camera.main.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, 10f));
-                    //コルーチンスタート
-                    StartCoroutine(_move());
+                    worldPos = Camera.main.ScreenToWorldPoint(mousePos);
+
+
+                    position = new Vector2(worldPos.x, firstpos.y);
                 }
+
+                //移動中なら処理を受け付けない
+                //if (isMoving)
+                //{
+                //    return;
+                //}
+
+                //移動していない場合の処理
+                //左クリックされたら
+                //if (Input.GetMouseButtonDown(0))
+                //{
+                //    Debug.Log("もべ");
+
+                //    //マウスの座標取得
+                //    mousePos = Input.mousePosition;
+                //    //スクリーン座標をワールド座標に変換
+                //    worldPos = Camera.main.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, 10f));
+                //    //コルーチンスタート
+                //    StartCoroutine(_move());
+                //}
             }
 
 
@@ -101,20 +113,20 @@ public class Player : MonoBehaviour
     }
 
     //移動用コルーチン
-    IEnumerator _move()
-    {
-        //移動フラグをtrue
-        isMoving = true;
+    //IEnumerator _move()
+    //{
+    //    //移動フラグをtrue
+    //    isMoving = true;
 
-        //ワールド座標と自身の座標を比較しループ
-        while ((worldPos - transform.position).sqrMagnitude > Mathf.Epsilon)
-        {
-            //指定した座標に向かって移動
-            transform.position = Vector3.MoveTowards(transform.position, worldPos, speed * Time.deltaTime);
-            //1フレーム待つ
-            yield return null;
-        }
-        //移動フラグをfalse
-        isMoving = false;
-    }
+    //    //ワールド座標と自身の座標を比較しループ
+    //    while ((worldPos - transform.position).sqrMagnitude > Mathf.Epsilon)
+    //    {
+    //        //指定した座標に向かって移動
+    //        transform.position = Vector3.MoveTowards(transform.position, worldPos, speed * Time.deltaTime);
+    //        //1フレーム待つ
+    //        yield return null;
+    //    }
+    //    //移動フラグをfalse
+    //    isMoving = false;
+    //}
 }
