@@ -8,7 +8,7 @@ public class Player : MonoBehaviour
 
     private float jumpForce = 350f;//プレイヤージャンプ力
 
-    private int jumpCount = 0;//複数入力させない
+    private int jumpCount = 0;//ジャンプを複数入力させない
 
     private Rigidbody2D rb;//プレイヤーリジッドボディ
 
@@ -16,6 +16,9 @@ public class Player : MonoBehaviour
 
     //移動判定用の変数(マウス用）
     bool isMoving = false;
+
+    //ブロックにぶつかった時のプレイヤーの移動
+    bool hitMoving = false;
 
     // クリックされた位置
     private Vector3 clickPosition;
@@ -90,7 +93,7 @@ public class Player : MonoBehaviour
             // 移動中の場合は移動する
             if (isMoving)
             {
-                //Debug.Log("a");
+                Debug.Log("a");
                 // キャラクターのX座標をクリックされた位置に向けて移動
                 transform.position = Vector2.MoveTowards(transform.position, new Vector2(clickPosition.x, transform.position.y), speed * Time.deltaTime);
 
@@ -100,6 +103,11 @@ public class Player : MonoBehaviour
                     //Debug.Log("b");
                     isMoving = false;//移動処理終了
                 }
+            }
+            else if (hitMoving)
+            {
+                Debug.Log("akys");
+                transform.position = Vector2.MoveTowards(transform.position, new Vector2(transform.position.x, transform.position.y), speed * Time.deltaTime);
             }
 
           
@@ -122,13 +130,14 @@ public class Player : MonoBehaviour
         }
 
         //ブロックにぶつかったとき
-        if (other.gameObject.CompareTag("Block"))
+        if (other.gameObject.CompareTag("MoveBlock"))
         {
             Debug.Log("ぶつかってる");
             this.rb.AddForce(transform.up * jumpForce);
             // キャラクターのX座標をクリックされた位置に向けて移動
-            transform.position = Vector2.MoveTowards(transform.position, new Vector2(transform.position.x+5, transform.position.y), speed * Time.deltaTime);
+            //transform.position = Vector2.MoveTowards(transform.position, new Vector2(transform.position.x, transform.position.y), speed * Time.deltaTime);
             isMoving = false;//移動処理を強制終了
+            hitMoving = true;
         }
     }
 
