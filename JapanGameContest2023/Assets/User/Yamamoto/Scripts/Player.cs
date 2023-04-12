@@ -31,9 +31,12 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(managerAccessor.Instance.dataMagager.playMode)
+        if(managerAccessor.Instance.dataMagager.playMode)//操作モードの時
         {
             Debug.Log(firstpos);
+
+            //FreezeRotationのみオンにする（Freezeは上書きできる）
+            rb.constraints = RigidbodyConstraints2D.FreezeRotation;
 
             //if(position.y<=-10)//落下処理（仮）　とりあえず今は落ちたら初期位置に戻る
             //{
@@ -101,13 +104,31 @@ public class Player : MonoBehaviour
 
           
         }
+        else//エディットモードの時
+        {
+            isMoving = false;//移動処理終了
+            //Rigidbodyを制限する
+            rb.constraints = RigidbodyConstraints2D.FreezeAll;
+        }
     }
 
+
+    //当たり判定
     private void OnCollisionEnter2D(Collision2D other)
     {
         if (other.gameObject.CompareTag("Floor"))
         {
             jumpCount = 0;
+        }
+
+        //ブロックにぶつかったとき
+        if (other.gameObject.CompareTag("Block"))
+        {
+            Debug.Log("ぶつかってる");
+            this.rb.AddForce(transform.up * jumpForce);
+            // キャラクターのX座標をクリックされた位置に向けて移動
+            transform.position = Vector2.MoveTowards(transform.position, new Vector2(transform.position.x+5, transform.position.y), speed * Time.deltaTime);
+            isMoving = false;//移動処理を強制終了
         }
     }
 
