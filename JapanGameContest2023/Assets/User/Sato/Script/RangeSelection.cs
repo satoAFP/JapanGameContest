@@ -91,7 +91,6 @@ public class RangeSelection : MonoBehaviour
     //オブジェクト選択範囲表示関数
     private void SelectObj()
     {
-        //Debug.Log(Input.mousePosition);
         GameObject selectUI = managerAccessor.Instance.dataMagager.rightClickUIClone;
         if (selectUI != null &&
             selectUI.GetComponent<RectTransform>().position.x + (selectUI.GetComponent<RectTransform>().sizeDelta.x / 2) > Input.mousePosition.x &&
@@ -140,6 +139,9 @@ public class RangeSelection : MonoBehaviour
                 first = true;
 
                 managerAccessor.Instance.dataMagager.copyReset = true;
+
+                //選択されているときのオブジェクト番号リセット
+                managerAccessor.Instance.dataMagager.objNum = 0;
 
                 //選択外
                 selectionMode = false;

@@ -7,10 +7,11 @@ public class SelectObjs : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "Respawn")
+        if (collision.tag == "MoveBlock")
         {
             //選択されたオブジェクトを追加
             managerAccessor.Instance.dataMagager.selectObjsData.Add(collision.gameObject);
+            collision.gameObject.GetComponent<MoveObj>().objNum = managerAccessor.Instance.dataMagager.objNum;
 
             //コピーデータリセット処理
             if (managerAccessor.Instance.dataMagager.copyReset)
@@ -24,7 +25,27 @@ public class SelectObjs : MonoBehaviour
             //新しく記憶した場合コピーボタンを押すまで貼り付けれない
             managerAccessor.Instance.dataMagager.objsCopy = false;
 
-            
+            //選択されているオブジェクトに入れるナンバーを進ませる
+            managerAccessor.Instance.dataMagager.objNum++;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.tag == "MoveBlock")
+        {
+            //範囲選択中選択を外すと選択が解除される処理
+            if (Input.GetMouseButton(0))
+            {
+                for (int i = 0; i < managerAccessor.Instance.dataMagager.selectObjsData.Count; i++) 
+                {
+                    if (managerAccessor.Instance.dataMagager.selectObjsData[i].GetComponent<MoveObj>().objNum == collision.GetComponent<MoveObj>().objNum)
+                    {
+                        managerAccessor.Instance.dataMagager.selectObjsData.RemoveAt(i);
+                        managerAccessor.Instance.dataMagager.copyObjsData.RemoveAt(i);
+                    }
+                }
+            }
         }
     }
 }

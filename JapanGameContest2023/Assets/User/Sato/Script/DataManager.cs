@@ -22,6 +22,9 @@ public class DataManager : MonoBehaviour
     //主人公が動けるか編集モードに入るか切り替え用フラグ
     [System.NonSerialized] public bool playMode = true;
 
+    //主人公が動けるか編集モードに入るか切り替え用フラグ
+    [System.NonSerialized] public int objNum = 0;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -51,11 +54,15 @@ public class DataManager : MonoBehaviour
     //コピーボタン用関数
     public void CopyButton()
     {
-        //コピーが押されている判定
-        managerAccessor.Instance.dataMagager.objsCopy = true;
+        if (managerAccessor.Instance.dataMagager.copyObjsData.Count != 0)
+        {
+            //コピーが押されている判定
+            managerAccessor.Instance.dataMagager.objsCopy = true;
 
-        //ボタンが押されたらUIが消える
-        Destroy(managerAccessor.Instance.dataMagager.rightClickUIClone);
+            //ボタンが押されたらUIが消える
+            Destroy(managerAccessor.Instance.dataMagager.rightClickUIClone);
+
+        }
     }
 
     //ペーストボタン用関数
