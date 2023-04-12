@@ -36,7 +36,7 @@ public class Player : MonoBehaviour
     {
         if(managerAccessor.Instance.dataMagager.playMode)//操作モードの時
         {
-            Debug.Log(firstpos);
+           // Debug.Log(firstpos);
 
             //FreezeRotationのみオンにする（Freezeは上書きできる）
             rb.constraints = RigidbodyConstraints2D.FreezeRotation;
@@ -107,7 +107,7 @@ public class Player : MonoBehaviour
             else if (hitMoving)
             {
                 Debug.Log("akys");
-                transform.position = Vector2.MoveTowards(transform.position, new Vector2(transform.position.x, transform.position.y), speed * Time.deltaTime);
+                transform.position = Vector2.MoveTowards(transform.position, new Vector2(transform.position.x+0.01f, transform.position.y), speed * Time.deltaTime);
             }
 
           
@@ -126,6 +126,7 @@ public class Player : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Floor"))
         {
+            Debug.Log("ぶつかってるhc");
             jumpCount = 0;
         }
 

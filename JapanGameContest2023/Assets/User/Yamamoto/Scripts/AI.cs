@@ -13,8 +13,13 @@ public class AI : MonoBehaviour
     // 移動中かどうかのフラグ
     private bool isMoving = false;
 
+    //Rayの表示時間
+    private const float RAY_DISPLAY_TIME = 3;
+
+
     void Update()
     {
+       
         // 移動中でなければクリックを受け付ける
         if (!isMoving && Input.GetMouseButtonDown(0))
         {
@@ -39,5 +44,8 @@ public class AI : MonoBehaviour
                 isMoving = false;
             }
         }
+
     }
+
+  
 }
