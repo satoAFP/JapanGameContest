@@ -17,12 +17,16 @@ public class Player : MonoBehaviour
     //移動判定用の変数(マウス用）
     bool isMoving;
 
+    public Vector2 firstpos;//初期位置（仮）
+
     Vector3 mousePos, worldPos;//（マウスの位置とクリックした位置）
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+
+        firstpos = this.transform.position;
     }
 
     // Update is called once per frame
@@ -31,6 +35,13 @@ public class Player : MonoBehaviour
         if(managerAccessor.Instance.dataMagager.playMode)
         {
             Vector2 position = transform.position;
+
+            if(position.y<=-10)//落下処理（仮）　とりあえず今は落ちたら初期位置に戻る
+            {
+                Debug.Log("やり直す");
+
+                position = firstpos;//初期位置に戻す
+            }
 
             if (!movechange)
             {
