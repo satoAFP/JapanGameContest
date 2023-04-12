@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class MoveObj : MonoBehaviour
 {
+    //選択されているときのオブジェクトナンバー取得用
     [System.NonSerialized] public int objNum;
 
 }

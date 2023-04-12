@@ -140,6 +140,9 @@ public class RangeSelection : MonoBehaviour
 
                 managerAccessor.Instance.dataMagager.copyReset = true;
 
+                //選択されているときのオブジェクト番号リセット
+                managerAccessor.Instance.dataMagager.objNum = 0;
+
                 //選択外
                 selectionMode = false;
             }
