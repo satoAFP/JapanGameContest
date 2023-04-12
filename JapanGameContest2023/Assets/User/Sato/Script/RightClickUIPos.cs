@@ -17,8 +17,10 @@ public class RightClickUIPos : MonoBehaviour
 
                 if (first)
                 {
+                    //古い右クリックUIを消去
                     Destroy(managerAccessor.Instance.dataMagager.rightClickUIClone);
                     ObjDataManager objm = managerAccessor.Instance.objDataManager;
+                    //新しい右クリックUIの生成
                     managerAccessor.Instance.dataMagager.rightClickUIClone = Instantiate(objm.rightClickUI);
                     managerAccessor.Instance.dataMagager.rightClickUIClone.transform.localPosition = Input.mousePosition;
                     managerAccessor.Instance.dataMagager.rightClickUIClone.transform.parent = objm.canvas.transform;
@@ -28,15 +30,29 @@ public class RightClickUIPos : MonoBehaviour
             else
                 first = true;
 
-            for (int i = 0; i < managerAccessor.Instance.dataMagager.copyObjsData.Count; i++)
+            if(Input.GetMouseButton(0))
             {
-                Debug.Log(managerAccessor.Instance.dataMagager.objsCopy);
+                //UI取得用
+                RectTransform rightclickUIClone;
+
+                if (managerAccessor.Instance.dataMagager.rightClickUIClone != null)
+                {
+                    //UI取得
+                    rightclickUIClone = managerAccessor.Instance.dataMagager.rightClickUIClone.GetComponent<RectTransform>();
+                    Vector2 mouse = Input.mousePosition;
+
+                    //UIの外をクリックしたときUIが消える
+                    if (!(rightclickUIClone.position.x - (rightclickUIClone.sizeDelta.x / 2) < mouse.x &&
+                        rightclickUIClone.position.x + (rightclickUIClone.sizeDelta.x / 2) > mouse.x &&
+                        rightclickUIClone.position.y - (rightclickUIClone.sizeDelta.y / 2) < mouse.y &&
+                        rightclickUIClone.position.y + (rightclickUIClone.sizeDelta.y / 2) > mouse.y)) 
+                    {
+                        Destroy(managerAccessor.Instance.dataMagager.rightClickUIClone);
+                    }
+                }
             }
 
         }
-
-        //if (Input.GetMouseButton(0))
-        //    Destroy(clone);
     }
 
     

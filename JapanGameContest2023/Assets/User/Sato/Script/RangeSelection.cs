@@ -8,7 +8,6 @@ public class RangeSelection : MonoBehaviour
     private GameObject selectionObj;
 
     private bool first = true;
-    private bool first2 = true;
     private Vector3 clickStartPos;
     private GameObject clone;
     private bool selectionMode = false;
@@ -56,23 +55,14 @@ public class RangeSelection : MonoBehaviour
             {
                 if (Input.GetMouseButton(0))
                 {
-                    //1フレーム目は処理が通らないようにする
-                    if (first2)
-                        first2 = false;
-                    else
+                    //1フレーム前との誤差を算出
+                    Vector3 movePower = managerAccessor.Instance.dataMagager.MouseWorldChange() - beforePos;
+
+                    //選択されているオブジェクトに加算
+                    for (int i = 0; i < Objs.Count; i++)
                     {
-                        //1フレーム前との誤差を算出
-                        Vector3 movePower = managerAccessor.Instance.dataMagager.MouseWorldChange() - beforePos;
-
-                        //選択されているオブジェクトに加算
-                        for (int i = 0; i < Objs.Count; i++)
-                        {
-                            Objs[i].transform.localPosition += movePower;
-                        }
+                        Objs[i].transform.localPosition += movePower;
                     }
-
-                    //座標を記憶
-                    beforePos = managerAccessor.Instance.dataMagager.MouseWorldChange();
                 }
             }
             //オブジェクトが選択されていない時
@@ -80,18 +70,17 @@ public class RangeSelection : MonoBehaviour
             {
                 //オブジェクト選択範囲表示
                 SelectObj();
-
-                first2 = true;
             }
         }
 
+        //マウスの座標を記憶
+        beforePos = managerAccessor.Instance.dataMagager.MouseWorldChange();
     }
 
 
     //オブジェクト選択範囲表示関数
     private void SelectObj()
     {
-        //Debug.Log(Input.mousePosition);
         GameObject selectUI = managerAccessor.Instance.dataMagager.rightClickUIClone;
         if (selectUI != null &&
             selectUI.GetComponent<RectTransform>().position.x + (selectUI.GetComponent<RectTransform>().sizeDelta.x / 2) > Input.mousePosition.x &&
@@ -140,6 +129,9 @@ public class RangeSelection : MonoBehaviour
                 first = true;
 
                 managerAccessor.Instance.dataMagager.copyReset = true;
+
+                //選択されているときのオブジェクト番号リセット
+                managerAccessor.Instance.dataMagager.objNum = 0;
 
                 //選択外
                 selectionMode = false;
