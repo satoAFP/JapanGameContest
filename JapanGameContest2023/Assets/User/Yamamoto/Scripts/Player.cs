@@ -33,14 +33,14 @@ public class Player : MonoBehaviour
     {
         if(managerAccessor.Instance.dataMagager.playMode)
         {
-            Vector2 position = transform.position;
+            Debug.Log(firstpos);
 
-            if(position.y<=-10)//落下処理（仮）　とりあえず今は落ちたら初期位置に戻る
-            {
-                Debug.Log("やり直す");
+            //if(position.y<=-10)//落下処理（仮）　とりあえず今は落ちたら初期位置に戻る
+            //{
+            //    Debug.Log("やり直す");
 
-                position = firstpos;//初期位置に戻す
-            }
+            //    position = firstpos;//初期位置に戻す
+            //}
 
             //移動処理（キー）
             //speed = 0.05f;
@@ -64,6 +64,14 @@ public class Player : MonoBehaviour
 
             speed = 5.0f;
 
+            //落下処理（仮）　とりあえず今は落ちたら初期位置に戻る
+            if (transform.position.y <= -10)
+            {
+                Debug.Log("やり直す");
+                isMoving = false;//移動処理を強制終了
+                transform.position = firstpos;
+            }
+
             // 移動中でなければクリックを受け付ける
             if (!isMoving && Input.GetMouseButtonDown(0))
             {
@@ -79,13 +87,15 @@ public class Player : MonoBehaviour
             // 移動中の場合は移動する
             if (isMoving)
             {
+                //Debug.Log("a");
                 // キャラクターのX座標をクリックされた位置に向けて移動
                 transform.position = Vector2.MoveTowards(transform.position, new Vector2(clickPosition.x, transform.position.y), speed * Time.deltaTime);
 
                 // 移動が終わったらフラグを解除
                 if (transform.position.x == clickPosition.x)
                 {
-                    isMoving = false;
+                    //Debug.Log("b");
+                    isMoving = false;//移動処理終了
                 }
             }
 
