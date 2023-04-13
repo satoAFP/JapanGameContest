@@ -12,14 +12,13 @@ public class Player : MonoBehaviour
 
     private Rigidbody2D rb;//プレイヤーリジッドボディ
 
-    [SerializeField] private bool movechange;//移動処理を変更（true:マウス false:キー）
-
-    //移動判定用の変数(マウス用）
-    bool isMoving;
-
     public Vector2 firstpos;//初期位置（仮）
 
-    Vector3 mousePos, worldPos;//（マウスの位置とクリックした位置）
+    //移動判定用の変数(マウス用）
+    bool isMoving = false;
+
+    // クリックされた位置
+    private Vector3 clickPosition;
 
     // Start is called before the first frame update
     void Start()
@@ -30,65 +29,77 @@ public class Player : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
         if(managerAccessor.Instance.dataMagager.playMode)
         {
-            Vector2 position = transform.position;
+            Debug.Log(firstpos);
 
-            if(position.y<=-10)//落下処理（仮）　とりあえず今は落ちたら初期位置に戻る
+            //if(position.y<=-10)//落下処理（仮）　とりあえず今は落ちたら初期位置に戻る
+            //{
+            //    Debug.Log("やり直す");
+
+            //    position = firstpos;//初期位置に戻す
+            //}
+
+            //移動処理（キー）
+            //speed = 0.05f;
+
+            //if (Input.GetKey(KeyCode.A))
+            //{
+            //    position.x -= speed;
+            //}
+            //else if (Input.GetKey(KeyCode.D))
+            //{
+            //    position.x += speed;
+            //}
+
+            //if (Input.GetKey(KeyCode.W) && this.jumpCount < 1)
+            //{
+            //    this.rb.AddForce(transform.up * jumpForce);
+            //    jumpCount++;
+            //}
+
+            //transform.position = position;
+
+            speed = 5.0f;
+
+            //落下処理（仮）　とりあえず今は落ちたら初期位置に戻る
+            if (transform.position.y <= -10)
             {
                 Debug.Log("やり直す");
-
-                position = firstpos;//初期位置に戻す
+                isMoving = false;//移動処理を強制終了
+                transform.position = firstpos;
             }
 
-            if (!movechange)
+            // 移動中でなければクリックを受け付ける
+            if (!isMoving && Input.GetMouseButtonDown(0))
             {
-                speed = 0.05f;
+                Debug.Log("移動");
+                // クリックされた位置を取得
+                clickPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                clickPosition.z = 0; // z座標を0に設定（2Dゲームなので）
 
-                if (Input.GetKey(KeyCode.A))
-                {
-                    position.x -= speed;
-                }
-                else if (Input.GetKey(KeyCode.D))
-                {
-                    position.x += speed;
-                }
-
-                if (Input.GetKey(KeyCode.W) && this.jumpCount < 1)
-                {
-                    this.rb.AddForce(transform.up * jumpForce);
-                    jumpCount++;
-                }
+                // 移動を開始
+                isMoving = true;
             }
-            else
+
+            // 移動中の場合は移動する
+            if (isMoving)
             {
-                speed = 5.0f;
+                //Debug.Log("a");
+                // キャラクターのX座標をクリックされた位置に向けて移動
+                transform.position = Vector2.MoveTowards(transform.position, new Vector2(clickPosition.x, transform.position.y), speed * Time.deltaTime);
 
-                //移動中なら処理を受け付けない
-                if (isMoving)
+                // 移動が終わったらフラグを解除
+                if (transform.position.x == clickPosition.x)
                 {
-                    return;
-                }
-
-                //移動していない場合の処理
-                //左クリックされたら
-                if (Input.GetMouseButtonDown(0))
-                {
-                    Debug.Log("もべ");
-
-                    //マウスの座標取得
-                    mousePos = Input.mousePosition;
-                    //スクリーン座標をワールド座標に変換
-                    worldPos = Camera.main.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, 10f));
-                    //コルーチンスタート
-                    StartCoroutine(_move());
+                    //Debug.Log("b");
+                    isMoving = false;//移動処理終了
                 }
             }
 
-
-            transform.position = position;
+          
         }
     }
 
@@ -100,21 +111,4 @@ public class Player : MonoBehaviour
         }
     }
 
-    //移動用コルーチン
-    IEnumerator _move()
-    {
-        //移動フラグをtrue
-        isMoving = true;
-
-        //ワールド座標と自身の座標を比較しループ
-        while ((worldPos - transform.position).sqrMagnitude > Mathf.Epsilon)
-        {
-            //指定した座標に向かって移動
-            transform.position = Vector3.MoveTowards(transform.position, worldPos, speed * Time.deltaTime);
-            //1フレーム待つ
-            yield return null;
-        }
-        //移動フラグをfalse
-        isMoving = false;
-    }
 }
