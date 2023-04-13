@@ -8,7 +8,7 @@ public class Player : MonoBehaviour
 
     private float jumpForce = 350f;//プレイヤージャンプ力
 
-    private int jumpCount = 0;//複数入力させない
+    private int jumpCount = 0;//ジャンプを複数入力させない
 
     private Rigidbody2D rb;//プレイヤーリジッドボディ
 
@@ -16,6 +16,9 @@ public class Player : MonoBehaviour
 
     //移動判定用の変数(マウス用）
     bool isMoving = false;
+
+    //ブロックにぶつかった時のプレイヤーの移動
+    bool hitMoving = false;
 
     // クリックされた位置
     private Vector3 clickPosition;
@@ -31,9 +34,12 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(managerAccessor.Instance.dataMagager.playMode)
+        if(managerAccessor.Instance.dataMagager.playMode)//操作モードの時
         {
-            Debug.Log(firstpos);
+           // Debug.Log(firstpos);
+
+            //FreezeRotationのみオンにする（Freezeは上書きできる）
+            rb.constraints = RigidbodyConstraints2D.FreezeRotation;
 
             //if(position.y<=-10)//落下処理（仮）　とりあえず今は落ちたら初期位置に戻る
             //{
@@ -87,7 +93,7 @@ public class Player : MonoBehaviour
             // 移動中の場合は移動する
             if (isMoving)
             {
-                //Debug.Log("a");
+                Debug.Log("a");
                 // キャラクターのX座標をクリックされた位置に向けて移動
                 transform.position = Vector2.MoveTowards(transform.position, new Vector2(clickPosition.x, transform.position.y), speed * Time.deltaTime);
 
@@ -98,16 +104,41 @@ public class Player : MonoBehaviour
                     isMoving = false;//移動処理終了
                 }
             }
+            else if (hitMoving)
+            {
+                Debug.Log("akys");
+                transform.position = Vector2.MoveTowards(transform.position, new Vector2(transform.position.x+0.01f, transform.position.y), speed * Time.deltaTime);
+            }
 
           
         }
+        else//エディットモードの時
+        {
+            isMoving = false;//移動処理終了
+            //Rigidbodyを制限する
+            rb.constraints = RigidbodyConstraints2D.FreezeAll;
+        }
     }
 
+
+    //当たり判定
     private void OnCollisionEnter2D(Collision2D other)
     {
         if (other.gameObject.CompareTag("Floor"))
         {
+            Debug.Log("ぶつかってるhc");
             jumpCount = 0;
+        }
+
+        //ブロックにぶつかったとき
+        if (other.gameObject.CompareTag("MoveBlock"))
+        {
+            Debug.Log("ぶつかってる");
+            this.rb.AddForce(transform.up * jumpForce);
+            // キャラクターのX座標をクリックされた位置に向けて移動
+            //transform.position = Vector2.MoveTowards(transform.position, new Vector2(transform.position.x, transform.position.y), speed * Time.deltaTime);
+            isMoving = false;//移動処理を強制終了
+            hitMoving = true;
         }
     }
 
