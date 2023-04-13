@@ -13,13 +13,22 @@ public class AI : MonoBehaviour
     // 移動中かどうかのフラグ
     private bool isMoving = false;
 
-    //Rayの表示時間
-    private const float RAY_DISPLAY_TIME = 3;
+    public Vector2 firstpos;//初期位置（仮）
 
-
+    
     void Update()
     {
-       
+        firstpos = new Vector2(gameObject.transform.position.x, gameObject.transform.position.y-0.5f);
+
+        RaycastHit2D hit = Physics2D.Raycast(firstpos, Vector2.right);
+
+        //Debug.DrawRay(firstpos,1.0f, Color.yellow);
+
+        if (hit.collider != null)
+        {
+            Debug.Log("atari");
+        }
+
         // 移動中でなければクリックを受け付ける
         if (!isMoving && Input.GetMouseButtonDown(0))
         {
