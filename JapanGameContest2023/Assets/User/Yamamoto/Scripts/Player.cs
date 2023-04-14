@@ -100,13 +100,14 @@ public class Player : MonoBehaviour
                 // 移動が終わったらフラグを解除
                 if (transform.position.x == clickPosition.x)
                 {
-                    //Debug.Log("b");
+                    Debug.Log("b");
                     isMoving = false;//移動処理終了
                 }
             }
             else if (hitMoving)
             {
                 Debug.Log("akys");
+                isMoving = false;//移動処理終了
                 transform.position = Vector2.MoveTowards(transform.position, new Vector2(transform.position.x+0.01f, transform.position.y), speed * Time.deltaTime);
             }
 
@@ -127,6 +128,7 @@ public class Player : MonoBehaviour
         if (other.gameObject.CompareTag("Floor"))
         {
             Debug.Log("ぶつかってるhc");
+            hitMoving = false;//
             jumpCount = 0;
         }
 
@@ -138,7 +140,7 @@ public class Player : MonoBehaviour
             // キャラクターのX座標をクリックされた位置に向けて移動
             //transform.position = Vector2.MoveTowards(transform.position, new Vector2(transform.position.x, transform.position.y), speed * Time.deltaTime);
             isMoving = false;//移動処理を強制終了
-            hitMoving = true;
+            hitMoving = true;//ブロックにぶつかったときの挙動を行う
         }
     }
 

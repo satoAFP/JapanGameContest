@@ -449,7 +449,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &231494481
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -463,7 +463,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
-  firstpos: {x: 0, y: 0}
+  origin: {x: 0, y: 0}
+  origin2: {x: 0, y: 0}
+  ray_length: 1.5
 --- !u!61 &231494482
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -850,7 +852,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &810108133784503366
 SpriteRenderer:
   m_ObjectHideFlags: 0

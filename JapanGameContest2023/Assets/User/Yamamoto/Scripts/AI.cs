@@ -13,21 +13,33 @@ public class AI : MonoBehaviour
     // 移動中かどうかのフラグ
     private bool isMoving = false;
 
-    public Vector2 firstpos;//初期位置（仮）
+    public Vector2 origin;//rayの原点
 
-    
+    public Vector2 origin2;//rayの原点
+
+    private Vector2 direction;//rayの方向ベクトル
+
+    [SerializeField,Header("テスト用Rayの長さ調整")]
+    private float ray_length = 5.0f;
+
     void Update()
     {
-        firstpos = new Vector2(gameObject.transform.position.x, gameObject.transform.position.y-0.5f);
+        origin = new Vector2(gameObject.transform.position.x, gameObject.transform.position.y-1.0f);
 
-        RaycastHit2D hit = Physics2D.Raycast(firstpos, Vector2.right);
+        direction = new Vector2(1, 0);//X方向を指す
 
-        //Debug.DrawRay(firstpos,1.0f, Color.yellow);
 
-        if (hit.collider != null)
-        {
-            Debug.Log("atari");
-        }
+        Ray2D ray = new Ray2D(origin, direction);//rayを生成
+
+        //RaycastHit2D hit = Physics2D.Raycast(firstpos, Vector2.right);
+
+        Debug.DrawRay(ray.origin, ray.direction * ray_length, Color.yellow);
+
+
+        //if (hit.collider != null)
+        //{
+        //    Debug.Log("atari");
+        //}
 
         // 移動中でなければクリックを受け付ける
         if (!isMoving && Input.GetMouseButtonDown(0))
