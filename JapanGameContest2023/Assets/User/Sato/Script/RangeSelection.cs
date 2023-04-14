@@ -10,16 +10,21 @@ public class RangeSelection : MonoBehaviour
     //最初の一回しか通らない処理用
     private bool first = true;
     private bool first2 = true;
+    private bool first3 = false;
 
     private Vector3 clickStartPos;                      //クリック開始時の初期位置
     private GameObject clone;                           //選択範囲表示用オブジェクト
     private bool selectionMode = false;                 //オブジェクトを選択しているかどうか
     private bool editMode = false;                      //オブジェクトを選択しているかどうか
     private Vector3 beforePos = new Vector3(0, 0, 0);   //一フレーム前のマウスの位置
+    [SerializeField]private Vector2 judgeStartPos;                      //掴める範囲(左下)
+    [SerializeField] private Vector2 judgeEndPos;                        //掴める範囲(右上)
 
     private List<GameObject> cloneDot = new List<GameObject>();//ドット格納用
     private Vector2 startPos;                           //クリックしたときの初期位置
+    private Vector2 usePos;                             //初期位置代入
     private Vector2 square;                             //四角の縦横の長さ
+    private int checkPos = 0;                           //クリック後、startPosを原点に縦横それぞれの位置チェック用
     private int dotNum;                                 //ドットの数格納用
 
 
@@ -40,11 +45,14 @@ public class RangeSelection : MonoBehaviour
                     //マウス座標をワールド座標に変換
                     Vector3 nowMousePos = managerAccessor.Instance.dataMagager.MouseWorldChange();
                     //選択されているオブジェクト内にカーソルがある場合
-                    if (Objs[i].transform.localPosition.x - Objs[i].transform.localScale.x / 2 < nowMousePos.x &&
-                        Objs[i].transform.localPosition.x + Objs[i].transform.localScale.x / 2 > nowMousePos.x &&
-                        Objs[i].transform.localPosition.y - Objs[i].transform.localScale.x / 2 < nowMousePos.y &&
-                        Objs[i].transform.localPosition.y + Objs[i].transform.localScale.x / 2 > nowMousePos.y)
+                    //if (Objs[i].transform.localPosition.x - Objs[i].transform.localScale.x / 2 < nowMousePos.x &&
+                    //    Objs[i].transform.localPosition.x + Objs[i].transform.localScale.x / 2 > nowMousePos.x &&
+                    //    Objs[i].transform.localPosition.y - Objs[i].transform.localScale.x / 2 < nowMousePos.y &&
+                    //    Objs[i].transform.localPosition.y + Objs[i].transform.localScale.x / 2 > nowMousePos.y)
+                    if (judgeStartPos.x < nowMousePos.x && judgeEndPos.x > nowMousePos.x &&
+                        judgeStartPos.y < nowMousePos.y && judgeEndPos.y > nowMousePos.y) 
                     {
+                        Debug.Log("aaa");
                         //オブジェクト選択状態にする
                         editMode = true;
                         break;
@@ -172,9 +180,9 @@ public class RangeSelection : MonoBehaviour
                 //DataManager取得
                 DataManager dataManager = managerAccessor.Instance.dataMagager;
                 //初期位置代入
-                Vector2 usePos = startPos;
+                usePos = startPos;
                 //クリック後、startPosを原点に縦横それぞれの位置チェック用
-                int checkPos = 0;
+                checkPos = 0;
 
                 //四角のサイズ計算
                 square.x = Mathf.Abs(dataManager.MouseWorldChange().x - startPos.x);
@@ -277,7 +285,43 @@ public class RangeSelection : MonoBehaviour
                     cloneDot.Add(Instantiate(managerAccessor.Instance.objDataManager.dotObj));
                     cloneDot[i].transform.position = inUsePos;
                 }
-
+                first3 = true;
+            }
+            else
+            {
+                //クリック終了時のマウスの座標取得
+                if(first3)
+                {
+                    //右上
+                    if (checkPos == 0)
+                    {
+                        judgeStartPos = startPos;
+                        judgeEndPos = managerAccessor.Instance.dataMagager.MouseWorldChange();
+                    }
+                    //左下
+                    else if (checkPos == 1)
+                    {
+                        judgeStartPos = managerAccessor.Instance.dataMagager.MouseWorldChange();
+                        judgeEndPos = startPos;
+                    }
+                    //左上
+                    else if (checkPos == 2)
+                    {
+                        judgeStartPos.x = startPos.x;
+                        judgeStartPos.y = managerAccessor.Instance.dataMagager.MouseWorldChange().y;
+                        judgeEndPos.x = managerAccessor.Instance.dataMagager.MouseWorldChange().x;
+                        judgeEndPos.y = startPos.y;
+                    }
+                    //右下
+                    else if (checkPos == 3)
+                    {
+                        judgeStartPos.x = managerAccessor.Instance.dataMagager.MouseWorldChange().x;
+                        judgeStartPos.y = startPos.y;
+                        judgeEndPos.x = startPos.x;
+                        judgeEndPos.y = managerAccessor.Instance.dataMagager.MouseWorldChange().y;
+                    }
+                    first3 = false;
+                }
             }
         }
     }
