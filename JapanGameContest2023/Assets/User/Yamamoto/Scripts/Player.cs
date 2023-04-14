@@ -6,7 +6,7 @@ public class Player : MonoBehaviour
 {
     private float speed;//プレイヤー速度
 
-    private float jumpForce = 350f;//プレイヤージャンプ力
+    [SerializeField,Header("ジャンプ力")]private float jumpForce = 350f;//プレイヤージャンプ力
 
     private int jumpCount = 0;//ジャンプを複数入力させない
 
@@ -32,7 +32,7 @@ public class Player : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if(managerAccessor.Instance.dataMagager.playMode)//操作モードの時
         {
