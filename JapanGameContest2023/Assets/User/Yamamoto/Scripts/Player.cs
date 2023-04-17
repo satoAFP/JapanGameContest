@@ -14,6 +14,8 @@ public class Player : MonoBehaviour
 
     public Vector2 firstpos;//初期位置（仮）
 
+    private Vector2 playerPosition;//現在のプレイヤーの位置
+
     //移動判定用の変数(マウス用）
     bool isMoving = false;
 
@@ -23,18 +25,50 @@ public class Player : MonoBehaviour
     // クリックされた位置
     private Vector3 clickPosition;
 
+    [SerializeField] private Vector2 origin;//rayの原点
+
+    private Vector2 direction;//rayの方向ベクトル
+
+    [SerializeField] private LayerMask layermask;//レイヤーマスク
+
+    [SerializeField, Header("テスト用Rayの長さ調整")]
+    private float ray_length = 5.0f;
+
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
 
-        firstpos = this.transform.position;
+        firstpos = this.transform.position;//プレイヤーの初期位置を取得
+
+        playerPosition = firstpos;//最初はプレイヤーの初期位置を入れる
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        if(managerAccessor.Instance.dataMagager.playMode)//操作モードの時
+        origin = transform.position;
+
+        direction = transform.right;//X方向を指す
+
+        RaycastHit2D hit = Physics2D.Raycast(origin, direction, ray_length, layermask);
+
+        // Rayの可視化
+        Debug.DrawLine(origin, origin + direction * ray_length, Color.red);
+
+        if (hit.collider != null)
+        {
+            Debug.DrawLine(origin, hit.point, Color.green);//デバッグ用のRayを可視化する処理
+
+            // 当たったオブジェクトが自身でなければ、何かしらの処理をする
+            if (hit.collider.gameObject != gameObject)
+            {
+                Debug.Log("Hit object: " + hit.collider.gameObject.name);
+            }
+
+        }
+
+        if (managerAccessor.Instance.dataMagager.playMode)//操作モードの時
         {
            // Debug.Log(firstpos);
 
@@ -86,6 +120,18 @@ public class Player : MonoBehaviour
                 clickPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 clickPosition.z = 0; // z座標を0に設定（2Dゲームなので）
 
+                //クリックした場所の左右判定を取る
+                if (playerPosition.x < clickPosition.x)//右
+                {
+                    transform.eulerAngles = new Vector3(0, 0, 0);
+                    Debug.Log("右");
+                }
+                else//左
+                {
+                    transform.eulerAngles = new Vector3(0, 180, 0);
+                    Debug.Log("左");
+                }
+
                 // 移動を開始
                 isMoving = true;
             }
@@ -101,6 +147,7 @@ public class Player : MonoBehaviour
                 if (transform.position.x == clickPosition.x)
                 {
                     Debug.Log("b");
+                    playerPosition = transform.position;//playerPositionを更新
                     isMoving = false;//移動処理終了
                 }
             }
@@ -109,6 +156,7 @@ public class Player : MonoBehaviour
                 Debug.Log("akys");
                 isMoving = false;//移動処理終了
                 transform.position = Vector2.MoveTowards(transform.position, new Vector2(transform.position.x+0.01f, transform.position.y), speed * Time.deltaTime);
+                playerPosition = transform.position;//playerPositionを更新
             }
 
           
@@ -136,7 +184,7 @@ public class Player : MonoBehaviour
         if (other.gameObject.CompareTag("MoveBlock"))
         {
             Debug.Log("ぶつかってる");
-            this.rb.AddForce(transform.up * jumpForce);
+           // this.rb.AddForce(transform.up * jumpForce);
             // キャラクターのX座標をクリックされた位置に向けて移動
             //transform.position = Vector2.MoveTowards(transform.position, new Vector2(transform.position.x, transform.position.y), speed * Time.deltaTime);
             isMoving = false;//移動処理を強制終了
