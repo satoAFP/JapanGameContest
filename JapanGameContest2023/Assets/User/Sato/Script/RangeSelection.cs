@@ -45,7 +45,8 @@ public class RangeSelection : MonoBehaviour
     private Vector2 usePos;                             //初期位置代入
     [SerializeField]private Vector2 square;                             //四角の縦横の長さ
     private int checkPos = 0;                           //クリック後、startPosを原点に縦横それぞれの位置チェック用
-    private int dotNum;                                 //ドットの数格納用
+    [SerializeField] private int dotNum;                                 //ドットの数格納用
+    private Vector2 inUsePos;                           //usePosの修正値代入用
 
 
     // Update is called once per frame
@@ -242,7 +243,7 @@ public class RangeSelection : MonoBehaviour
                     checkPos = 3;
 
                 //ドットの描画
-                DotDraw();
+                DotDraw(startPos, usePos, square, dotNum);
 
 
                 first3 = true;
@@ -319,18 +320,22 @@ public class RangeSelection : MonoBehaviour
             //square.x = Mathf.Abs(dataManager.MouseWorldChange().x - startPos.x);
             //square.y = Mathf.Abs(dataManager.MouseWorldChange().y - startPos.y);
 
-            
+            checkPos = 0;
 
             if (onPos == (int)ChangeSizePosName.DOWN) 
             {
                 startPos.y = dataManager.MouseWorldChange().y - onStartPos.y;
+                square.x = backUpSquare.x;
                 square.y = backUpSquare.y + Mathf.Abs(dataManager.MouseWorldChange().y - onStartPos.y);
             }
+
+            Vector2 setStartPos = startPos;
+            setStartPos.y = startPos.y + dataManager.MouseWorldChange().y - onStartPos.y;
 
             //ドットを打つ数を計算
             dotNum = (int)((square.x * 2 + square.y * 2) / wide);
             //初期位置分ずらす
-            //square = startPos;
+            square += setStartPos;
 
             //ドットの初期化
             for (int i = 0; i < cloneDot.Count; i++)
@@ -340,7 +345,7 @@ public class RangeSelection : MonoBehaviour
             
 
             //ドットの描画
-            DotDraw();
+            DotDraw(setStartPos, usePos, square, dotNum);
 
 
             //DotDraw関数の引数設定しろ！
@@ -352,79 +357,79 @@ public class RangeSelection : MonoBehaviour
 
 
     //ドット描画用関数
-    private void DotDraw()
+    private void DotDraw(Vector2 StartPos, Vector2 UsePos, Vector2 Square, int DotNum)
     {
         //ドットを描画
-        for (int i = 0; i < dotNum; i++)
+        for (int i = 0; i < DotNum; i++)
         {
             //下
-            if (usePos.x < square.x && usePos.y == startPos.y)
+            if (UsePos.x < Square.x && UsePos.y == StartPos.y)
             {
                 //ドットを打つ座標をずらす
-                usePos.x += wide;
+                UsePos.x += wide;
 
                 //もし四角からはみ出した場合、出た分を次の描画位置に修正する
-                if (usePos.x > square.x)
+                if (UsePos.x > Square.x)
                 {
-                    usePos.y += usePos.x - square.x;
-                    usePos.x = square.x;
+                    UsePos.y += UsePos.x - Square.x;
+                    UsePos.x = Square.x;
                 }
             }
             //右
-            else if (usePos.y < square.y && usePos.x == square.x)
+            else if (UsePos.y < Square.y && UsePos.x == Square.x)
             {
-                usePos.y += wide;
+                UsePos.y += wide;
 
-                if (usePos.y > square.y)
+                if (UsePos.y > Square.y)
                 {
-                    usePos.x -= usePos.y - square.y;
-                    usePos.y = square.y;
+                    UsePos.x -= UsePos.y - Square.y;
+                    UsePos.y = Square.y;
                 }
             }
             //上
-            else if (usePos.x > startPos.x && usePos.y == square.y)
+            else if (UsePos.x > StartPos.x && UsePos.y == Square.y)
             {
-                usePos.x -= wide;
+                UsePos.x -= wide;
 
-                if (usePos.x < startPos.x)
+                if (UsePos.x < StartPos.x)
                 {
-                    usePos.y -= startPos.x - usePos.x;
-                    usePos.x = startPos.x;
+                    UsePos.y -= StartPos.x - UsePos.x;
+                    UsePos.x = StartPos.x;
                 }
             }
             //左
-            else if (usePos.y > startPos.y && usePos.x == startPos.x)
+            else if (UsePos.y > StartPos.y && UsePos.x == StartPos.x)
             {
-                usePos.y -= wide;
+                UsePos.y -= wide;
 
-                if (usePos.y < startPos.y)
+                if (UsePos.y < StartPos.y)
                 {
-                    usePos.x -= startPos.y - usePos.y;
-                    usePos.y = startPos.y;
+                    UsePos.x -= StartPos.y - UsePos.y;
+                    UsePos.y = StartPos.y;
                 }
             }
 
             //修正値代入用
-            Vector2 inUsePos = usePos;
+            inUsePos = UsePos;
 
             //startPosから見て左下にいた時
             if (checkPos == 1)
             {
-                inUsePos.x = -usePos.x;
-                inUsePos.y = -usePos.y;
-                inUsePos += startPos * 2;
+                inUsePos.x = -UsePos.x;
+                inUsePos.y = -UsePos.y;
+                inUsePos += StartPos * 2;
             }
             //startPosから見て左上にいた時
             else if (checkPos == 2)
             {
-                inUsePos.x = -usePos.x;
-                inUsePos.x += startPos.x * 2;
+                inUsePos.x = -UsePos.x;
+                inUsePos.x += StartPos.x * 2;
             }
             //startPosから見て右下にいた時
             else if (checkPos == 3)
             {
-                inUsePos.y = -usePos.y;
-                inUsePos.y += startPos.y * 2;
+                inUsePos.y = -UsePos.y;
+                inUsePos.y += StartPos.y * 2;
             }
 
             //ドットの描画
@@ -432,6 +437,15 @@ public class RangeSelection : MonoBehaviour
             cloneDot[i].transform.position = inUsePos;
         }
     }
+
+
+
+
+
+
+
+
+
 
 
     //今どの向きの縁を触っているかチェックする関数
