@@ -33,8 +33,8 @@ public class RangeSelection : MonoBehaviour
     private bool selectionMode = false;                 //オブジェクトを選択しているかどうか
     private bool editMode = false;                      //オブジェクトを選択しているかどうか
     private Vector3 beforePos = new Vector3(0, 0, 0);   //一フレーム前のマウスの位置
-    private Vector2 judgeStartPos;                      //掴める範囲(左下)
-    private Vector2 judgeEndPos;                        //掴める範囲(右上)
+    [SerializeField] private Vector2 judgeStartPos;                      //掴める範囲(左下)
+    [SerializeField] private Vector2 judgeEndPos;                        //掴める範囲(右上)
     private bool onEdge = false;                        //ドットの枠の縁に乗っているとき
     private int onPos = (int)ChangeSizePosName.NONE;    //今乗っている縁の場所(列挙参照)
     private Vector2 onStartPos;                         //拡大縮小時の初期位置
@@ -44,7 +44,7 @@ public class RangeSelection : MonoBehaviour
     private Vector2 startPos;                           //クリックしたときの初期位置
     private Vector2 usePos;                             //初期位置代入
     [SerializeField]private Vector2 square;                             //四角の縦横の長さ
-    private int checkPos = 0;                           //クリック後、startPosを原点に縦横それぞれの位置チェック用
+    [SerializeField] private int checkPos = 0;                           //クリック後、startPosを原点に縦横それぞれの位置チェック用
     [SerializeField] private int dotNum;                                 //ドットの数格納用
     private Vector2 inUsePos;                           //usePosの修正値代入用
 
@@ -229,18 +229,26 @@ public class RangeSelection : MonoBehaviour
 
                 //ドットの初期化
                 for (int i = 0; i < cloneDot.Count; i++)
+                {
                     Destroy(cloneDot[i]);
+                }
                 cloneDot.Clear();
 
                 //startPosから見て左下にいた時
                 if (dataManager.MouseWorldChange().x < startPos.x && dataManager.MouseWorldChange().y < startPos.y)
+                {
                     checkPos = 1;
+                }
                 //startPosから見て左上にいた時
                 else if (dataManager.MouseWorldChange().x < startPos.x)
+                {
                     checkPos = 2;
+                }
                 //startPosから見て右下にいた時
                 else if (dataManager.MouseWorldChange().y < startPos.y)
+                {
                     checkPos = 3;
+                }
 
                 //ドットの描画
                 DotDraw(startPos, usePos, square, dotNum);
@@ -299,7 +307,10 @@ public class RangeSelection : MonoBehaviour
             if (first4)
             {
                 onStartPos = managerAccessor.Instance.dataMagager.MouseWorldChange();
-                backUpSquare = square;
+                startPos = judgeStartPos;
+                backUpSquare = square - startPos;
+                backUpSquare.x = Mathf.Abs(judgeEndPos.x - judgeStartPos.x);
+                backUpSquare.y = Mathf.Abs(judgeEndPos.y - judgeStartPos.y);
                 first4 = false;
             }
         }
@@ -311,31 +322,50 @@ public class RangeSelection : MonoBehaviour
         {
             //DataManager取得
             DataManager dataManager = managerAccessor.Instance.dataMagager;
-            //初期位置代入
-            //usePos = startPos;
-            //クリック後、startPosを原点に縦横それぞれの位置チェック用
-            //checkPos = 0;
 
-            //四角のサイズ計算
-            //square.x = Mathf.Abs(dataManager.MouseWorldChange().x - startPos.x);
-            //square.y = Mathf.Abs(dataManager.MouseWorldChange().y - startPos.y);
+            //初期位置から離れた距離
+            Vector2 setStartPos = judgeStartPos;
 
-            checkPos = 0;
-
+            
             if (onPos == (int)ChangeSizePosName.DOWN) 
             {
-                startPos.y = dataManager.MouseWorldChange().y - onStartPos.y;
                 square.x = backUpSquare.x;
-                square.y = backUpSquare.y + Mathf.Abs(dataManager.MouseWorldChange().y - onStartPos.y);
+                square.y = backUpSquare.y - (dataManager.MouseWorldChange().y - onStartPos.y);
+                setStartPos.y = startPos.y + dataManager.MouseWorldChange().y - onStartPos.y;
+                judgeStartPos.y = setStartPos.y;
+            }
+            if (onPos == (int)ChangeSizePosName.RIGHT)
+            {
+                square.x = backUpSquare.x + (dataManager.MouseWorldChange().x - onStartPos.x);
+                square.y = backUpSquare.y;
+                judgeEndPos.x = setStartPos.x + square.x;
+            }
+            if (onPos == (int)ChangeSizePosName.UP)
+            {
+                square.x = backUpSquare.x;
+                square.y = backUpSquare.y + (dataManager.MouseWorldChange().y - onStartPos.y);
+                judgeEndPos.y = setStartPos.y + square.y;
+            }
+            if (onPos == (int)ChangeSizePosName.LEFT)
+            {
+                square.x = backUpSquare.x - (dataManager.MouseWorldChange().x - onStartPos.x);
+                square.y = backUpSquare.y;
+                setStartPos.x = startPos.x + dataManager.MouseWorldChange().x - onStartPos.x;
+                judgeStartPos.x = setStartPos.x;
             }
 
-            Vector2 setStartPos = startPos;
-            setStartPos.y = startPos.y + dataManager.MouseWorldChange().y - onStartPos.y;
+            
+
+            //描画位置設定用座標のスタート位置初期化
+            usePos = setStartPos;
+
 
             //ドットを打つ数を計算
             dotNum = (int)((square.x * 2 + square.y * 2) / wide);
             //初期位置分ずらす
             square += setStartPos;
+
+
 
             //ドットの初期化
             for (int i = 0; i < cloneDot.Count; i++)
@@ -347,11 +377,6 @@ public class RangeSelection : MonoBehaviour
             //ドットの描画
             DotDraw(setStartPos, usePos, square, dotNum);
 
-
-            //DotDraw関数の引数設定しろ！
-
-
-            first3 = true;
         }
     }
 
@@ -465,6 +490,7 @@ public class RangeSelection : MonoBehaviour
         {
             onPos = (int)ChangeSizePosName.DOWN;
             rangeChecks[(int)ChangeSizePosName.DOWN] = true;
+            Debug.Log("aaa");
         }
         //右判定
         if (judgeEndPos.x - changeSizeWidth.x < mousePos.x && judgeEndPos.x + changeSizeWidth.x > mousePos.x &&
@@ -472,6 +498,7 @@ public class RangeSelection : MonoBehaviour
         {
             onPos = (int)ChangeSizePosName.RIGHT;
             rangeChecks[(int)ChangeSizePosName.RIGHT] = true;
+            Debug.Log("bbb");
         }
         //上判定
         if (judgeStartPos.x - changeSizeWidth.x < mousePos.x && judgeEndPos.x + changeSizeWidth.x > mousePos.x &&
@@ -479,6 +506,7 @@ public class RangeSelection : MonoBehaviour
         {
             onPos = (int)ChangeSizePosName.UP;
             rangeChecks[(int)ChangeSizePosName.UP] = true;
+            Debug.Log("ccc");
         }
         //左判定
         if (judgeStartPos.x - changeSizeWidth.x < mousePos.x && judgeStartPos.x + changeSizeWidth.x > mousePos.x &&
@@ -486,6 +514,7 @@ public class RangeSelection : MonoBehaviour
         {
             onPos = (int)ChangeSizePosName.LEFT;
             rangeChecks[(int)ChangeSizePosName.LEFT] = true;
+            Debug.Log("ddd");
         }
 
         //右下判定
@@ -512,9 +541,15 @@ public class RangeSelection : MonoBehaviour
         //ドットの枠の上にカーソルがあるかどうか
         if (rangeChecks[(int)ChangeSizePosName.DOWN] || rangeChecks[(int)ChangeSizePosName.RIGHT] ||
             rangeChecks[(int)ChangeSizePosName.UP] || rangeChecks[(int)ChangeSizePosName.LEFT])
+        {
             onEdge = true;
+        }
         else
-            onEdge = false;
+        {
+            //if (!Input.GetMouseButton(0))
+                onEdge = false;
+
+        }
 
 
 
