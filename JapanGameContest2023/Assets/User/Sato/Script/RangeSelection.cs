@@ -308,7 +308,6 @@ public class RangeSelection : MonoBehaviour
             {
                 onStartPos = managerAccessor.Instance.dataMagager.MouseWorldChange();
                 startPos = judgeStartPos;
-                backUpSquare = square - startPos;
                 backUpSquare.x = Mathf.Abs(judgeEndPos.x - judgeStartPos.x);
                 backUpSquare.y = Mathf.Abs(judgeEndPos.y - judgeStartPos.y);
                 first4 = false;
@@ -353,6 +352,37 @@ public class RangeSelection : MonoBehaviour
                 setStartPos.x = startPos.x + dataManager.MouseWorldChange().x - onStartPos.x;
                 judgeStartPos.x = setStartPos.x;
             }
+            if (onPos == (int)ChangeSizePosName.RIGHT_DOWN)
+            {
+                square.x = backUpSquare.x + (dataManager.MouseWorldChange().x - onStartPos.x);
+                square.y = backUpSquare.y - (dataManager.MouseWorldChange().y - onStartPos.y);
+                setStartPos.y = startPos.y + dataManager.MouseWorldChange().y - onStartPos.y;
+                judgeEndPos.x = setStartPos.x + square.x;
+                judgeStartPos.y = setStartPos.y;
+            }
+            if (onPos == (int)ChangeSizePosName.RIGHT_UP)
+            {
+                square.x = backUpSquare.x + (dataManager.MouseWorldChange().x - onStartPos.x);
+                square.y = backUpSquare.y + (dataManager.MouseWorldChange().y - onStartPos.y);
+                judgeEndPos.x = setStartPos.x + square.x;
+                judgeEndPos.y = setStartPos.y + square.y;
+            }
+            if (onPos == (int)ChangeSizePosName.LEFT_UP)
+            {
+                square.x = backUpSquare.x - (dataManager.MouseWorldChange().x - onStartPos.x);
+                square.y = backUpSquare.y + (dataManager.MouseWorldChange().y - onStartPos.y);
+                setStartPos.x = startPos.x + dataManager.MouseWorldChange().x - onStartPos.x;
+                judgeStartPos.x = setStartPos.x;
+                judgeEndPos.y = setStartPos.y + square.y;
+            }
+            if (onPos == (int)ChangeSizePosName.LEFT_DOWN)
+            {
+                square.x = backUpSquare.x - (dataManager.MouseWorldChange().x - onStartPos.x);
+                square.y = backUpSquare.y - (dataManager.MouseWorldChange().y - onStartPos.y);
+                setStartPos.x = startPos.x + dataManager.MouseWorldChange().x - onStartPos.x;
+                setStartPos.y = startPos.y + dataManager.MouseWorldChange().y - onStartPos.y;
+                judgeStartPos = setStartPos;
+            }
 
             
 
@@ -372,7 +402,7 @@ public class RangeSelection : MonoBehaviour
                 Destroy(cloneDot[i]);
             cloneDot.Clear();
 
-            
+            checkPos = 0;
 
             //ドットの描画
             DotDraw(setStartPos, usePos, square, dotNum);
@@ -476,67 +506,73 @@ public class RangeSelection : MonoBehaviour
     //今どの向きの縁を触っているかチェックする関数
     private void CheckRangeSize()
     {
+        //マウスのワールド座標
         Vector2 mousePos = managerAccessor.Instance.dataMagager.MouseWorldChange();
-
-        onPos = (int)ChangeSizePosName.NONE;
+        //過度の判定とる用
         bool[] rangeChecks = new bool[4];
 
-        for (int i = 0; i < rangeChecks.Length; i++)
-            rangeChecks[i] = false;
+        //クリックされているときは、押されている場所を変更しない
+        if (!Input.GetMouseButton(0))
+        {
+            //押された場所の初期化
+            onPos = (int)ChangeSizePosName.NONE;
+            for (int i = 0; i < rangeChecks.Length; i++)
+            {
+                rangeChecks[i] = false;
+            }
 
-        //下判定
-        if (judgeStartPos.x - changeSizeWidth.x < mousePos.x && judgeEndPos.x + changeSizeWidth.x > mousePos.x &&
-            judgeStartPos.y - changeSizeWidth.y < mousePos.y && judgeStartPos.y + changeSizeWidth.y > mousePos.y) 
-        {
-            onPos = (int)ChangeSizePosName.DOWN;
-            rangeChecks[(int)ChangeSizePosName.DOWN] = true;
-            Debug.Log("aaa");
-        }
-        //右判定
-        if (judgeEndPos.x - changeSizeWidth.x < mousePos.x && judgeEndPos.x + changeSizeWidth.x > mousePos.x &&
-            judgeStartPos.y - changeSizeWidth.y < mousePos.y && judgeEndPos.y + changeSizeWidth.y > mousePos.y)
-        {
-            onPos = (int)ChangeSizePosName.RIGHT;
-            rangeChecks[(int)ChangeSizePosName.RIGHT] = true;
-            Debug.Log("bbb");
-        }
-        //上判定
-        if (judgeStartPos.x - changeSizeWidth.x < mousePos.x && judgeEndPos.x + changeSizeWidth.x > mousePos.x &&
-            judgeEndPos.y - changeSizeWidth.y < mousePos.y && judgeEndPos.y + changeSizeWidth.y > mousePos.y)
-        {
-            onPos = (int)ChangeSizePosName.UP;
-            rangeChecks[(int)ChangeSizePosName.UP] = true;
-            Debug.Log("ccc");
-        }
-        //左判定
-        if (judgeStartPos.x - changeSizeWidth.x < mousePos.x && judgeStartPos.x + changeSizeWidth.x > mousePos.x &&
-            judgeStartPos.y - changeSizeWidth.y < mousePos.y && judgeEndPos.y + changeSizeWidth.y > mousePos.y)
-        {
-            onPos = (int)ChangeSizePosName.LEFT;
-            rangeChecks[(int)ChangeSizePosName.LEFT] = true;
-            Debug.Log("ddd");
+            //下判定
+            if (judgeStartPos.x - changeSizeWidth.x < mousePos.x && judgeEndPos.x + changeSizeWidth.x > mousePos.x &&
+                judgeStartPos.y - changeSizeWidth.y < mousePos.y && judgeStartPos.y + changeSizeWidth.y > mousePos.y)
+            {
+                onPos = (int)ChangeSizePosName.DOWN;
+                rangeChecks[(int)ChangeSizePosName.DOWN] = true;
+            }
+            //右判定
+            if (judgeEndPos.x - changeSizeWidth.x < mousePos.x && judgeEndPos.x + changeSizeWidth.x > mousePos.x &&
+                judgeStartPos.y - changeSizeWidth.y < mousePos.y && judgeEndPos.y + changeSizeWidth.y > mousePos.y)
+            {
+                onPos = (int)ChangeSizePosName.RIGHT;
+                rangeChecks[(int)ChangeSizePosName.RIGHT] = true;
+            }
+            //上判定
+            if (judgeStartPos.x - changeSizeWidth.x < mousePos.x && judgeEndPos.x + changeSizeWidth.x > mousePos.x &&
+                judgeEndPos.y - changeSizeWidth.y < mousePos.y && judgeEndPos.y + changeSizeWidth.y > mousePos.y)
+            {
+                onPos = (int)ChangeSizePosName.UP;
+                rangeChecks[(int)ChangeSizePosName.UP] = true;
+            }
+            //左判定
+            if (judgeStartPos.x - changeSizeWidth.x < mousePos.x && judgeStartPos.x + changeSizeWidth.x > mousePos.x &&
+                judgeStartPos.y - changeSizeWidth.y < mousePos.y && judgeEndPos.y + changeSizeWidth.y > mousePos.y)
+            {
+                onPos = (int)ChangeSizePosName.LEFT;
+                rangeChecks[(int)ChangeSizePosName.LEFT] = true;
+            }
+
+            //右下判定
+            if (rangeChecks[(int)ChangeSizePosName.DOWN] && rangeChecks[(int)ChangeSizePosName.RIGHT])
+            {
+                onPos = (int)ChangeSizePosName.RIGHT_DOWN;
+            }
+            //右上判定
+            if (rangeChecks[(int)ChangeSizePosName.UP] && rangeChecks[(int)ChangeSizePosName.RIGHT])
+            {
+                onPos = (int)ChangeSizePosName.RIGHT_UP;
+            }
+            //左上判定
+            if (rangeChecks[(int)ChangeSizePosName.UP] && rangeChecks[(int)ChangeSizePosName.LEFT])
+            {
+                onPos = (int)ChangeSizePosName.LEFT_UP;
+            }
+            //左下判定
+            if (rangeChecks[(int)ChangeSizePosName.DOWN] && rangeChecks[(int)ChangeSizePosName.LEFT])
+            {
+                onPos = (int)ChangeSizePosName.LEFT_DOWN;
+            }
         }
 
-        //右下判定
-        if(rangeChecks[(int)ChangeSizePosName.DOWN]&& rangeChecks[(int)ChangeSizePosName.RIGHT])
-        {
-            onPos = (int)ChangeSizePosName.RIGHT_DOWN;
-        }
-        //右上判定
-        if (rangeChecks[(int)ChangeSizePosName.UP] && rangeChecks[(int)ChangeSizePosName.RIGHT])
-        {
-            onPos = (int)ChangeSizePosName.RIGHT_UP;
-        }
-        //左上判定
-        if (rangeChecks[(int)ChangeSizePosName.UP] && rangeChecks[(int)ChangeSizePosName.LEFT])
-        {
-            onPos = (int)ChangeSizePosName.LEFT_UP;
-        }
-        //左下判定
-        if (rangeChecks[(int)ChangeSizePosName.DOWN] && rangeChecks[(int)ChangeSizePosName.LEFT])
-        {
-            onPos = (int)ChangeSizePosName.LEFT_DOWN;
-        }
+        
 
         //ドットの枠の上にカーソルがあるかどうか
         if (rangeChecks[(int)ChangeSizePosName.DOWN] || rangeChecks[(int)ChangeSizePosName.RIGHT] ||
@@ -546,7 +582,8 @@ public class RangeSelection : MonoBehaviour
         }
         else
         {
-            //if (!Input.GetMouseButton(0))
+            //マウスが押されているときは変更しない
+            if (!Input.GetMouseButton(0))
                 onEdge = false;
 
         }
