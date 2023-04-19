@@ -274,4 +274,13 @@ public class Player : MonoBehaviour
         }
     }
 
+    private void OnCollisionStay2D(Collision2D other)
+    {
+        if (other.gameObject.CompareTag("MoveBlock"))
+        {
+            //transform.position = Vector2.MoveTowards(transform.position, new Vector2(transform.position.x + 0.01f, transform.position.y), speed * Time.deltaTime);
+            Debug.Log("nakanioru");
+        }
+    }
+
 }
