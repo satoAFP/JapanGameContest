@@ -46,6 +46,8 @@ public class Player : MonoBehaviour
 
     private Vector2 direction;//rayの方向ベクトル
 
+    private Vector2 offset;//オフセット（Rayの開始位置)
+
     private bool isGrounded; // 着地しているかどうか
 
     [SerializeField] private LayerMask layermask;//レイヤーマスク
@@ -68,6 +70,9 @@ public class Player : MonoBehaviour
 
         playerPosition = firstpos;//最初はプレイヤーの初期位置を入れる
 
+        // プレイヤーの中心からのオフセットを計算する
+        offset = new Vector2(0.5f * playerSize, 0f);//はじめは右向き
+
         //取得するレイヤーを獲得（左右判定用）
         layermask = LayerMask.GetMask("CreateBlock","Block");//ここに追加したいレイヤー名を入れるとlayermaskがレイヤー判定を取るようになる
         //取得するレイヤーを獲得（足元判定用）
@@ -79,40 +84,6 @@ public class Player : MonoBehaviour
     {
         //クリック処理はUpdateでしましょう
 
-        // 移動中でなければクリックを受け付ける
-        if (!isMoving && Input.GetMouseButtonDown(0))
-        {
-            Debug.Log("移動");
-            // クリックされた位置を取得
-            clickPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            clickPosition.z = 0; // z座標を0に設定（2Dゲームなので）
-
-            CreateObj = Instantiate(prefab, clickPosition, Quaternion.identity);//移動指標オブジェクト作成
-            //ObjCount = CreateObj;//生成したオブジェクトを収納
-
-            //クリックした場所の左右判定を取る
-            if (playerPosition.x < clickPosition.x)//右
-            {
-                transform.eulerAngles = new Vector3(0, 0, 0);
-                Debug.Log("右");
-            }
-            else//左
-            {
-                transform.eulerAngles = new Vector3(0, 180, 0);
-                Debug.Log("左");
-            }
-
-            // 移動を開始
-            isMoving = true;
-        }
-    }
-
-    // Update is called once per frame
-    void FixedUpdate()
-    {
-        // プレイヤーの中心からのオフセットを計算する
-        Vector2 offset = new Vector2(0.5f * playerSize, 0f);
-       
         //Rayの原点＝プレイヤーの現在の位置
         origin_x = (Vector2)transform.position + offset;//(X方向）
         origin_y = (Vector2)transform.position;//(Y方向）
@@ -120,7 +91,7 @@ public class Player : MonoBehaviour
         direction = transform.right;//X方向を指す
 
         //プレイヤーの向いている向きにRayを飛ばす
-        RaycastHit2D hit = Physics2D.Raycast(origin_x, direction, ray_length, layermask);
+        RaycastHit2D hit = Physics2D.Raycast(origin_x, direction, ray_length,layermask);
 
         // プレイヤーの足元にRayを飛ばす
         RaycastHit2D g_hit = Physics2D.Raycast(origin_y, Vector2.down, g_ray_lenght, groundlayermask);
@@ -138,14 +109,25 @@ public class Player : MonoBehaviour
             // 当たったオブジェクトが自身でなければ、何かしらの処理をする
             if (hit.collider.gameObject != gameObject)
             {
-                Debug.Log("Hit object: " + hit.collider.gameObject.name);
+                // Debug.Log("Hit object: " + hit.collider.gameObject.name);
 
-                if (jumpCount < 1)
+                int layer = hit.collider.gameObject.layer;//Rayが当たったオブジェクトのレイヤーを入れる
+                Debug.Log("当たったオブジェクトのレイヤーは" + LayerMask.LayerToName(layer) + "です。");
+
+                //Rayが当たったのが移動指標オブジェクトの場合、ジャンプ処理をしない
+                if (LayerMask.LayerToName(layer) == "CreateBlock")
                 {
-                    this.rb.AddForce(transform.up * jumpForce);
-                    jumpCount++;
+                    Debug.Log("tobanai");
                 }
-
+                //ジャンプ処理を行う
+                else if (LayerMask.LayerToName(layer) == "Block")
+                {
+                    if (jumpCount < 1)
+                    {
+                        this.rb.AddForce(transform.up * jumpForce);
+                        jumpCount++;
+                    }
+                }
             }
 
         }
@@ -163,8 +145,42 @@ public class Player : MonoBehaviour
             isGrounded = false;
         }
 
-        
 
+
+        // 移動中でなければクリックを受け付ける
+        if (!isMoving && Input.GetMouseButtonDown(0))
+        {
+            Debug.Log("移動");
+            // クリックされた位置を取得
+            clickPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            clickPosition.z = 0; // z座標を0に設定（2Dゲームなので）
+
+            CreateObj = Instantiate(prefab, clickPosition, Quaternion.identity);//移動指標オブジェクト作成
+            //ObjCount = CreateObj;//生成したオブジェクトを収納
+
+            //クリックした場所の左右判定を取る
+            if (playerPosition.x < clickPosition.x)//右
+            {
+                offset = new Vector2(0.5f * playerSize, 0f);//右向き
+                transform.eulerAngles = new Vector3(0, 0, 0);
+                Debug.Log("右");
+            }
+            else//左
+            {
+                offset = new Vector2(-0.5f * playerSize, 0f);//左向き
+                transform.eulerAngles = new Vector3(0, 180, 0);
+                Debug.Log("左");
+            }
+
+            // 移動を開始
+            isMoving = true;
+        }
+    }
+
+    // Update is called once per frame
+    void FixedUpdate()
+    {
+        
         if (managerAccessor.Instance.dataMagager.playMode)//操作モードの時
         {
 
