@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class DataManager : MonoBehaviour
 {
-    [SerializeField, Header("複製時の移動量")] private Vector3 duplicationMoveAmount;
-
     //選択されたオブジェクト
     [System.NonSerialized] public List<GameObject> selectObjsData = new List<GameObject>();
     //コピー用選択されたオブジェクト
@@ -96,22 +94,18 @@ public class DataManager : MonoBehaviour
     }
 
     //複製ボタン用関数
-    public void DuplicationButton()
+    public void DeleteButton()
     {
         DataManager dataManager = managerAccessor.Instance.dataMagager;
 
+        //生成されているオブジェクト削除
+        for (int i = 0; i < dataManager.copyObjsData.Count; i++)
+        {
+            Destroy(dataManager.selectObjsData[i]);
+        }
 
         //以前選択されていたオブジェクトデータ削除
         dataManager.selectObjsData.Clear();
-
-        //その場所に表示
-        for (int i = 0; i < dataManager.copyObjsData.Count; i++)
-        {
-            GameObject clone = Instantiate(dataManager.copyObjsData[i]);
-            clone.transform.localPosition += managerAccessor.Instance.dataMagager.duplicationMoveAmount;
-            //既に選択された状態にしておく
-            dataManager.selectObjsData.Add(clone);
-        }
 
         //ボタンが押されたらUIが消える
         Destroy(dataManager.rightClickUIClone);
