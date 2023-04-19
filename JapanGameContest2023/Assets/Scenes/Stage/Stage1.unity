@@ -406,6 +406,10 @@ PrefabInstance:
       propertyPath: m_SpriteTilingProperty.oldSize.y
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 810108134222801098, guid: 745c8f9c13c17c842850a1dfe8332fd5, type: 3}
+      propertyPath: prefab
+      value: 
+      objectReference: {fileID: 296508311381969006, guid: a08b3d70316657547a3ba871669bbd40, type: 3}
     - target: {fileID: 810108134222801101, guid: 745c8f9c13c17c842850a1dfe8332fd5, type: 3}
       propertyPath: m_Name
       value: Player
