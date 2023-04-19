@@ -49,6 +49,7 @@ public class DataManager : MonoBehaviour
     public void ModeChange()
     {
         playMode = !playMode;
+        managerAccessor.Instance.objDataManager.editPanel.gameObject.SetActive(!managerAccessor.Instance.objDataManager.editPanel.gameObject.activeSelf);
     }
 
     //コピーボタン用関数

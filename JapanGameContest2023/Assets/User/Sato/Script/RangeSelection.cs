@@ -54,8 +54,6 @@ public class RangeSelection : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (Objs.Count != 0)
-            Debug.Log(Objs[0].transform.localScale);
         //キャラを操作中は選択できない
         if (!managerAccessor.Instance.dataMagager.playMode)
         {
@@ -70,7 +68,12 @@ public class RangeSelection : MonoBehaviour
 
                 CheckRangeSize();
 
-                if (onEdge)
+
+                if (Objs.Count == 0) 
+                {
+                    editMode = false;
+                }
+                else if (onEdge)
                 {
                     //オブジェクト選択状態にする
                     editMode = true;
@@ -262,6 +265,16 @@ public class RangeSelection : MonoBehaviour
             }
             else
             {
+                if (Objs.Count == 0) 
+                {
+                    //ドットの初期化
+                    for (int i = 0; i < cloneDot.Count; i++)
+                    {
+                        Destroy(cloneDot[i]);
+                    }
+                    cloneDot.Clear();
+                }
+
                 //クリック終了時のマウスの座標取得
                 if(first3)
                 {
