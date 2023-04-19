@@ -46,3 +46,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canvas: {fileID: 0}
   rightClickUI: {fileID: 5194908562435233730, guid: 43dc9b70231d0e64fbe80a8bf252bbe6, type: 3}
+  selectionObj: {fileID: 9051249717450221384, guid: ec47c9b168ab82e42877f5a5d7420255, type: 3}
+  dotObj: {fileID: 332988442142004690, guid: e6e5c8117a240b242872310fd2fc84fd, type: 3}
