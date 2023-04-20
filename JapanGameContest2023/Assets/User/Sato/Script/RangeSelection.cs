@@ -34,28 +34,29 @@ public class RangeSelection : MonoBehaviour
     private bool selectionMode = false;                 //オブジェクトを選択しているかどうか
     private bool editMode = false;                      //オブジェクトを選択しているかどうか
     private Vector3 beforePos = new Vector3(0, 0, 0);   //一フレーム前のマウスの位置
-    [SerializeField] private Vector2 judgeStartPos;                      //掴める範囲(左下)
-    [SerializeField] private Vector2 judgeEndPos;                        //掴める範囲(右上)
+    private Vector2 judgeStartPos;                      //掴める範囲(左下)
+    private Vector2 judgeEndPos;                        //掴める範囲(右上)
     private bool onEdge = false;                        //ドットの枠の縁に乗っているとき
     private int onPos = (int)ChangeSizePosName.NONE;    //今乗っている縁の場所(列挙参照)
     private Vector2 onStartPos;                         //拡大縮小時の初期位置
     private Vector2 backUpSquare;                       //ドットの四角のバックアップデータ
     private List<Vector3> memsize = new List<Vector3>();//選択されているオブジェクトのサイズデータ
+    private List<Vector3> mempos = new List<Vector3>(); //選択されているオブジェクトの位置データ
+    private Vector2 memjudgeStartPos;                   //選択されているオブジェクトの掴める範囲(左下)
+    private Vector2 memjudgeEndPos;                     //選択されているオブジェクトの掴める範囲(右上)
 
     private List<GameObject> cloneDot = new List<GameObject>();//ドット格納用
     private Vector2 startPos;                           //クリックしたときの初期位置
     private Vector2 usePos;                             //初期位置代入
-    [SerializeField]private Vector2 square;                             //四角の縦横の長さ
-    [SerializeField] private int checkPos = 0;                           //クリック後、startPosを原点に縦横それぞれの位置チェック用
-    [SerializeField] private int dotNum;                                 //ドットの数格納用
+    private Vector2 square;                             //四角の縦横の長さ
+    private int checkPos = 0;                           //クリック後、startPosを原点に縦横それぞれの位置チェック用
+    private int dotNum;                                 //ドットの数格納用
     private Vector2 inUsePos;                           //usePosの修正値代入用
 
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (Objs.Count != 0)
-            Debug.Log(Objs[0].transform.localScale);
         //キャラを操作中は選択できない
         if (!managerAccessor.Instance.dataMagager.playMode)
         {
@@ -70,7 +71,12 @@ public class RangeSelection : MonoBehaviour
 
                 CheckRangeSize();
 
-                if (onEdge)
+
+                if (Objs.Count == 0) 
+                {
+                    editMode = false;
+                }
+                else if (onEdge)
                 {
                     //オブジェクト選択状態にする
                     editMode = true;
@@ -262,6 +268,16 @@ public class RangeSelection : MonoBehaviour
             }
             else
             {
+                if (Objs.Count == 0) 
+                {
+                    //ドットの初期化
+                    for (int i = 0; i < cloneDot.Count; i++)
+                    {
+                        Destroy(cloneDot[i]);
+                    }
+                    cloneDot.Clear();
+                }
+
                 //クリック終了時のマウスの座標取得
                 if(first3)
                 {
@@ -306,18 +322,22 @@ public class RangeSelection : MonoBehaviour
         //選択開始時の1フレーム目のマウスの座標取得
         if (Input.GetMouseButton(0))
         {
+            //選択開始時記憶しておきたい変数
             if (first4)
             {
                 onStartPos = managerAccessor.Instance.dataMagager.MouseWorldChange();
                 startPos = judgeStartPos;
                 backUpSquare.x = Mathf.Abs(judgeEndPos.x - judgeStartPos.x);
                 backUpSquare.y = Mathf.Abs(judgeEndPos.y - judgeStartPos.y);
+                memjudgeStartPos = judgeStartPos;
+                memjudgeEndPos = judgeEndPos;
                 memsize.Clear();
+                mempos.Clear();
                 for (int i = 0; i < Objs.Count; i++)
                 {
                     memsize.Add(Objs[i].transform.localScale);
+                    mempos.Add(Objs[i].transform.localPosition);
                 }
-                //Debug.Log(memsize[0]);
                 first4 = false;
             }
         }
@@ -329,8 +349,6 @@ public class RangeSelection : MonoBehaviour
         {
             //DataManager取得
             DataManager dataManager = managerAccessor.Instance.dataMagager;
-
-            
 
             //初期位置から離れた距離
             Vector2 setStartPos = judgeStartPos;
@@ -346,7 +364,7 @@ public class RangeSelection : MonoBehaviour
                 //ゲーム全体で判定をする四角の座標更新
                 judgeStartPos.y = setStartPos.y;
                 //サイズ変更時の移動量設定
-                BlockSizeChange(memsize, new Vector3(0, -(dataManager.MouseWorldChange().y - onStartPos.y), 0));
+                BlockRatioChange(new Vector3(0, -(dataManager.MouseWorldChange().y - onStartPos.y), 0), onPos);
             }
             if (onPos == (int)ChangeSizePosName.RIGHT)
             {
@@ -354,7 +372,7 @@ public class RangeSelection : MonoBehaviour
                 square.y = backUpSquare.y;
                 judgeEndPos.x = setStartPos.x + square.x;
                 //サイズ変更時の移動量設定
-                BlockSizeChange(memsize, new Vector3(dataManager.MouseWorldChange().x - onStartPos.x, 0, 0));
+                BlockRatioChange(new Vector3(dataManager.MouseWorldChange().x - onStartPos.x, 0, 0), onPos);
             }
             if (onPos == (int)ChangeSizePosName.UP)
             {
@@ -362,7 +380,7 @@ public class RangeSelection : MonoBehaviour
                 square.y = backUpSquare.y + (dataManager.MouseWorldChange().y - onStartPos.y);
                 judgeEndPos.y = setStartPos.y + square.y;
                 //サイズ変更時の移動量設定
-                BlockSizeChange(memsize, new Vector3(0, dataManager.MouseWorldChange().y - onStartPos.y, 0));
+                BlockRatioChange(new Vector3(0, dataManager.MouseWorldChange().y - onStartPos.y, 0), onPos);
             }
             if (onPos == (int)ChangeSizePosName.LEFT)
             {
@@ -371,7 +389,7 @@ public class RangeSelection : MonoBehaviour
                 setStartPos.x = startPos.x + dataManager.MouseWorldChange().x - onStartPos.x;
                 judgeStartPos.x = setStartPos.x;
                 //サイズ変更時の移動量設定
-                BlockSizeChange(memsize, new Vector3(-(dataManager.MouseWorldChange().x - onStartPos.x), 0, 0));
+                BlockRatioChange(new Vector3(-(dataManager.MouseWorldChange().x - onStartPos.x), 0, 0), onPos);
             }
             if (onPos == (int)ChangeSizePosName.RIGHT_DOWN)
             {
@@ -381,7 +399,7 @@ public class RangeSelection : MonoBehaviour
                 judgeEndPos.x = setStartPos.x + square.x;
                 judgeStartPos.y = setStartPos.y;
                 //サイズ変更時の移動量設定
-                BlockSizeChange(memsize, new Vector3(dataManager.MouseWorldChange().x - onStartPos.x, -(dataManager.MouseWorldChange().y - onStartPos.y), 0));
+                BlockRatioChange(new Vector3(dataManager.MouseWorldChange().x - onStartPos.x, -(dataManager.MouseWorldChange().y - onStartPos.y), 0), onPos);
             }
             if (onPos == (int)ChangeSizePosName.RIGHT_UP)
             {
@@ -390,7 +408,7 @@ public class RangeSelection : MonoBehaviour
                 judgeEndPos.x = setStartPos.x + square.x;
                 judgeEndPos.y = setStartPos.y + square.y;
                 //サイズ変更時の移動量設定
-                BlockSizeChange(memsize, new Vector3(dataManager.MouseWorldChange().x - onStartPos.x, dataManager.MouseWorldChange().y - onStartPos.y, 0));
+                BlockRatioChange(new Vector3(dataManager.MouseWorldChange().x - onStartPos.x, dataManager.MouseWorldChange().y - onStartPos.y, 0), onPos);
             }
             if (onPos == (int)ChangeSizePosName.LEFT_UP)
             {
@@ -400,7 +418,7 @@ public class RangeSelection : MonoBehaviour
                 judgeStartPos.x = setStartPos.x;
                 judgeEndPos.y = setStartPos.y + square.y;
                 //サイズ変更時の移動量設定
-                BlockSizeChange(memsize, new Vector3(-(dataManager.MouseWorldChange().x - onStartPos.x), dataManager.MouseWorldChange().y - onStartPos.y, 0));
+                BlockRatioChange(new Vector3(-(dataManager.MouseWorldChange().x - onStartPos.x), dataManager.MouseWorldChange().y - onStartPos.y, 0), onPos);
             }
             if (onPos == (int)ChangeSizePosName.LEFT_DOWN)
             {
@@ -410,10 +428,11 @@ public class RangeSelection : MonoBehaviour
                 setStartPos.y = startPos.y + dataManager.MouseWorldChange().y - onStartPos.y;
                 judgeStartPos = setStartPos;
                 //サイズ変更時の移動量設定
-                BlockSizeChange(memsize, new Vector3(-(dataManager.MouseWorldChange().x - onStartPos.x), -(dataManager.MouseWorldChange().y - onStartPos.y), 0));
+                BlockRatioChange(new Vector3(-(dataManager.MouseWorldChange().x - onStartPos.x), -(dataManager.MouseWorldChange().y - onStartPos.y), 0), onPos);
             }
 
-            
+            //サイズ変更適用処理
+            BlockSizeChange(new Vector3(square.x / backUpSquare.x, square.y / backUpSquare.y, 0));
 
             //描画位置設定用座標のスタート位置初期化
             usePos = setStartPos;
@@ -615,16 +634,99 @@ public class RangeSelection : MonoBehaviour
     }
 
 
-
-    private void BlockSizeChange(List<Vector3> MemSize, Vector3 MovePower)
+    //ブロックのサイズ変更適用関数
+    //引数1　ブロックのサイズ変更量
+    private void BlockSizeChange(Vector3 MovePower)
     {
-        if (MemSize.Count != 0)
+        //オブジェクトが選択されているとき
+        if (memsize.Count != 0)
         {
             //選択されているオブジェクトに加算
             for (int i = 0; i < Objs.Count; i++)
-                Objs[i].transform.localScale = MemSize[i] + MovePower;
+            {
+                //サイズを変える比率入力用
+                Objs[i].transform.localScale = Mul(memsize[i], MovePower);
+            }
             
         }
+    }
+
+
+    //サイズ変更時位置を比率に合わせる関数
+    //引数1　初期位置から見たマウスの移動量
+    //引数2　どの場所を持っているか
+    private void BlockRatioChange(Vector3 MovePower, int OnPos)
+    {
+        //オブジェクトが選択されているとき
+        if (mempos.Count != 0)
+        {
+            //選択されているオブジェクトに加算
+            for (int i = 0; i < Objs.Count; i++)
+            {
+                //囲われている中での縁から見た比率
+                Vector3 ratio = new Vector3(0, 0, 0);
+                //座標入力用
+                Vector3 input = new Vector3(0, 0, 0);
+
+                //それぞれ触れらてるいる場所
+                switch (OnPos)
+                {
+                    case (int)ChangeSizePosName.DOWN:
+                        //比率の計算
+                        ratio.y = (memjudgeEndPos.y - mempos[i].y) / (memjudgeEndPos.y - memjudgeStartPos.y);
+                        //比率分入力
+                        Objs[i].transform.localPosition = mempos[i] - Mul(MovePower, ratio);
+                        break;
+                    case (int)ChangeSizePosName.RIGHT:
+                        ratio.x = (memjudgeStartPos.x - mempos[i].x) / (memjudgeStartPos.x - memjudgeEndPos.x);
+                        Objs[i].transform.localPosition = mempos[i] + Mul(MovePower, ratio);
+                        break;
+                    case (int)ChangeSizePosName.UP:
+                        ratio.y = (memjudgeStartPos.y - mempos[i].y) / (memjudgeStartPos.y - memjudgeEndPos.y);
+                        Objs[i].transform.localPosition = mempos[i] + Mul(MovePower, ratio);
+                        break;
+                    case (int)ChangeSizePosName.LEFT:
+                        ratio.x = (memjudgeEndPos.x - mempos[i].x) / (memjudgeEndPos.x - memjudgeStartPos.x);
+                        Objs[i].transform.localPosition = mempos[i] - Mul(MovePower, ratio);
+                        break;
+                    case (int)ChangeSizePosName.RIGHT_DOWN:
+                        ratio.x = (memjudgeStartPos.x - mempos[i].x) / (memjudgeStartPos.x - memjudgeEndPos.x);
+                        ratio.y = (memjudgeEndPos.y - mempos[i].y) / (memjudgeEndPos.y - memjudgeStartPos.y);
+                        input.x = mempos[i].x + Mul(MovePower, ratio).x;
+                        input.y = mempos[i].y - Mul(MovePower, ratio).y;
+                        Objs[i].transform.localPosition = input;
+                        break;
+                    case (int)ChangeSizePosName.RIGHT_UP:
+                        ratio.x = (memjudgeStartPos.x - mempos[i].x) / (memjudgeStartPos.x - memjudgeEndPos.x);
+                        ratio.y = (memjudgeStartPos.y - mempos[i].y) / (memjudgeStartPos.y - memjudgeEndPos.y);
+                        input.x = mempos[i].x + Mul(MovePower, ratio).x;
+                        input.y = mempos[i].y + Mul(MovePower, ratio).y;
+                        Objs[i].transform.localPosition = input;
+                        break;
+                    case (int)ChangeSizePosName.LEFT_UP:
+                        ratio.x = (memjudgeEndPos.x - mempos[i].x) / (memjudgeEndPos.x - memjudgeStartPos.x);
+                        ratio.y = (memjudgeStartPos.y - mempos[i].y) / (memjudgeStartPos.y - memjudgeEndPos.y);
+                        input.x = mempos[i].x - Mul(MovePower, ratio).x;
+                        input.y = mempos[i].y + Mul(MovePower, ratio).y;
+                        Objs[i].transform.localPosition = input;
+                        break;
+                    case (int)ChangeSizePosName.LEFT_DOWN:
+                        ratio.x = (memjudgeEndPos.x - mempos[i].x) / (memjudgeEndPos.x - memjudgeStartPos.x);
+                        ratio.y = (memjudgeEndPos.y - mempos[i].y) / (memjudgeEndPos.y - memjudgeStartPos.y);
+                        input.x = mempos[i].x - Mul(MovePower, ratio).x;
+                        input.y = mempos[i].y - Mul(MovePower, ratio).y;
+                        Objs[i].transform.localPosition = input;
+                        break;
+                }
+            }
+        }
+    }
+
+
+    //vector3同士の掛け算関数
+    private Vector3 Mul(Vector3 a,Vector3 b)
+    {
+        return new Vector3(a.x * b.x, a.y * b.y, a.z * b.z);
     }
 
 }
