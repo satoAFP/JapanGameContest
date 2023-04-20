@@ -12,7 +12,7 @@ public class Player : MonoBehaviour
 
     [SerializeField, Header("ジャンプ力")] private float jumpForce = 350f;//プレイヤージャンプ力
 
-    private int jumpCount = 0;//ジャンプを複数入力させない
+    [SerializeField] private bool JumpFlag = false;//現在ジャンプしているかのフラグ
 
     //移動判定用の変数(マウス用）
     bool isMoving = false;
@@ -101,6 +101,28 @@ public class Player : MonoBehaviour
         Debug.DrawLine(transform.position, transform.position + Vector3.down * g_ray_lenght, Color.blue);//着地判定用のRay
 
 
+        if(hit.collider != null&& g_hit.collider != null)
+        {
+            if(isGrounded)
+            {
+                Debug.Log("WRayあたるう");
+            }
+        }
+
+        // Rayが地面に当たった場合、isGroundedをtrueにする
+        if (g_hit.collider != null)
+        {
+            Debug.Log("じめんあり");
+            Debug.DrawLine(origin_y, g_hit.point, Color.yellow);//デバッグ用のRayを可視化する処理
+
+            isGrounded = true;
+        }
+        else
+        {
+            Debug.Log("じめんなし");
+            isGrounded = false;
+        }
+
         //左右判定用のRayが当たった時の処理
         if (hit.collider != null)
         {
@@ -120,37 +142,22 @@ public class Player : MonoBehaviour
                     Debug.Log("tobanai");
                 }
                 //ジャンプ処理を行う
-                else if (LayerMask.LayerToName(layer) == "Block")
+                else if (LayerMask.LayerToName(layer) == "Block" && isGrounded==true)
                 {
-                    if (jumpCount < 1)
+                    if (!JumpFlag)//ジャンプフラグがfalseの時ジャンプ処理実行
                     {
                         this.rb.AddForce(transform.up * jumpForce);
-                        jumpCount++;
+                        JumpFlag = true;
                     }
                 }
             }
 
         }
 
-        // Rayが地面に当たった場合、isGroundedをtrueにする
-        if (g_hit.collider != null)
-        {
-            Debug.Log("じめんあり");
-            Debug.DrawLine(origin_y, g_hit.point, Color.yellow);//デバッグ用のRayを可視化する処理
-            isGrounded = true;
-        }
-        else
-        {
-            Debug.Log("じめんなし");
-            isGrounded = false;
-        }
-
-
-
         // 移動中でなければクリックを受け付ける
         if (!isMoving && Input.GetMouseButtonDown(0))
         {
-            Debug.Log("移動");
+            //Debug.Log("移動");
             // クリックされた位置を取得
             clickPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             clickPosition.z = 0; // z座標を0に設定（2Dゲームなので）
@@ -163,13 +170,13 @@ public class Player : MonoBehaviour
             {
                 offset = new Vector2(0.5f * playerSize, 0f);//右向き
                 transform.eulerAngles = new Vector3(0, 0, 0);
-                Debug.Log("右");
+                //Debug.Log("右");
             }
             else//左
             {
                 offset = new Vector2(-0.5f * playerSize, 0f);//左向き
                 transform.eulerAngles = new Vector3(0, 180, 0);
-                Debug.Log("左");
+               // Debug.Log("左");
             }
 
             // 移動を開始
@@ -226,7 +233,7 @@ public class Player : MonoBehaviour
             }
             else if (hitMoving)
             {
-                Debug.Log("akys");
+                //Debug.Log("akys");
                 MoveFinish();//移動処理終了
                 transform.position = Vector2.MoveTowards(transform.position, new Vector2(transform.position.x+0.01f, transform.position.y), speed * Time.deltaTime);
                 playerPosition = transform.position;//playerPositionを更新
@@ -260,17 +267,18 @@ public class Player : MonoBehaviour
         {
             Debug.Log("ぶつかってるhc");
             hitMoving = false;//
-            jumpCount = 0;
+            JumpFlag = false;
         }
 
-        //ブロックにぶつかったとき
+
+        ////ブロックにぶつかったとき
         if (other.gameObject.CompareTag("MoveBlock"))
         {
-            Debug.Log("ぶつかってる");
-            // キャラクターのX座標をクリックされた位置に向けて移動
-            //transform.position = Vector2.MoveTowards(transform.position, new Vector2(transform.position.x, transform.position.y), speed * Time.deltaTime);
-            MoveFinish();//移動処理を強制終了
-            hitMoving = true;//ブロックにぶつかったときの挙動を行う
+            //Debug.Log("ぶつかってる");
+
+            hitMoving = false;//
+            MoveFinish();
+            JumpFlag = false;
         }
     }
 

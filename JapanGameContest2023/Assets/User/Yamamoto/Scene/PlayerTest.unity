@@ -227,8 +227,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 77655217}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.07, y: -4.13, z: 0}
-  m_LocalScale: {x: 17.929688, y: 1, z: 1}
+  m_LocalPosition: {x: 0.148, y: -4.13, z: 0}
+  m_LocalScale: {x: 23.472118, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -771,6 +771,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jumpForce: 350
+  JumpFlag: 0
   firstpos: {x: 0, y: 0}
   prefab: {fileID: 0}
   CreateObj: {fileID: 0}
@@ -1528,7 +1529,7 @@ GameObject:
   - component: {fileID: 1399887655}
   m_Layer: 7
   m_Name: Square
-  m_TagString: Floor
+  m_TagString: MoveBlock
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2071,6 +2072,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jumpForce: 300
+  JumpFlag: 0
   firstpos: {x: 0, y: 0}
   prefab: {fileID: 296508311381969006, guid: a08b3d70316657547a3ba871669bbd40, type: 3}
   CreateObj: {fileID: 0}
@@ -2082,5 +2084,5 @@ MonoBehaviour:
   groundlayermask:
     serializedVersion: 2
     m_Bits: 0
-  ray_length: 1
+  ray_length: 2
   g_ray_lenght: 1
