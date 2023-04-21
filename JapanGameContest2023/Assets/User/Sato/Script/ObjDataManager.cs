@@ -8,6 +8,11 @@ public class ObjDataManager : MonoBehaviour
 
     [Header("右クリック時表示UI")] public GameObject rightClickUI;
 
+    [Header("編集中背景を変えるパネル")] public GameObject editPanel;
+
+    [Header("範囲選択表示用オブジェクト")] public GameObject selectionObj;
+
+    [Header("囲う用のドット")] public GameObject dotObj;
 
     // Start is called before the first frame update
     void Start()
