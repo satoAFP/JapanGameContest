@@ -6,7 +6,7 @@ public class Player : MonoBehaviour
 {
     //---------player関係（移動・ジャンプ）関係の変数宣言-----------------
 
-    private float speed;//プレイヤー速度
+    [SerializeField, Header("プレイヤー速度")] private float speed;//プレイヤー速度
 
     private float playerSize = 1f; // プレイヤーの幅
 
@@ -46,6 +46,8 @@ public class Player : MonoBehaviour
     private Vector2 offset;//オフセット（Rayの開始位置)
 
     private bool isGrounded; // 着地しているかどうか
+
+    private bool ray_first = true;//何度もRayの処理が入ったとき一回だけ通す
 
     [SerializeField] private LayerMask layermask;//レイヤーマスク
 
@@ -136,14 +138,31 @@ public class Player : MonoBehaviour
                     //ジャンプフラグがfalseの時&現在プレイヤーが移動しているとき、ジャンプ処理実行
                     if (!JumpFlag && isMoving)
                     {
-                        this.rb.AddForce(transform.up * jumpForce);
-                        JumpFlag = true;
+                        Debug.Log("J");
+
+                        if(ray_first)
+                        {
+                            this.rb.AddForce(transform.up * jumpForce);
+                            JumpFlag = true;
+                            ray_first = false;
+                        }
+
                     }
+                }
+                else
+                {
+                    Debug.Log("soreigai");
+                    ray_first = true;
                 }
             }
 
         }
-
+        else
+        {
+            Debug.Log("なにもあたってない");
+            ray_first = true;
+        }
+       
         // 移動中でなければクリックを受け付ける
         if (!isMoving && Input.GetMouseButtonDown(0))
         {
@@ -195,8 +214,6 @@ public class Player : MonoBehaviour
             //FreezeRotationのみオンにする（Freezeは上書きできる）
             rb.constraints = RigidbodyConstraints2D.FreezeRotation;
 
-            speed = 5.0f;
-
             //落下処理（仮）　とりあえず今は落ちたら初期位置に戻る
             if (transform.position.y <= -10)
             {
@@ -216,7 +233,7 @@ public class Player : MonoBehaviour
                 // 移動が終わったらフラグを解除
                 if (transform.position.x == clickPosition.x)
                 {
-                    //Debug.Log("b");
+                   // Debug.Log("b");
                     playerPosition = transform.position;//playerPositionを更新
                     MoveFinish();//移動処理終了
                 }
