@@ -14,11 +14,8 @@ public class Player : MonoBehaviour
 
     [SerializeField] private bool JumpFlag = false;//現在ジャンプしているかのフラグ
 
-    //移動判定用の変数(マウス用）
+    //現在プレイヤーが移動しているかを判別する
     bool isMoving = false;
-
-    //ブロックにぶつかった時のプレイヤーの移動
-    bool hitMoving = false;
 
     private Rigidbody2D rb;//プレイヤーリジッドボディ
 
@@ -101,26 +98,18 @@ public class Player : MonoBehaviour
         Debug.DrawLine(transform.position, transform.position + Vector3.down * g_ray_lenght, Color.blue);//着地判定用のRay
 
 
-        if(hit.collider != null&& g_hit.collider != null)
-        {
-            if(isGrounded)
-            {
-                Debug.Log("WRayあたるう");
-            }
-        }
-
         // Rayが地面に当たった場合、isGroundedをtrueにする
         if (g_hit.collider != null)
         {
             Debug.Log("じめんあり");
             Debug.DrawLine(origin_y, g_hit.point, Color.yellow);//デバッグ用のRayを可視化する処理
 
-            isGrounded = true;
+            isGrounded = true;//現在地面に着いている状態
         }
         else
         {
             Debug.Log("じめんなし");
-            isGrounded = false;
+            isGrounded = false;//現在地面に着いていない状態
         }
 
         //左右判定用のRayが当たった時の処理
@@ -142,9 +131,10 @@ public class Player : MonoBehaviour
                     Debug.Log("tobanai");
                 }
                 //ジャンプ処理を行う
-                else if (LayerMask.LayerToName(layer) == "Block" && isGrounded==true)
+                else if (LayerMask.LayerToName(layer) == "Block" && isGrounded)
                 {
-                    if (!JumpFlag)//ジャンプフラグがfalseの時ジャンプ処理実行
+                    //ジャンプフラグがfalseの時&現在プレイヤーが移動しているとき、ジャンプ処理実行
+                    if (!JumpFlag && isMoving)
                     {
                         this.rb.AddForce(transform.up * jumpForce);
                         JumpFlag = true;
@@ -230,16 +220,7 @@ public class Player : MonoBehaviour
                     playerPosition = transform.position;//playerPositionを更新
                     MoveFinish();//移動処理終了
                 }
-            }
-            else if (hitMoving)
-            {
-                //Debug.Log("akys");
-                MoveFinish();//移動処理終了
-                transform.position = Vector2.MoveTowards(transform.position, new Vector2(transform.position.x+0.01f, transform.position.y), speed * Time.deltaTime);
-                playerPosition = transform.position;//playerPositionを更新
-            }
-
-          
+            }      
         }
         else//エディットモードの時
         {
@@ -266,7 +247,6 @@ public class Player : MonoBehaviour
         if (other.gameObject.CompareTag("Floor"))
         {
             Debug.Log("ぶつかってるhc");
-            hitMoving = false;//
             JumpFlag = false;
         }
 
@@ -275,9 +255,7 @@ public class Player : MonoBehaviour
         if (other.gameObject.CompareTag("MoveBlock"))
         {
             //Debug.Log("ぶつかってる");
-
-            hitMoving = false;//
-            MoveFinish();
+            //MoveFinish();
             JumpFlag = false;
         }
     }
@@ -286,7 +264,11 @@ public class Player : MonoBehaviour
     {
         if (other.gameObject.CompareTag("MoveBlock"))
         {
-            //transform.position = Vector2.MoveTowards(transform.position, new Vector2(transform.position.x + 0.01f, transform.position.y), speed * Time.deltaTime);
+            // isMoving = false;//移動処理終了
+
+            // キャラクターのX座標をクリックされた位置に向けて移動
+            transform.position = Vector2.MoveTowards(transform.position, new Vector2(-clickPosition.x, transform.position.y), speed * Time.deltaTime);
+
             Debug.Log("nakanioru");
         }
     }

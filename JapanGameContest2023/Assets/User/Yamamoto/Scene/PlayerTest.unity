@@ -2084,5 +2084,5 @@ MonoBehaviour:
   groundlayermask:
     serializedVersion: 2
     m_Bits: 0
-  ray_length: 2
+  ray_length: 1.5
   g_ray_lenght: 1
