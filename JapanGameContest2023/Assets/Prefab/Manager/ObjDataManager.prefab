@@ -49,4 +49,4 @@ MonoBehaviour:
   editPanel: {fileID: 3071785169817507711, guid: 7fc2dccf950d6cf4c83d9bef880106e6, type: 3}
   selectionObj: {fileID: 9051249717450221384, guid: ec47c9b168ab82e42877f5a5d7420255, type: 3}
   dotObj: {fileID: 332988442142004690, guid: e6e5c8117a240b242872310fd2fc84fd, type: 3}
-  stageSelectObj: {fileID: 0}
+  stageSelectObj: {fileID: 614616833512129852, guid: 1fd703144d2abf34190677acdd1dfab5, type: 3}
