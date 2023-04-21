@@ -12,13 +12,10 @@ public class Player : MonoBehaviour
 
     [SerializeField, Header("ジャンプ力")] private float jumpForce = 350f;//プレイヤージャンプ力
 
-    private int jumpCount = 0;//ジャンプを複数入力させない
+    [SerializeField] private bool JumpFlag = false;//現在ジャンプしているかのフラグ
 
-    //移動判定用の変数(マウス用）
+    //現在プレイヤーが移動しているかを判別する
     bool isMoving = false;
-
-    //ブロックにぶつかった時のプレイヤーの移動
-    bool hitMoving = false;
 
     private Rigidbody2D rb;//プレイヤーリジッドボディ
 
@@ -46,6 +43,8 @@ public class Player : MonoBehaviour
 
     private Vector2 direction;//rayの方向ベクトル
 
+    private Vector2 offset;//オフセット（Rayの開始位置)
+
     private bool isGrounded; // 着地しているかどうか
 
     [SerializeField] private LayerMask layermask;//レイヤーマスク
@@ -68,6 +67,9 @@ public class Player : MonoBehaviour
 
         playerPosition = firstpos;//最初はプレイヤーの初期位置を入れる
 
+        // プレイヤーの中心からのオフセットを計算する
+        offset = new Vector2(0.5f * playerSize, 0f);//はじめは右向き
+
         //取得するレイヤーを獲得（左右判定用）
         layermask = LayerMask.GetMask("CreateBlock","Block");//ここに追加したいレイヤー名を入れるとlayermaskがレイヤー判定を取るようになる
         //取得するレイヤーを獲得（足元判定用）
@@ -79,10 +81,73 @@ public class Player : MonoBehaviour
     {
         //クリック処理はUpdateでしましょう
 
+        //Rayの原点＝プレイヤーの現在の位置
+        origin_x = (Vector2)transform.position + offset;//(X方向）
+        origin_y = (Vector2)transform.position;//(Y方向）
+
+        direction = transform.right;//X方向を指す
+
+        //プレイヤーの向いている向きにRayを飛ばす
+        RaycastHit2D hit = Physics2D.Raycast(origin_x, direction, ray_length,layermask);
+
+        // プレイヤーの足元にRayを飛ばす
+        RaycastHit2D g_hit = Physics2D.Raycast(origin_y, Vector2.down, g_ray_lenght, groundlayermask);
+
+        // Rayの可視化
+        Debug.DrawLine(origin_x, origin_x + direction * ray_length, Color.red);//左右判定用のRay
+        Debug.DrawLine(transform.position, transform.position + Vector3.down * g_ray_lenght, Color.blue);//着地判定用のRay
+
+
+        // Rayが地面に当たった場合、isGroundedをtrueにする
+        if (g_hit.collider != null)
+        {
+            Debug.Log("じめんあり");
+            Debug.DrawLine(origin_y, g_hit.point, Color.yellow);//デバッグ用のRayを可視化する処理
+
+            isGrounded = true;//現在地面に着いている状態
+        }
+        else
+        {
+            Debug.Log("じめんなし");
+            isGrounded = false;//現在地面に着いていない状態
+        }
+
+        //左右判定用のRayが当たった時の処理
+        if (hit.collider != null)
+        {
+            Debug.DrawLine(origin_x, hit.point, Color.green);//デバッグ用のRayを可視化する処理
+
+            // 当たったオブジェクトが自身でなければ、何かしらの処理をする
+            if (hit.collider.gameObject != gameObject)
+            {
+                // Debug.Log("Hit object: " + hit.collider.gameObject.name);
+
+                int layer = hit.collider.gameObject.layer;//Rayが当たったオブジェクトのレイヤーを入れる
+                Debug.Log("当たったオブジェクトのレイヤーは" + LayerMask.LayerToName(layer) + "です。");
+
+                //Rayが当たったのが移動指標オブジェクトの場合、ジャンプ処理をしない
+                if (LayerMask.LayerToName(layer) == "CreateBlock")
+                {
+                    Debug.Log("tobanai");
+                }
+                //ジャンプ処理を行う
+                else if (LayerMask.LayerToName(layer) == "Block" && isGrounded)
+                {
+                    //ジャンプフラグがfalseの時&現在プレイヤーが移動しているとき、ジャンプ処理実行
+                    if (!JumpFlag && isMoving)
+                    {
+                        this.rb.AddForce(transform.up * jumpForce);
+                        JumpFlag = true;
+                    }
+                }
+            }
+
+        }
+
         // 移動中でなければクリックを受け付ける
         if (!isMoving && Input.GetMouseButtonDown(0))
         {
-            Debug.Log("移動");
+            //Debug.Log("移動");
             // クリックされた位置を取得
             clickPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             clickPosition.z = 0; // z座標を0に設定（2Dゲームなので）
@@ -93,13 +158,15 @@ public class Player : MonoBehaviour
             //クリックした場所の左右判定を取る
             if (playerPosition.x < clickPosition.x)//右
             {
+                offset = new Vector2(0.5f * playerSize, 0f);//右向き
                 transform.eulerAngles = new Vector3(0, 0, 0);
-                Debug.Log("右");
+                //Debug.Log("右");
             }
             else//左
             {
+                offset = new Vector2(-0.5f * playerSize, 0f);//左向き
                 transform.eulerAngles = new Vector3(0, 180, 0);
-                Debug.Log("左");
+               // Debug.Log("左");
             }
 
             // 移動を開始
@@ -110,61 +177,7 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        // プレイヤーの中心からのオフセットを計算する
-        Vector2 offset = new Vector2(0.5f * playerSize, 0f);
-       
-        //Rayの原点＝プレイヤーの現在の位置
-        origin_x = (Vector2)transform.position + offset;//(X方向）
-        origin_y = (Vector2)transform.position;//(Y方向）
-
-        direction = transform.right;//X方向を指す
-
-        //プレイヤーの向いている向きにRayを飛ばす
-        RaycastHit2D hit = Physics2D.Raycast(origin_x, direction, ray_length, layermask);
-
-        // プレイヤーの足元にRayを飛ばす
-        RaycastHit2D g_hit = Physics2D.Raycast(origin_y, Vector2.down, g_ray_lenght, groundlayermask);
-
-        // Rayの可視化
-        Debug.DrawLine(origin_x, origin_x + direction * ray_length, Color.red);//左右判定用のRay
-        Debug.DrawLine(transform.position, transform.position + Vector3.down * g_ray_lenght, Color.blue);//着地判定用のRay
-
-
-        //左右判定用のRayが当たった時の処理
-        if (hit.collider != null)
-        {
-            Debug.DrawLine(origin_x, hit.point, Color.green);//デバッグ用のRayを可視化する処理
-
-            // 当たったオブジェクトが自身でなければ、何かしらの処理をする
-            if (hit.collider.gameObject != gameObject)
-            {
-                Debug.Log("Hit object: " + hit.collider.gameObject.name);
-
-                if (jumpCount < 1)
-                {
-                    this.rb.AddForce(transform.up * jumpForce);
-                    jumpCount++;
-                }
-
-            }
-
-        }
-
-        // Rayが地面に当たった場合、isGroundedをtrueにする
-        if (g_hit.collider != null)
-        {
-            Debug.Log("じめんあり");
-            Debug.DrawLine(origin_y, g_hit.point, Color.yellow);//デバッグ用のRayを可視化する処理
-            isGrounded = true;
-        }
-        else
-        {
-            Debug.Log("じめんなし");
-            isGrounded = false;
-        }
-
         
-
         if (managerAccessor.Instance.dataMagager.playMode)//操作モードの時
         {
 
@@ -207,16 +220,7 @@ public class Player : MonoBehaviour
                     playerPosition = transform.position;//playerPositionを更新
                     MoveFinish();//移動処理終了
                 }
-            }
-            else if (hitMoving)
-            {
-                Debug.Log("akys");
-                MoveFinish();//移動処理終了
-                transform.position = Vector2.MoveTowards(transform.position, new Vector2(transform.position.x+0.01f, transform.position.y), speed * Time.deltaTime);
-                playerPosition = transform.position;//playerPositionを更新
-            }
-
-          
+            }      
         }
         else//エディットモードの時
         {
@@ -243,18 +247,29 @@ public class Player : MonoBehaviour
         if (other.gameObject.CompareTag("Floor"))
         {
             Debug.Log("ぶつかってるhc");
-            hitMoving = false;//
-            jumpCount = 0;
+            JumpFlag = false;
         }
 
-        //ブロックにぶつかったとき
+
+        ////ブロックにぶつかったとき
         if (other.gameObject.CompareTag("MoveBlock"))
         {
-            Debug.Log("ぶつかってる");
+            //Debug.Log("ぶつかってる");
+            //MoveFinish();
+            JumpFlag = false;
+        }
+    }
+
+    private void OnCollisionStay2D(Collision2D other)
+    {
+        if (other.gameObject.CompareTag("MoveBlock"))
+        {
+            // isMoving = false;//移動処理終了
+
             // キャラクターのX座標をクリックされた位置に向けて移動
-            //transform.position = Vector2.MoveTowards(transform.position, new Vector2(transform.position.x, transform.position.y), speed * Time.deltaTime);
-            MoveFinish();//移動処理を強制終了
-            hitMoving = true;//ブロックにぶつかったときの挙動を行う
+            transform.position = Vector2.MoveTowards(transform.position, new Vector2(-clickPosition.x, transform.position.y), speed * Time.deltaTime);
+
+            Debug.Log("nakanioru");
         }
     }
 
