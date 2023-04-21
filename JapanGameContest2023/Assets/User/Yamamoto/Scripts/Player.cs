@@ -284,7 +284,7 @@ public class Player : MonoBehaviour
             // isMoving = false;//移動処理終了
 
             // キャラクターのX座標をクリックされた位置に向けて移動
-            transform.position = Vector2.MoveTowards(transform.position, new Vector2(-clickPosition.x, transform.position.y), speed * Time.deltaTime);
+            //transform.position = Vector2.MoveTowards(transform.position, new Vector2(-clickPosition.x, transform.position.y), speed * Time.deltaTime);
 
             Debug.Log("nakanioru");
         }
