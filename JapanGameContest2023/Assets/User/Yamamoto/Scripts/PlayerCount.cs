@@ -23,9 +23,6 @@ public class PlayerCount : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Players == null)
-        {
-            Debug.Log("noobj");
-        }
+       
     }
 }
