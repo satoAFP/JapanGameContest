@@ -30,5 +30,10 @@ public class SceneMoveManager : MonoBehaviour
         }
     }
 
+    //ƒŠƒ[ƒhˆ—
+    public void SceneMoveRetry()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
 
 }
