@@ -12,17 +12,22 @@ public class PlayerCount : MonoBehaviour
     [SerializeField]
     private int ListCount;//Playersの長さを数える
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        Players = GameObject.FindGameObjectsWithTag("Player");
-
-        ListCount = Players.Length;//Playersの長さを取得
-    }
+    private int previousCount;//プレイヤー数更新のための変数
 
     // Update is called once per frame
     void Update()
     {
-       
+        Players = GameObject.FindGameObjectsWithTag("Player");//Playerタグを持っているオブジェクト取得
+        ListCount = Players.Length;//Playersの長さを取得
+
+        
+
+        // 前回のフレームでのプレイヤーの数と現在のプレイヤーの数が違う場合、ログを出力する
+        if (previousCount != ListCount)
+        {
+            Debug.Log("プレイヤーの数が変更されました。現在のプレイヤーの数は" + ListCount + "です。");
+            previousCount = ListCount;
+        }
+
     }
 }
