@@ -146,4 +146,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98fe3cd9744d9f544935323b962ac85e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movechange: 0
+  speed: 3
+  jumpForce: 350
+  JumpFlag: 0
+  firstpos: {x: 0, y: 0}
+  prefab: {fileID: 0}
+  CreateObj: {fileID: 0}
+  layermask:
+    serializedVersion: 2
+    m_Bits: 0
+  groundlayermask:
+    serializedVersion: 2
+    m_Bits: 0
+  ray_length: 1
+  g_ray_lenght: 0.55
