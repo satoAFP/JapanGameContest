@@ -133,7 +133,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   ray_length: 1
-  g_ray_lenght: 0.5
+  g_ray_lenght: 0.7
 --- !u!58 &6325921300723310987
 CircleCollider2D:
   m_ObjectHideFlags: 0
