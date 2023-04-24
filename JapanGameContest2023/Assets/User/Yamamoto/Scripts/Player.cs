@@ -6,7 +6,7 @@ public class Player : MonoBehaviour
 {
     //---------player関係（移動・ジャンプ）関係の変数宣言-----------------
 
-    private float speed;//プレイヤー速度
+    [SerializeField, Header("プレイヤー速度")] private float speed;//プレイヤー速度
 
     private float playerSize = 1f; // プレイヤーの幅
 
@@ -23,7 +23,6 @@ public class Player : MonoBehaviour
 
     private Vector2 playerPosition;//現在のプレイヤーの位置
 
-
     //-----------Click関係の関数--------------------
 
     // クリックされた位置
@@ -35,17 +34,23 @@ public class Player : MonoBehaviour
     [SerializeField]
     private GameObject CreateObj;//移動指標オブジェクトを入れる（削除命令に使う）
 
+    private Vector2 mempos;//前フレーム時の座標
+    private bool fream_move=false;//フレーム
+
+
     //-----------ray関係の変数の宣言---------------
 
-    [SerializeField] private Vector2 origin_x;//rayの原点(X方向）
+    private Vector2 origin_x;//rayの原点(X方向）
 
-    [SerializeField] private Vector2 origin_y;//rayの原点(Y方向）
+    private Vector2 origin_y;//rayの原点(Y方向）
 
     private Vector2 direction;//rayの方向ベクトル
 
     private Vector2 offset;//オフセット（Rayの開始位置)
 
     private bool isGrounded; // 着地しているかどうか
+
+    private bool ray_first = true;//何度もRayの処理が入ったとき一回だけ通す
 
     [SerializeField] private LayerMask layermask;//レイヤーマスク
 
@@ -97,13 +102,21 @@ public class Player : MonoBehaviour
         Debug.DrawLine(origin_x, origin_x + direction * ray_length, Color.red);//左右判定用のRay
         Debug.DrawLine(transform.position, transform.position + Vector3.down * g_ray_lenght, Color.blue);//着地判定用のRay
 
-
+       
         // Rayが地面に当たった場合、isGroundedをtrueにする
         if (g_hit.collider != null)
         {
             Debug.Log("じめんあり");
             Debug.DrawLine(origin_y, g_hit.point, Color.yellow);//デバッグ用のRayを可視化する処理
 
+            //if(Mathf.Abs(transform.position.x - mempos.x) < 0.03f)
+            //{
+            //    fream_move = true;
+            //}
+            //else
+            //{
+            //    fream_move = false;
+            //}
             isGrounded = true;//現在地面に着いている状態
         }
         else
@@ -136,14 +149,31 @@ public class Player : MonoBehaviour
                     //ジャンプフラグがfalseの時&現在プレイヤーが移動しているとき、ジャンプ処理実行
                     if (!JumpFlag && isMoving)
                     {
-                        this.rb.AddForce(transform.up * jumpForce);
-                        JumpFlag = true;
+                        Debug.Log("J");
+
+                        if(ray_first)
+                        {
+                            this.rb.AddForce(transform.up * jumpForce);
+                            JumpFlag = true;
+                            ray_first = false;
+                        }
+
                     }
+                }
+                else
+                {
+                    Debug.Log("soreigai");
+                    ray_first = true;
                 }
             }
 
         }
-
+        else
+        {
+            Debug.Log("なにもあたってない");
+            ray_first = true;
+        }
+       
         // 移動中でなければクリックを受け付ける
         if (!isMoving && Input.GetMouseButtonDown(0))
         {
@@ -195,8 +225,6 @@ public class Player : MonoBehaviour
             //FreezeRotationのみオンにする（Freezeは上書きできる）
             rb.constraints = RigidbodyConstraints2D.FreezeRotation;
 
-            speed = 5.0f;
-
             //落下処理（仮）　とりあえず今は落ちたら初期位置に戻る
             if (transform.position.y <= -10)
             {
@@ -214,13 +242,17 @@ public class Player : MonoBehaviour
                 transform.position = Vector2.MoveTowards(transform.position, new Vector2(clickPosition.x, transform.position.y), speed * Time.deltaTime);
 
                 // 移動が終わったらフラグを解除
-                if (transform.position.x == clickPosition.x)
+                //前フレームの座標と今の座標を比べて、移動量が極端に少ない場合（壁にぶつかっている状態）処理を終了
+                if (transform.position.x == clickPosition.x||Mathf.Abs(transform.position.x-mempos.x) < 0.03f)
                 {
-                    //Debug.Log("b");
+                   // Debug.Log("b");
                     playerPosition = transform.position;//playerPositionを更新
                     MoveFinish();//移動処理終了
                 }
-            }      
+            }
+
+            mempos = transform.position;//前フレームを保存
+
         }
         else//エディットモードの時
         {
@@ -244,33 +276,19 @@ public class Player : MonoBehaviour
     //当たり判定
     private void OnCollisionEnter2D(Collision2D other)
     {
-        if (other.gameObject.CompareTag("Floor"))
+        if (other.gameObject.CompareTag("Floor") || other.gameObject.CompareTag("MoveBlock"))
         {
-            Debug.Log("ぶつかってるhc");
+
+
             JumpFlag = false;
         }
 
 
-        ////ブロックにぶつかったとき
-        if (other.gameObject.CompareTag("MoveBlock"))
-        {
-            //Debug.Log("ぶつかってる");
-            //MoveFinish();
-            JumpFlag = false;
-        }
-    }
-
-    private void OnCollisionStay2D(Collision2D other)
-    {
-        if (other.gameObject.CompareTag("MoveBlock"))
-        {
-            // isMoving = false;//移動処理終了
-
-            // キャラクターのX座標をクリックされた位置に向けて移動
-            transform.position = Vector2.MoveTowards(transform.position, new Vector2(-clickPosition.x, transform.position.y), speed * Time.deltaTime);
-
-            Debug.Log("nakanioru");
-        }
+        //////ブロックにぶつかったとき
+        //if (other.gameObject.CompareTag("MoveBlock"))
+        //{
+        //    JumpFlag = false;
+        //}
     }
 
 }
