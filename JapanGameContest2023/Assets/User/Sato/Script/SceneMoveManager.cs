@@ -18,6 +18,22 @@ public class SceneMoveManager : MonoBehaviour
         SceneManager.LoadScene(name);
     }
 
+    //次のステージにシーン移動
+    public void SceneMoveNext()
+    {
+        for (int i = 0; i < managerAccessor.Instance.dataMagager.stageNum; i++) 
+        {
+            if (SceneManager.GetActiveScene().name == "Stage" + (i + 1))
+            {
+                SceneManager.LoadScene("Stage" + (i + 2));
+            }
+        }
+    }
 
+    //リロード処理
+    public void SceneMoveRetry()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
 
 }

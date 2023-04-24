@@ -4,33 +4,22 @@ using UnityEngine;
 
 public class Goal : MonoBehaviour
 {
-    [SerializeField, Header("ゴールするキャラの数")] private int charaNum;
+
+    private bool goalChara = true;
 
 
-    private int charaCount = 0;
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-
-
-    }
-
-    
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         //主人公に当たった時
         if (collision.gameObject.tag == "Player") 
         {
             Destroy(collision.gameObject);
-            charaCount++;
 
-            //指定した数のキャラがゴールした時
-            if (charaNum == charaCount)
+            //ゴールするとそこにはもう入らない
+            if(goalChara)
             {
-                GameObject clone = Instantiate(managerAccessor.Instance.objDataManager.clearPanel);
-                clone.transform.parent = managerAccessor.Instance.objDataManager.canvas.transform;
+                goalChara = false;
+                transform.parent.GetComponent<GoalSystem>().goalCount++;
             }
         }
     }
