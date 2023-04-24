@@ -228,9 +228,7 @@ public class Player : MonoBehaviour
             //落下処理（仮）　とりあえず今は落ちたら初期位置に戻る
             if (transform.position.y <= -10)
             {
-                //Debug.Log("やり直す");
-                //MoveFinish();//移動処理を強制終了
-                //transform.position = firstpos;
+                managerAccessor.Instance.dataMagager.playerlost = true;//プレイヤー敗北フラグをON
                 Destroy(this.gameObject);
             }
 
