@@ -638,11 +638,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f3aa1b722a5fe14189c879c9129b0d4, type: 3}
---- !u!224 &271050180 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 6996975470313468505, guid: 5f3aa1b722a5fe14189c879c9129b0d4, type: 3}
-  m_PrefabInstance: {fileID: 271050179}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &273871990
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -947,7 +942,7 @@ GameObject:
   - component: {fileID: 428196484}
   - component: {fileID: 428196486}
   - component: {fileID: 428196485}
-  m_Layer: 8
+  m_Layer: 7
   m_Name: Ground
   m_TagString: Floor
   m_Icon: {fileID: 0}
@@ -1464,7 +1459,7 @@ GameObject:
   - component: {fileID: 772428784}
   - component: {fileID: 772428786}
   - component: {fileID: 772428785}
-  m_Layer: 8
+  m_Layer: 7
   m_Name: Ground
   m_TagString: Floor
   m_Icon: {fileID: 0}
@@ -1921,7 +1916,7 @@ GameObject:
   - component: {fileID: 1151412734}
   - component: {fileID: 1151412736}
   - component: {fileID: 1151412735}
-  m_Layer: 8
+  m_Layer: 7
   m_Name: Ground
   m_TagString: Floor
   m_Icon: {fileID: 0}
@@ -2193,7 +2188,7 @@ RectTransform:
   m_Children:
   - {fileID: 680196713}
   - {fileID: 215361270}
-  - {fileID: 271050180}
+  - {fileID: 2123782425}
   m_Father: {fileID: 0}
   m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3480,3 +3475,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea7fa2316c8c1a74c84bacc39fbbf805, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!224 &2123782425 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 3099624516476883722, guid: 5f3aa1b722a5fe14189c879c9129b0d4, type: 3}
+  m_PrefabInstance: {fileID: 271050179}
+  m_PrefabAsset: {fileID: 0}

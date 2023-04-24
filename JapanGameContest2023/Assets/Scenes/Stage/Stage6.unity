@@ -426,7 +426,7 @@ GameObject:
   - component: {fileID: 430751821}
   - component: {fileID: 430751823}
   - component: {fileID: 430751822}
-  m_Layer: 8
+  m_Layer: 7
   m_Name: Ground
   m_TagString: Floor
   m_Icon: {fileID: 0}
@@ -2030,7 +2030,7 @@ GameObject:
   - component: {fileID: 1788971827}
   - component: {fileID: 1788971829}
   - component: {fileID: 1788971828}
-  m_Layer: 8
+  m_Layer: 7
   m_Name: Ground
   m_TagString: Floor
   m_Icon: {fileID: 0}
@@ -2584,7 +2584,7 @@ PrefabInstance:
   m_SourcePrefab: {fileID: 100100000, guid: 5f3aa1b722a5fe14189c879c9129b0d4, type: 3}
 --- !u!224 &2066374681 stripped
 RectTransform:
-  m_CorrespondingSourceObject: {fileID: 6996975470313468505, guid: 5f3aa1b722a5fe14189c879c9129b0d4, type: 3}
+  m_CorrespondingSourceObject: {fileID: 3099624516476883722, guid: 5f3aa1b722a5fe14189c879c9129b0d4, type: 3}
   m_PrefabInstance: {fileID: 2066374680}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &2133995600
@@ -2598,7 +2598,7 @@ GameObject:
   - component: {fileID: 2133995601}
   - component: {fileID: 2133995603}
   - component: {fileID: 2133995602}
-  m_Layer: 8
+  m_Layer: 7
   m_Name: Ground
   m_TagString: Floor
   m_Icon: {fileID: 0}
