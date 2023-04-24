@@ -9,12 +9,15 @@ public class PlayerCount : MonoBehaviour
     [SerializeField, Header("ƒvƒŒƒCƒ„[‚Ì”‚¾‚¯æ“¾")]
     private GameObject[] Players;
 
-
+    [SerializeField]
+    private int ListCount;//Players‚Ì’·‚³‚ğ”‚¦‚é
 
     // Start is called before the first frame update
     void Start()
     {
         Players = GameObject.FindGameObjectsWithTag("Player");
+
+        ListCount = Players.Length;//Players‚Ì’·‚³‚ğæ“¾
     }
 
     // Update is called once per frame
@@ -22,7 +25,7 @@ public class PlayerCount : MonoBehaviour
     {
         if (Players == null)
         {
-            Debug.Log("nainaianmaonaia");
+            Debug.Log("noobj");
         }
     }
 }
