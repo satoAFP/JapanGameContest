@@ -14,6 +14,10 @@ public class ObjDataManager : MonoBehaviour
 
     [Header("囲う用のドット")] public GameObject dotObj;
 
+    [Header("ステージ選択用オブジェクト")] public GameObject stageSelectObj;
+
+    [Header("クリア時表示するパネル")] public GameObject clearPanel;
+
     // Start is called before the first frame update
     void Start()
     {

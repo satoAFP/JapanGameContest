@@ -23,6 +23,12 @@ public class DataManager : MonoBehaviour
     //主人公が動けるか編集モードに入るか切り替え用フラグ
     [System.NonSerialized] public int objNum = 0;
 
+
+
+    [Header("全ステージ数")] public int stageNum;
+
+    private GameObject clonePanel = null;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -47,7 +53,17 @@ public class DataManager : MonoBehaviour
     public void ModeChange()
     {
         playMode = !playMode;
-        managerAccessor.Instance.objDataManager.editPanel.gameObject.SetActive(!managerAccessor.Instance.objDataManager.editPanel.gameObject.activeSelf);
+
+        //パネルの複製および削除
+        if(playMode)
+        {
+            Destroy(clonePanel);
+        }
+        else
+        {
+            clonePanel = Instantiate(managerAccessor.Instance.objDataManager.editPanel);
+            clonePanel.transform.position = new Vector3(0, 0, 0);
+        }
     }
 
     //コピーボタン用関数
