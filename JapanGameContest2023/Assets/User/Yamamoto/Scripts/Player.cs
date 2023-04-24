@@ -76,7 +76,7 @@ public class Player : MonoBehaviour
         offset = new Vector2(0.5f * playerSize, 0f);//はじめは右向き
 
         //取得するレイヤーを獲得（左右判定用）
-        layermask = LayerMask.GetMask("CreateBlock","Block");//ここに追加したいレイヤー名を入れるとlayermaskがレイヤー判定を取るようになる
+        layermask = LayerMask.GetMask("CreateBlock","Block", "Ground");//ここに追加したいレイヤー名を入れるとlayermaskがレイヤー判定を取るようになる
         //取得するレイヤーを獲得（足元判定用）
         groundlayermask = LayerMask.GetMask("Ground","Block");//ここに追加したいレイヤー名を入れるとgroundlayermaskがレイヤー判定を取るようになる
 
@@ -144,20 +144,24 @@ public class Player : MonoBehaviour
                     Debug.Log("tobanai");
                 }
                 //ジャンプ処理を行う
-                else if (LayerMask.LayerToName(layer) == "Block" && isGrounded)
+                else if (isGrounded)
                 {
-                    //ジャンプフラグがfalseの時&現在プレイヤーが移動しているとき、ジャンプ処理実行
-                    if (!JumpFlag && isMoving)
+                    //特定のレイヤーにのみジャンプ処理を行う
+                    if(LayerMask.LayerToName(layer) == "Block" || LayerMask.LayerToName(layer) == "Ground")
                     {
-                        Debug.Log("J");
-
-                        if(ray_first)
+                        //ジャンプフラグがfalseの時&現在プレイヤーが移動しているとき、ジャンプ処理実行
+                        if (!JumpFlag && isMoving)
                         {
-                            this.rb.AddForce(transform.up * jumpForce);
-                            JumpFlag = true;
-                            ray_first = false;
-                        }
+                            Debug.Log("J");
 
+                            if (ray_first)
+                            {
+                                this.rb.AddForce(transform.up * jumpForce);
+                                JumpFlag = true;
+                                ray_first = false;
+                            }
+
+                        }
                     }
                 }
                 else
