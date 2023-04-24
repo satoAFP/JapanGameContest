@@ -23,6 +23,8 @@ public class DataManager : MonoBehaviour
     //主人公が動けるか編集モードに入るか切り替え用フラグ
     [System.NonSerialized] public int objNum = 0;
 
+    //主人公の敗北フラグ（ONでゲームオーバー）
+    [System.NonSerialized] public bool loseflag = false;
 
 
     [Header("全ステージ数")] public int stageNum;
