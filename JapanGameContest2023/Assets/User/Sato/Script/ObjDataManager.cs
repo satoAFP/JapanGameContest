@@ -18,6 +18,8 @@ public class ObjDataManager : MonoBehaviour
 
     [Header("クリア時表示するパネル")] public GameObject clearPanel;
 
+    [Header("コピーできるオブジェクトの親")] public GameObject blockParent;
+
     // Start is called before the first frame update
     void Start()
     {

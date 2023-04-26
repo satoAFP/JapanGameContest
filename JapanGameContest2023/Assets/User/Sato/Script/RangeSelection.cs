@@ -55,7 +55,6 @@ public class RangeSelection : MonoBehaviour
     private List<Vector3> mempos = new List<Vector3>(); //選択されているオブジェクトの位置データ
     private Vector2 memjudgeStartPos;                   //選択されているオブジェクトの掴める範囲(左下)
     private Vector2 memjudgeEndPos;                     //選択されているオブジェクトの掴める範囲(右上)
-    private bool changeSizeEnd = false;                 //サイズ変更終了時切り替わる
 
 
     private List<GameObject> cloneDot = new List<GameObject>();//ドット格納用
