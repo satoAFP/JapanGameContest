@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class UpmoveCollider : MonoBehaviour
 {
+
+
+
     // Start is called before the first frame update
     void Start()
     {
