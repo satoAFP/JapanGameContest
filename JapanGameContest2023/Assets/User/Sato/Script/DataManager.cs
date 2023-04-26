@@ -17,6 +17,9 @@ public class DataManager : MonoBehaviour
     //コピーデータの削除を最初の一回しか行わないためのフラグ
     [System.NonSerialized] public bool copyReset = true;
 
+    //コピーデータの削除を最初の一回しか行わないためのフラグ
+    [System.NonSerialized] public bool objMaxFrag = false;
+
     //主人公が動けるか編集モードに入るか切り替え用フラグ
     [System.NonSerialized] public bool playMode = true;
 
