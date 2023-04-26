@@ -105,6 +105,7 @@ public class DataManager : MonoBehaviour
             {
                 GameObject clone = Instantiate(dataManager.copyObjsData[i]);
                 clone.transform.localPosition += moveAmount;
+                clone.transform.parent = managerAccessor.Instance.objDataManager.blockParent.transform;
                 //既に選択された状態にしておく
                 dataManager.selectObjsData.Add(clone);
             }
@@ -114,7 +115,7 @@ public class DataManager : MonoBehaviour
         }
     }
 
-    //複製ボタン用関数
+    //削除ボタン用関数
     public void DeleteButton()
     {
         DataManager dataManager = managerAccessor.Instance.dataMagager;

@@ -8,6 +8,8 @@ public class Player : MonoBehaviour
 
     [SerializeField, Header("プレイヤー速度")] private float speed;//プレイヤー速度
 
+    float fspeed;//初期プレイヤー速度
+
     private float playerSize = 1f; // プレイヤーの幅
 
     [SerializeField, Header("ジャンプ力")] private float jumpForce = 350f;//プレイヤージャンプ力
@@ -61,6 +63,7 @@ public class Player : MonoBehaviour
 
     [SerializeField, Header("着地判定用のRayの長さ")] private float g_ray_lenght;
 
+
     //-----------------------------------------------
 
     // Start is called before the first frame update
@@ -72,8 +75,10 @@ public class Player : MonoBehaviour
 
         playerPosition = firstpos;//最初はプレイヤーの初期位置を入れる
 
+        fspeed = speed;
+
         // プレイヤーの中心からのオフセットを計算する
-        offset = new Vector2(0.5f * playerSize, 0f);//はじめは右向き
+        offset = new Vector2(0.5f * playerSize, -0.25f);//はじめは右向き
 
         //取得するレイヤーを獲得（左右判定用）
         layermask = LayerMask.GetMask("CreateBlock","Block", "Ground");//ここに追加したいレイヤー名を入れるとlayermaskがレイヤー判定を取るようになる
@@ -117,6 +122,8 @@ public class Player : MonoBehaviour
             //{
             //    fream_move = false;
             //}
+
+
             isGrounded = true;//現在地面に着いている状態
         }
         else
@@ -133,15 +140,13 @@ public class Player : MonoBehaviour
             // 当たったオブジェクトが自身でなければ、何かしらの処理をする
             if (hit.collider.gameObject != gameObject)
             {
-                // Debug.Log("Hit object: " + hit.collider.gameObject.name);
-
                 int layer = hit.collider.gameObject.layer;//Rayが当たったオブジェクトのレイヤーを入れる
                 Debug.Log("当たったオブジェクトのレイヤーは" + LayerMask.LayerToName(layer) + "です。");
 
                 //Rayが当たったのが移動指標オブジェクトの場合、ジャンプ処理をしない
                 if (LayerMask.LayerToName(layer) == "CreateBlock")
                 {
-                    Debug.Log("tobanai");
+                    //Debug.Log("tobanai");
                 }
                 //ジャンプ処理を行う
                 else if (isGrounded)
@@ -152,10 +157,12 @@ public class Player : MonoBehaviour
                         //ジャンプフラグがfalseの時&現在プレイヤーが移動しているとき、ジャンプ処理実行
                         if (!JumpFlag && isMoving)
                         {
-                            Debug.Log("J");
-
+                           
+                            //複数回ジャンプ処理を行わないように初めに当たったRayのみを反応させる
                             if (ray_first)
                             {
+                                Debug.Log("J");
+                                speed = 1.7f;
                                 this.rb.AddForce(transform.up * jumpForce);
                                 JumpFlag = true;
                                 ray_first = false;
@@ -167,6 +174,7 @@ public class Player : MonoBehaviour
                 else
                 {
                     Debug.Log("soreigai");
+                    //speed = fspeed;
                     ray_first = true;
                 }
             }
@@ -175,6 +183,7 @@ public class Player : MonoBehaviour
         else
         {
             Debug.Log("なにもあたってない");
+            //speed = fspeed;
             ray_first = true;
         }
        
@@ -192,13 +201,13 @@ public class Player : MonoBehaviour
             //クリックした場所の左右判定を取る
             if (playerPosition.x < clickPosition.x)//右
             {
-                offset = new Vector2(0.5f * playerSize, 0f);//右向き
+                offset = new Vector2(0.5f * playerSize, -0.25f);//右向き
                 transform.eulerAngles = new Vector3(0, 0, 0);
                 //Debug.Log("右");
             }
             else//左
             {
-                offset = new Vector2(-0.5f * playerSize, 0f);//左向き
+                offset = new Vector2(-0.5f * playerSize, -0.25f);//左向き
                 transform.eulerAngles = new Vector3(0, 180, 0);
                // Debug.Log("左");
             }
@@ -214,18 +223,6 @@ public class Player : MonoBehaviour
         
         if (managerAccessor.Instance.dataMagager.playMode)//操作モードの時
         {
-
-            //デバッグ用のキー移動処理(終わったら消す）---------------------------------
-
-            //if (Input.GetKey(KeyCode.W) && this.jumpCount < 1)
-            //{
-            //    isMoving = false;//移動処理を強制終了
-            //    this.rb.AddForce(transform.up * jumpForce);
-            //    jumpCount++;
-            //}
-
-            //--------------------------------------------------
-
             //FreezeRotationのみオンにする（Freezeは上書きできる）
             rb.constraints = RigidbodyConstraints2D.FreezeRotation;
 
@@ -248,8 +245,14 @@ public class Player : MonoBehaviour
                 //前フレームの座標と今の座標を比べて、移動量が極端に少ない場合（壁にぶつかっている状態）処理を終了
                 if (transform.position.x == clickPosition.x||Mathf.Abs(transform.position.x-mempos.x) < 0.03f)
                 {
-                   // Debug.Log("b");
+                    Debug.Log("b");
                     playerPosition = transform.position;//playerPositionを更新
+                   // MoveFinish();//移動処理終了
+                }
+
+                if (transform.position.x == clickPosition.x)
+                {
+                    Debug.Log("cccc");
                     MoveFinish();//移動処理終了
                 }
             }
