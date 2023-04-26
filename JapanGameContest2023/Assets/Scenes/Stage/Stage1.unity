@@ -1979,6 +1979,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wide: 0.3
   changeSizeWidth: {x: 0.2, y: 0.2}
+  judgeStartPos: {x: 0, y: 0}
+  judgeEndPos: {x: 0, y: 0}
+  dotNum: 0
 --- !u!4 &1774848201
 Transform:
   m_ObjectHideFlags: 0
