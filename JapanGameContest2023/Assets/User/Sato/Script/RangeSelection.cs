@@ -145,7 +145,6 @@ public class RangeSelection : MonoBehaviour
             //オブジェクトが選択されていない時
             else
             {
-                Debug.Log("koko");
                 //オブジェクト選択範囲表示
                 SelectObj();
                 //ドットの枠表示
@@ -377,7 +376,7 @@ public class RangeSelection : MonoBehaviour
             {
                 //四角のサイズ変更
                 square.x = backUpSquare.x;
-                square.y = Mathf.Abs(backUpSquare.y - (dataManager.MouseWorldChange().y - onStartPos.y));
+                square.y = backUpSquare.y - (dataManager.MouseWorldChange().y - onStartPos.y);
                 //初期位置の設定
                 setStartPos.y = startPos.y + dataManager.MouseWorldChange().y - onStartPos.y;
                 //ゲーム全体で判定をする四角の座標更新
@@ -391,7 +390,7 @@ public class RangeSelection : MonoBehaviour
             }
             if (onPos == (int)ChangeSizePosName.RIGHT)
             {
-                square.x = Mathf.Abs(backUpSquare.x + (dataManager.MouseWorldChange().x - onStartPos.x));
+                square.x = backUpSquare.x + (dataManager.MouseWorldChange().x - onStartPos.x);
                 square.y = backUpSquare.y;
                 judgeEndPos.x = setStartPos.x + square.x;
                 //サイズ変更時の移動量設定
@@ -405,7 +404,7 @@ public class RangeSelection : MonoBehaviour
             if (onPos == (int)ChangeSizePosName.UP)
             {
                 square.x = backUpSquare.x;
-                square.y = Mathf.Abs(backUpSquare.y + (dataManager.MouseWorldChange().y - onStartPos.y));
+                square.y = backUpSquare.y + (dataManager.MouseWorldChange().y - onStartPos.y);
                 judgeEndPos.y = setStartPos.y + square.y;
                 //サイズ変更時の移動量設定
                 BlockRatioChange(new Vector3(0, dataManager.MouseWorldChange().y - onStartPos.y, 0), onPos);
@@ -417,7 +416,7 @@ public class RangeSelection : MonoBehaviour
             }
             if (onPos == (int)ChangeSizePosName.LEFT)
             {
-                square.x = Mathf.Abs(backUpSquare.x - (dataManager.MouseWorldChange().x - onStartPos.x));
+                square.x = backUpSquare.x - (dataManager.MouseWorldChange().x - onStartPos.x);
                 square.y = backUpSquare.y;
                 setStartPos.x = startPos.x + dataManager.MouseWorldChange().x - onStartPos.x;
                 judgeStartPos.x = setStartPos.x;
@@ -431,8 +430,8 @@ public class RangeSelection : MonoBehaviour
             }
             if (onPos == (int)ChangeSizePosName.RIGHT_DOWN)
             {
-                square.x = Mathf.Abs(backUpSquare.x + (dataManager.MouseWorldChange().x - onStartPos.x));
-                square.y = Mathf.Abs(backUpSquare.y - (dataManager.MouseWorldChange().y - onStartPos.y));
+                square.x = backUpSquare.x + (dataManager.MouseWorldChange().x - onStartPos.x);
+                square.y = backUpSquare.y - (dataManager.MouseWorldChange().y - onStartPos.y);
                 setStartPos.y = startPos.y + dataManager.MouseWorldChange().y - onStartPos.y;
                 judgeEndPos.x = setStartPos.x + square.x;
                 judgeStartPos.y = setStartPos.y;
@@ -443,8 +442,8 @@ public class RangeSelection : MonoBehaviour
             }
             if (onPos == (int)ChangeSizePosName.RIGHT_UP)
             {
-                square.x = Mathf.Abs(backUpSquare.x + (dataManager.MouseWorldChange().x - onStartPos.x));
-                square.y = Mathf.Abs(backUpSquare.y + (dataManager.MouseWorldChange().y - onStartPos.y));
+                square.x = backUpSquare.x + (dataManager.MouseWorldChange().x - onStartPos.x);
+                square.y = backUpSquare.y + (dataManager.MouseWorldChange().y - onStartPos.y);
                 judgeEndPos.x = setStartPos.x + square.x;
                 judgeEndPos.y = setStartPos.y + square.y;
                 //サイズ変更時の移動量設定
@@ -454,8 +453,8 @@ public class RangeSelection : MonoBehaviour
             }
             if (onPos == (int)ChangeSizePosName.LEFT_UP)
             {
-                square.x = Mathf.Abs(backUpSquare.x - (dataManager.MouseWorldChange().x - onStartPos.x));
-                square.y = Mathf.Abs(backUpSquare.y + (dataManager.MouseWorldChange().y - onStartPos.y));
+                square.x = backUpSquare.x - (dataManager.MouseWorldChange().x - onStartPos.x);
+                square.y = backUpSquare.y + (dataManager.MouseWorldChange().y - onStartPos.y);
                 setStartPos.x = startPos.x + dataManager.MouseWorldChange().x - onStartPos.x;
                 judgeStartPos.x = setStartPos.x;
                 judgeEndPos.y = setStartPos.y + square.y;
@@ -466,8 +465,8 @@ public class RangeSelection : MonoBehaviour
             }
             if (onPos == (int)ChangeSizePosName.LEFT_DOWN)
             {
-                square.x = Mathf.Abs(backUpSquare.x - (dataManager.MouseWorldChange().x - onStartPos.x));
-                square.y = Mathf.Abs(backUpSquare.y - (dataManager.MouseWorldChange().y - onStartPos.y));
+                square.x = backUpSquare.x - (dataManager.MouseWorldChange().x - onStartPos.x);
+                square.y = backUpSquare.y - (dataManager.MouseWorldChange().y - onStartPos.y);
                 setStartPos.x = startPos.x + dataManager.MouseWorldChange().x - onStartPos.x;
                 setStartPos.y = startPos.y + dataManager.MouseWorldChange().y - onStartPos.y;
                 judgeStartPos = setStartPos;
@@ -476,6 +475,9 @@ public class RangeSelection : MonoBehaviour
 
                 checkPos = GetCheckPos(new Vector2(-judgeEndPos.x, judgeEndPos.y), new Vector2(-dataManager.MouseWorldChange().x, dataManager.MouseWorldChange().y));
             }
+
+            square.x = Mathf.Abs(square.x);
+            square.y = Mathf.Abs(square.y);
 
             //サイズ変更適用処理
             BlockSizeChange(new Vector3(square.x / backUpSquare.x, square.y / backUpSquare.y, 0));
@@ -502,44 +504,6 @@ public class RangeSelection : MonoBehaviour
             DotDraw(setStartPos, usePos, square, dotNum);
 
             first5 = true;
-        }
-        else
-        {
-            if(first5)
-            {
-                Vector2 _judgeStartPos = judgeStartPos;
-                Vector2 _judgeEndPos = judgeEndPos;
-
-                Debug.Log(checkPos);
-
-                //右上
-                if (checkPos == (int)MouseDirection.RIGHT_UP)
-                {
-                }
-                //左下
-                else if (checkPos == (int)MouseDirection.LEFT_DOWN)
-                {
-                    judgeStartPos = _judgeEndPos;
-                    judgeEndPos = _judgeStartPos;
-                    Debug.Log("aaa");
-                }
-                //左上
-                else if (checkPos == (int)MouseDirection.LEFT_UP)
-                {
-                    judgeStartPos.x = _judgeEndPos.x;
-                    judgeEndPos.x = _judgeStartPos.x;
-                    Debug.Log("bbb");
-                }
-                //右下
-                else if (checkPos == (int)MouseDirection.RIGHT_DOWN)
-                {
-                    judgeStartPos.y = _judgeEndPos.y;
-                    judgeEndPos.y = _judgeStartPos.y;
-                    Debug.Log("ccc");
-                }
-
-                first5 = false;
-            }
         }
     }
 
@@ -709,7 +673,39 @@ public class RangeSelection : MonoBehaviour
         {
             //マウスが押されているときは変更しない
             if (!Input.GetMouseButton(0))
+            {
                 onEdge = false;
+
+                //ひっくり返った時四角の座標を変更
+                if (first5)
+                {
+                    //それぞれのバックアップデータ
+                    Vector2 _judgeStartPos = judgeStartPos;
+                    Vector2 _judgeEndPos = judgeEndPos;
+
+
+                    //左下
+                    if (checkPos == (int)MouseDirection.LEFT_DOWN)
+                    {
+                        judgeStartPos = _judgeEndPos;
+                        judgeEndPos = _judgeStartPos;
+                    }
+                    //左上
+                    else if (checkPos == (int)MouseDirection.LEFT_UP)
+                    {
+                        judgeStartPos.x = _judgeEndPos.x;
+                        judgeEndPos.x = _judgeStartPos.x;
+                    }
+                    //右下
+                    else if (checkPos == (int)MouseDirection.RIGHT_DOWN)
+                    {
+                        judgeStartPos.y = _judgeEndPos.y;
+                        judgeEndPos.y = _judgeStartPos.y;
+                    }
+
+                    first5 = false;
+                }
+            }
 
         }
 
