@@ -11,6 +11,12 @@ public class DecoyFile : MonoBehaviour
 
     private bool gameoverFrag = false;
     private int FrameCount = 0;
+    private Animator anim;
+
+    private void Start()
+    {
+        anim = gameObject.GetComponent<Animator>();
+    }
 
     // Update is called once per frame
     void FixedUpdate()
@@ -34,7 +40,9 @@ public class DecoyFile : MonoBehaviour
             //キャラ削除
             Destroy(collision.gameObject);
             //感染したファイルになる
-            gameObject.GetComponent<SpriteRenderer>().sprite = infectionFile;
+            //gameObject.GetComponent<SpriteRenderer>().sprite = infectionFile;
+
+            anim.SetBool("HitEnemy", true);
 
             gameoverFrag = true;
         }

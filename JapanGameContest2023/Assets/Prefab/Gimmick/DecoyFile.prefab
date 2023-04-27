@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4706863795650856263}
   - component: {fileID: 4706863795650856262}
   - component: {fileID: 4706863795650856258}
+  - component: {fileID: 619781952973064899}
   m_Layer: 0
   m_Name: DecoyFile
   m_TagString: Untagged
@@ -146,5 +147,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2219f52cec237949af9f8704e0ef4d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  infectionFile: {fileID: 21300000, guid: 8fd68b854e51eda46a22a4454164df57, type: 3}
-  stopFrame: 100
+  infectionFile: {fileID: 21300000, guid: ff50cbab97ce6c64ea7fff507cf37f37, type: 3}
+  stopFrame: 150
+--- !u!95 &619781952973064899
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4706863795650856261}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 1c0c019a7aaa87c4e947e625ad1f7ad7, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
