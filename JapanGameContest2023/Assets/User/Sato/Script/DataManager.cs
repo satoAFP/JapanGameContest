@@ -17,8 +17,14 @@ public class DataManager : MonoBehaviour
     //コピーデータの削除を最初の一回しか行わないためのフラグ
     [System.NonSerialized] public bool copyReset = true;
 
-    //コピーデータの削除を最初の一回しか行わないためのフラグ
+    //オブジェクトが最大数になった時変わるフラグ
     [System.NonSerialized] public bool objMaxFrag = false;
+
+    //オブジェクトを選択した時、縁に乗ると変わる
+    [System.NonSerialized] public bool onEdge = false;
+
+    //どの縁に乗っているか(8は何も入っていないデータ)
+    [System.NonSerialized] public int whereEdge = 8;
 
     //主人公が動けるか編集モードに入るか切り替え用フラグ
     [System.NonSerialized] public bool playMode = true;

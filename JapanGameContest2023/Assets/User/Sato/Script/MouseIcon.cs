@@ -1,18 +1,69 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MouseIcon : MonoBehaviour
 {
-    [SerializeField] private Sprite[] cursor;
+    //サイズ変更時持っている縁の位置の名前
+    public enum ChangeSizePosName
+    {
+        DOWN,
+        RIGHT,
+        UP,
+        LEFT,
+        RIGHT_DOWN,
+        RIGHT_UP,
+        LEFT_UP,
+        LEFT_DOWN,
+        NONE,
+    }
 
-    [SerializeField] private Sprite[] arrow;
 
+    [SerializeField, Header("カーソルの画像")] private Sprite cursor;
 
+    [SerializeField, Header("矢印の画像")] private Sprite arrow;
+
+    [SerializeField, Header("マウスの位置ずれた差分加算用")] private Vector3 cursorMove;
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        transform.position = managerAccessor.Instance.dataMagager.MouseWorldChange();
+        //マウスの位置に合わせる
+        gameObject.GetComponent<RectTransform>().position = Input.mousePosition + cursorMove;
+
+        //カーソルがそれぞれの縁に乗っているとき画像を矢印に変える
+        if (managerAccessor.Instance.dataMagager.onEdge) 
+        {
+            gameObject.GetComponent<Image>().sprite = arrow;
+
+            if (managerAccessor.Instance.dataMagager.whereEdge == (int)ChangeSizePosName.DOWN ||
+                managerAccessor.Instance.dataMagager.whereEdge == (int)ChangeSizePosName.UP) 
+            {
+                gameObject.GetComponent<RectTransform>().rotation = Quaternion.Euler(0, 0, 0);
+            }
+            else if (managerAccessor.Instance.dataMagager.whereEdge == (int)ChangeSizePosName.RIGHT ||
+                managerAccessor.Instance.dataMagager.whereEdge == (int)ChangeSizePosName.LEFT)
+            {
+                gameObject.GetComponent<RectTransform>().rotation = Quaternion.Euler(0, 0, 90);
+            }
+            else if (managerAccessor.Instance.dataMagager.whereEdge == (int)ChangeSizePosName.RIGHT_DOWN ||
+                managerAccessor.Instance.dataMagager.whereEdge == (int)ChangeSizePosName.LEFT_UP)
+            {
+                gameObject.GetComponent<RectTransform>().rotation = Quaternion.Euler(0, 0, 45);
+            }
+            else if (managerAccessor.Instance.dataMagager.whereEdge == (int)ChangeSizePosName.RIGHT_UP ||
+                managerAccessor.Instance.dataMagager.whereEdge == (int)ChangeSizePosName.LEFT_DOWN)
+            {
+                gameObject.GetComponent<RectTransform>().rotation = Quaternion.Euler(0, 0, -45);
+            }
+        }
+        //通常時
+        else
+        {
+            gameObject.GetComponent<Image>().sprite = cursor;
+            gameObject.GetComponent<RectTransform>().rotation = Quaternion.identity;
+        }
+
     }
 }
