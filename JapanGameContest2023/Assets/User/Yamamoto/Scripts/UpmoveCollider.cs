@@ -26,15 +26,15 @@ public class UpmoveCollider : MonoBehaviour
         if (other.gameObject.CompareTag("Floor") || other.gameObject.CompareTag("MoveBlock"))
         {
             player.setblock = true;//プレイヤーの足判定がついている時
-            Debug.Log("つきつきまん");
+            //Debug.Log("つきつきまん");
         }
     }
     private void OnTriggerExit2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("Floor") || other.gameObject.CompareTag("MoveBlock"))
         {
-          //  player.setblock = false;//プレイヤーの足判定がついている時
-            Debug.Log("はなはなさん");
+            player.setblock = false;//プレイヤーの足判定がついている時
+            //Debug.Log("はなはなさん");
         }
     }
 }
