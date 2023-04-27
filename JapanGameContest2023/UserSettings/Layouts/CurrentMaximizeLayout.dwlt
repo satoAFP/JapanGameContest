@@ -26,7 +26,7 @@ MonoBehaviour:
   m_MinSize: {x: 400, y: 200}
   m_MaxSize: {x: 32384, y: 16192}
   vertical: 0
-  controlID: 9691
+  controlID: 12977
 --- !u!114 &2
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -143,7 +143,7 @@ MonoBehaviour:
   m_MinSize: {x: 100, y: 200}
   m_MaxSize: {x: 8096, y: 16192}
   vertical: 1
-  controlID: 9692
+  controlID: 12978
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -450,9 +450,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: -6.5, y: -2.5, z: 0}
+    m_Target: {x: 2.410719, y: -2.434283, z: -9.9127655}
     speed: 2
-    m_Value: {x: -6.5, y: -2.5, z: 0}
+    m_Value: {x: 2.410719, y: -2.434283, z: -9.9127655}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -503,9 +503,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 0.91060406
+    m_Target: 1.6741859
     speed: 2
-    m_Value: 0.91060406
+    m_Value: 1.6741859
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -615,7 +615,7 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: 0a26ffffd827ffff5e99ffff3c9effff12a1fffffaa3ffff86a6ffff94a8fffff4aafffff8acffff00afffff08b1ffff7eb5ffffe2b7ffff20baffffaabcfffff6c1ffffccc4ffff6ec7ffffe6c9ffff6eccffffa2ceffffaed2ffff1ed5ffffb6d7ffffeed9ffff64dfffffaadfffff60e1ffffa8e1fffffee1ffff7ee2ffffd4e2ffff54e3ffff0ae5ffff4ae5ffff16eafffff6ebffffccedffff04f0ffffdef1ffffa0f3ffff62f5ffff4afaffff44990000
+      m_ExpandedIDs: 9c92fcff2a88fdffe689fdff488efdff0c90fdffc891fdfff2c5feffcac7feff0a26ffffd827ffff5e99ffff3c9effff12a1fffffaa3ffff86a6ffff94a8fffff4aafffff8acffff00afffff08b1ffff7eb5ffffe2b7ffff20baffffaabcfffff6c1ffffccc4ffff6ec7ffffe6c9ffff6eccffffa2ceffffaed2ffff1ed5ffffb6d7ffffeed9ffff64dfffffaadfffff60e1ffffa8e1fffffee1ffff7ee2ffffd4e2ffff54e3ffff0ae5ffff4ae5ffff16eafffff6ebffffccedffff04f0ffffdef1ffffa0f3ffff62f5ffff4afaffff44990000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -707,21 +707,21 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Scenes/Stage
+    - Assets/Prefab/Gimmick
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 1
   m_StartGridSize: 16
   m_LastFolders:
-  - Assets/Scenes/Stage
+  - Assets/Prefab/Gimmick
   m_LastFoldersGridSize: 16
   m_LastProjectPath: "D:\\\u5B66\u6821\\Game\\4\u5E74\\GameContest2023\\JapanGameContest2023"
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: c6610000
-    m_LastClickedID: 25030
+    m_SelectedIDs: a0740000
+    m_LastClickedID: 29856
     m_ExpandedIDs: 00000000a0610000a2610000c26100002074000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -775,8 +775,8 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: 2225ffff
-    m_LastClickedInstanceID: -56030
+    m_SelectedInstanceIDs: cc90fcff
+    m_LastClickedInstanceID: -225076
     m_HadKeyboardFocusLastEvent: 0
     m_ExpandedInstanceIDs: 00000000
     m_RenameOverlay:
@@ -853,8 +853,8 @@ MonoBehaviour:
     y: 0
     width: 314.40002
     height: 730.8
-  m_MinSize: {x: 276, y: 71}
-  m_MaxSize: {x: 4001, y: 4021}
+  m_MinSize: {x: 275, y: 50}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 13}
   m_Panes:
   - {fileID: 13}
@@ -894,7 +894,7 @@ MonoBehaviour:
     m_CachedPref: -160
     m_ControlHash: -371814159
     m_PrefName: Preview_InspectorPreview
-  m_LastInspectedObjectInstanceID: -56030
+  m_LastInspectedObjectInstanceID: -225076
   m_LastVerticalScrollValue: 0
   m_GlobalObjectId: 
   m_InspectorMode: 0
