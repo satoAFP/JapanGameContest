@@ -9,7 +9,7 @@ public class Player : MonoBehaviour
     [SerializeField, Header("プレイヤー速度")] private float speed;//プレイヤー速度
 
     //こいつはそのうちDataManagerに放り込む
-    public bool setblock;//足元の判定がブロックに当たっていた時
+    [System.NonSerialized] public bool setblock;//足元の判定がブロックに当たっていた時
 
     [SerializeField, Header("プレイヤー上昇タイマー")] private float uptime;//プレイヤーが一度に上昇できる時間
 
@@ -19,7 +19,7 @@ public class Player : MonoBehaviour
 
     [SerializeField, Header("ジャンプ力")] private float jumpForce = 350f;//プレイヤージャンプ力
 
-    [SerializeField] private bool JumpFlag = false;//現在ジャンプしているかのフラグ
+    private bool JumpFlag = false;//現在ジャンプしているかのフラグ
 
     //現在プレイヤーが移動しているかを判別する
     bool isMoving = false;
@@ -38,7 +38,6 @@ public class Player : MonoBehaviour
     [SerializeField, Header("生成する移動指標オブジェクト")]
     private GameObject prefab;
 
-    [SerializeField]
     private GameObject CreateObj;//移動指標オブジェクトを入れる（削除命令に使う）
 
     private Vector2 mempos;//前フレーム時の座標
@@ -57,9 +56,9 @@ public class Player : MonoBehaviour
 
     private bool ray_first = true;//何度もRayの処理が入ったとき一回だけ通す
 
-    [SerializeField] private LayerMask layermask;//レイヤーマスク
+    private LayerMask layermask;//レイヤーマスク
 
-    [SerializeField] private LayerMask groundlayermask;//地面判定用のレイヤーマスク
+    //[SerializeField] private LayerMask groundlayermask;//地面判定用のレイヤーマスク
    
     [SerializeField, Header("テスト用Rayの長さ調整")]
     private float ray_length;
