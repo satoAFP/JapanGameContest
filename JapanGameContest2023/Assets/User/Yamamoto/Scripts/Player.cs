@@ -8,20 +8,25 @@ public class Player : MonoBehaviour
 
     [SerializeField, Header("プレイヤー速度")] private float speed;//プレイヤー速度
 
-    float fspeed;//初期プレイヤー速度
+    //こいつはそのうちDataManagerに放り込む
+    [System.NonSerialized] public bool setblock;//足元の判定がブロックに当たっていた時
+
+    [SerializeField, Header("プレイヤー上昇タイマー")] private float uptime;//プレイヤーが一度に上昇できる時間
+
+    private float fuptime;//uptimeの開始時の数値を入れる
 
     private float playerSize = 1f; // プレイヤーの幅
 
     [SerializeField, Header("ジャンプ力")] private float jumpForce = 350f;//プレイヤージャンプ力
 
-    [SerializeField] private bool JumpFlag = false;//現在ジャンプしているかのフラグ
+    private bool JumpFlag = false;//現在ジャンプしているかのフラグ
 
     //現在プレイヤーが移動しているかを判別する
     bool isMoving = false;
 
     private Rigidbody2D rb;//プレイヤーリジッドボディ
 
-    public Vector2 firstpos;//初期位置（仮）
+    private Vector2 firstpos;//初期位置（仮）
 
     private Vector2 playerPosition;//現在のプレイヤーの位置
 
@@ -33,7 +38,6 @@ public class Player : MonoBehaviour
     [SerializeField, Header("生成する移動指標オブジェクト")]
     private GameObject prefab;
 
-    [SerializeField]
     private GameObject CreateObj;//移動指標オブジェクトを入れる（削除命令に使う）
 
     private Vector2 mempos;//前フレーム時の座標
@@ -44,19 +48,17 @@ public class Player : MonoBehaviour
 
     private Vector2 origin_x;//rayの原点(X方向）
 
-    private Vector2 origin_y;//rayの原点(Y方向）
-
     private Vector2 direction;//rayの方向ベクトル
 
     private Vector2 offset;//オフセット（Rayの開始位置)
 
-    private bool isGrounded; // 着地しているかどうか
+   // private bool isGrounded; // 着地しているかどうか
 
     private bool ray_first = true;//何度もRayの処理が入ったとき一回だけ通す
 
-    [SerializeField] private LayerMask layermask;//レイヤーマスク
+    private LayerMask layermask;//レイヤーマスク
 
-    [SerializeField] private LayerMask groundlayermask;//地面判定用のレイヤーマスク
+    //[SerializeField] private LayerMask groundlayermask;//地面判定用のレイヤーマスク
    
     [SerializeField, Header("テスト用Rayの長さ調整")]
     private float ray_length;
@@ -75,63 +77,32 @@ public class Player : MonoBehaviour
 
         playerPosition = firstpos;//最初はプレイヤーの初期位置を入れる
 
-        fspeed = speed;
+        fuptime = uptime;//プレイヤー上昇時間を保存
 
         // プレイヤーの中心からのオフセットを計算する
-        offset = new Vector2(0.5f * playerSize, -0.25f);//はじめは右向き
+        offset = new Vector2(0.5f * playerSize, 0f);//はじめは右向き
 
         //取得するレイヤーを獲得（左右判定用）
         layermask = LayerMask.GetMask("CreateBlock","Block", "Ground");//ここに追加したいレイヤー名を入れるとlayermaskがレイヤー判定を取るようになる
-        //取得するレイヤーを獲得（足元判定用）
-        groundlayermask = LayerMask.GetMask("Ground","Block");//ここに追加したいレイヤー名を入れるとgroundlayermaskがレイヤー判定を取るようになる
+        
 
     }
 
     private void Update()
     {
         //クリック処理はUpdateでしましょう
-
+      
         //Rayの原点＝プレイヤーの現在の位置
         origin_x = (Vector2)transform.position + offset;//(X方向）
-        origin_y = (Vector2)transform.position;//(Y方向）
-
+    
         direction = transform.right;//X方向を指す
 
         //プレイヤーの向いている向きにRayを飛ばす
         RaycastHit2D hit = Physics2D.Raycast(origin_x, direction, ray_length,layermask);
 
-        // プレイヤーの足元にRayを飛ばす
-        RaycastHit2D g_hit = Physics2D.Raycast(origin_y, Vector2.down, g_ray_lenght, groundlayermask);
-
         // Rayの可視化
         Debug.DrawLine(origin_x, origin_x + direction * ray_length, Color.red);//左右判定用のRay
-        Debug.DrawLine(transform.position, transform.position + Vector3.down * g_ray_lenght, Color.blue);//着地判定用のRay
-
        
-        // Rayが地面に当たった場合、isGroundedをtrueにする
-        if (g_hit.collider != null)
-        {
-            Debug.Log("じめんあり");
-            Debug.DrawLine(origin_y, g_hit.point, Color.yellow);//デバッグ用のRayを可視化する処理
-
-            //if(Mathf.Abs(transform.position.x - mempos.x) < 0.03f)
-            //{
-            //    fream_move = true;
-            //}
-            //else
-            //{
-            //    fream_move = false;
-            //}
-
-
-            isGrounded = true;//現在地面に着いている状態
-        }
-        else
-        {
-            Debug.Log("じめんなし");
-            isGrounded = false;//現在地面に着いていない状態
-        }
-
         //左右判定用のRayが当たった時の処理
         if (hit.collider != null)
         {
@@ -149,34 +120,52 @@ public class Player : MonoBehaviour
                     //Debug.Log("tobanai");
                 }
                 //ジャンプ処理を行う
-                else if (isGrounded)
+                else 
                 {
                     //特定のレイヤーにのみジャンプ処理を行う
                     if(LayerMask.LayerToName(layer) == "Block" || LayerMask.LayerToName(layer) == "Ground")
                     {
-                        //ジャンプフラグがfalseの時&現在プレイヤーが移動しているとき、ジャンプ処理実行
-                        if (!JumpFlag && isMoving)
+                        //移動中＆プレイヤー上昇時間が0ではないとき上昇する
+                        if(isMoving)
                         {
-                           
-                            //複数回ジャンプ処理を行わないように初めに当たったRayのみを反応させる
-                            if (ray_first)
+                            if(uptime >= 0)
                             {
-                                Debug.Log("J");
-                                speed = 1.7f;
+                                uptime -= Time.deltaTime;//プレイヤー上昇時間減少
+                               
                                 this.rb.AddForce(transform.up * jumpForce);
-                                JumpFlag = true;
-                                ray_first = false;
+                            }
+                            else
+                            {
+                                MoveFinish();//プレイヤー上昇時間が0になるとプレイヤーの移動を止める
                             }
 
                         }
+
+
+
+                        //ジャンプフラグがfalseの時&現在プレイヤーが移動しているとき、ジャンプ処理実行
+                        //if (!JumpFlag && isMoving)
+                        //{
+                           
+                        //    //複数回ジャンプ処理を行わないように初めに当たったRayのみを反応させる
+                        //    if (ray_first)
+                        //    {
+                        //        Debug.Log("J");
+                        //        speed = 1.7f;
+                        //        this.rb.AddForce(transform.up * jumpForce);
+                        //        JumpFlag = true;
+                        //        ray_first = false;
+                        //    }
+
+                        //}
                     }
                 }
-                else
-                {
-                    Debug.Log("soreigai");
-                    //speed = fspeed;
-                    ray_first = true;
-                }
+                //else
+                //{
+                //    Debug.Log("soreigai");
+                //    //speed = fspeed;
+                //    ray_first = true;
+                //}
             }
 
         }
@@ -201,13 +190,13 @@ public class Player : MonoBehaviour
             //クリックした場所の左右判定を取る
             if (playerPosition.x < clickPosition.x)//右
             {
-                offset = new Vector2(0.5f * playerSize, -0.25f);//右向き
+                offset = new Vector2(0.5f * playerSize, 0f);//右向き
                 transform.eulerAngles = new Vector3(0, 0, 0);
                 //Debug.Log("右");
             }
             else//左
             {
-                offset = new Vector2(-0.5f * playerSize, -0.25f);//左向き
+                offset = new Vector2(-0.5f * playerSize, 0f);//左向き
                 transform.eulerAngles = new Vector3(0, 180, 0);
                // Debug.Log("左");
             }
@@ -215,7 +204,16 @@ public class Player : MonoBehaviour
             // 移動を開始
             isMoving = true;
         }
+
+        if(setblock)
+        {
+            Debug.Log("J");
+            uptime = fuptime;
+        }
+
     }
+
+
 
     // Update is called once per frame
     void FixedUpdate()
