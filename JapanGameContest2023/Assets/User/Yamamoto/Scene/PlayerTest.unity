@@ -140,7 +140,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!61 &6772154
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -227,8 +227,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6772153}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.7, y: -1.2271, z: 0}
-  m_LocalScale: {x: 1, y: 5.1459417, z: 1}
+  m_LocalPosition: {x: -3.7, y: 0.4813, z: 0}
+  m_LocalScale: {x: 1, y: 8.562847, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 266309165}
@@ -3172,9 +3172,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: N_Player
       objectReference: {fileID: 0}
+    - target: {fileID: 6325921300723310981, guid: 8f92970b58884574c8586638d496a955, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6325921300723310986, guid: 8f92970b58884574c8586638d496a955, type: 3}
+      propertyPath: uptime
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 6325921300723310986, guid: 8f92970b58884574c8586638d496a955, type: 3}
       propertyPath: jumpForce
-      value: 2
+      value: 3.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8f92970b58884574c8586638d496a955, type: 3}
