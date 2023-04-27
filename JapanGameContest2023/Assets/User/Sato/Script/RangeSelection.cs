@@ -150,6 +150,19 @@ public class RangeSelection : MonoBehaviour
                 Dotline();
             }
         }
+        else
+        {
+            //playmodeの時は強制的に枠線を消す
+            if(cloneDot.Count!=0)
+            {
+                //ドットの初期化
+                for (int i = 0; i < cloneDot.Count; i++)
+                {
+                    Destroy(cloneDot[i]);
+                }
+            }
+            cloneDot.Clear();
+        }
 
         //マウスの座標を記憶
         beforePos = managerAccessor.Instance.dataMagager.MouseWorldChange();
