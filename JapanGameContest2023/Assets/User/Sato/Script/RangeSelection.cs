@@ -45,8 +45,8 @@ public class RangeSelection : MonoBehaviour
     private bool selectionMode = false;                 //オブジェクトを選択しているかどうか
     private bool editMode = false;                      //オブジェクトを選択しているかどうか
     private Vector3 beforePos = new Vector3(0, 0, 0);   //一フレーム前のマウスの位置
-    [SerializeField] private Vector2 judgeStartPos;                      //掴める範囲(左下)
-    [SerializeField] private Vector2 judgeEndPos;                        //掴める範囲(右上)
+    private Vector2 judgeStartPos;                      //掴める範囲(左下)
+    private Vector2 judgeEndPos;                        //掴める範囲(右上)
     private bool onEdge = false;                        //ドットの枠の縁に乗っているとき
     private int onPos = (int)ChangeSizePosName.NONE;    //今乗っている縁の場所(列挙参照)
     private Vector2 onStartPos;                         //拡大縮小時の初期位置
@@ -62,7 +62,7 @@ public class RangeSelection : MonoBehaviour
     private Vector2 usePos;                             //初期位置代入
     private Vector2 square;                             //四角の縦横の長さ
     private int checkPos = 0;                           //クリック後、startPosを原点に縦横それぞれの位置チェック用
-    [SerializeField] private int dotNum;                                 //ドットの数格納用
+    private int dotNum;                                 //ドットの数格納用
     private Vector2 inUsePos;                           //usePosの修正値代入用
 
 
@@ -190,9 +190,9 @@ public class RangeSelection : MonoBehaviour
                 //マウスの移動量で選択範囲算出
                 Vector3 inputData = Input.mousePosition - clickStartPos;
                 //移動量調整
-                inputData.x /= 107;
-                inputData.y /= 107;
-                inputData.z /= 107;
+                inputData.x /= 108;
+                inputData.y /= 108;
+                inputData.z /= 108;
                 //選択範囲入力
                 clone.transform.localScale = inputData;
             }
@@ -281,18 +281,8 @@ public class RangeSelection : MonoBehaviour
             }
             else
             {
-                if (Objs.Count == 0) 
-                {
-                    //ドットの初期化
-                    for (int i = 0; i < cloneDot.Count; i++)
-                    {
-                        Destroy(cloneDot[i]);
-                    }
-                    cloneDot.Clear();
-                }
-
                 //クリック終了時のマウスの座標取得
-                if(first3)
+                if (first3)
                 {
                     //右上
                     if (checkPos == (int)MouseDirection.RIGHT_UP)
@@ -324,6 +314,23 @@ public class RangeSelection : MonoBehaviour
                     }
                     first3 = false;
                 }
+
+                //オブジェクトが何も選択されていなかったとき
+                if (Objs.Count == 0) 
+                {
+                    //ドットの初期化
+                    for (int i = 0; i < cloneDot.Count; i++)
+                    {
+                        Destroy(cloneDot[i]);
+                    }
+                    cloneDot.Clear();
+
+                    //画面外へ飛ばす
+                    judgeStartPos = new Vector3(999, 999, 999);
+                    judgeEndPos = new Vector3(999, 999, 999);
+                }
+
+                
             }
         }
     }
@@ -615,6 +622,7 @@ public class RangeSelection : MonoBehaviour
             {
                 onPos = (int)ChangeSizePosName.DOWN;
                 rangeChecks[(int)ChangeSizePosName.DOWN] = true;
+                managerAccessor.Instance.dataMagager.whereEdge = (int)ChangeSizePosName.DOWN;
             }
             //右判定
             if (judgeEndPos.x - changeSizeWidth.x < mousePos.x && judgeEndPos.x + changeSizeWidth.x > mousePos.x &&
@@ -622,6 +630,7 @@ public class RangeSelection : MonoBehaviour
             {
                 onPos = (int)ChangeSizePosName.RIGHT;
                 rangeChecks[(int)ChangeSizePosName.RIGHT] = true;
+                managerAccessor.Instance.dataMagager.whereEdge = (int)ChangeSizePosName.RIGHT;
             }
             //上判定
             if (judgeStartPos.x - changeSizeWidth.x < mousePos.x && judgeEndPos.x + changeSizeWidth.x > mousePos.x &&
@@ -629,6 +638,7 @@ public class RangeSelection : MonoBehaviour
             {
                 onPos = (int)ChangeSizePosName.UP;
                 rangeChecks[(int)ChangeSizePosName.UP] = true;
+                managerAccessor.Instance.dataMagager.whereEdge = (int)ChangeSizePosName.UP;
             }
             //左判定
             if (judgeStartPos.x - changeSizeWidth.x < mousePos.x && judgeStartPos.x + changeSizeWidth.x > mousePos.x &&
@@ -636,27 +646,32 @@ public class RangeSelection : MonoBehaviour
             {
                 onPos = (int)ChangeSizePosName.LEFT;
                 rangeChecks[(int)ChangeSizePosName.LEFT] = true;
+                managerAccessor.Instance.dataMagager.whereEdge = (int)ChangeSizePosName.LEFT;
             }
 
             //右下判定
             if (rangeChecks[(int)ChangeSizePosName.DOWN] && rangeChecks[(int)ChangeSizePosName.RIGHT])
             {
                 onPos = (int)ChangeSizePosName.RIGHT_DOWN;
+                managerAccessor.Instance.dataMagager.whereEdge = (int)ChangeSizePosName.RIGHT_DOWN;
             }
             //右上判定
             if (rangeChecks[(int)ChangeSizePosName.UP] && rangeChecks[(int)ChangeSizePosName.RIGHT])
             {
                 onPos = (int)ChangeSizePosName.RIGHT_UP;
+                managerAccessor.Instance.dataMagager.whereEdge = (int)ChangeSizePosName.RIGHT_UP;
             }
             //左上判定
             if (rangeChecks[(int)ChangeSizePosName.UP] && rangeChecks[(int)ChangeSizePosName.LEFT])
             {
                 onPos = (int)ChangeSizePosName.LEFT_UP;
+                managerAccessor.Instance.dataMagager.whereEdge = (int)ChangeSizePosName.LEFT_UP;
             }
             //左下判定
             if (rangeChecks[(int)ChangeSizePosName.DOWN] && rangeChecks[(int)ChangeSizePosName.LEFT])
             {
                 onPos = (int)ChangeSizePosName.LEFT_DOWN;
+                managerAccessor.Instance.dataMagager.whereEdge = (int)ChangeSizePosName.LEFT_DOWN;
             }
         }
 
@@ -667,6 +682,7 @@ public class RangeSelection : MonoBehaviour
             rangeChecks[(int)ChangeSizePosName.UP] || rangeChecks[(int)ChangeSizePosName.LEFT])
         {
             onEdge = true;
+            managerAccessor.Instance.dataMagager.onEdge = true;
         }
         else
         {
@@ -674,6 +690,7 @@ public class RangeSelection : MonoBehaviour
             if (!Input.GetMouseButton(0))
             {
                 onEdge = false;
+                managerAccessor.Instance.dataMagager.onEdge = false;
 
                 //ひっくり返った時四角の座標を変更
                 if (first5)
