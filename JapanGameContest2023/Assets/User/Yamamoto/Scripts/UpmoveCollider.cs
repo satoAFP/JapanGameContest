@@ -20,7 +20,7 @@ public class UpmoveCollider : MonoBehaviour
         if (other.gameObject.CompareTag("Floor") || other.gameObject.CompareTag("MoveBlock"))
         {
             player.setblock = true;//プレイヤーの足判定がついている時
-            Debug.Log("set");
+            //Debug.Log("set");
         }
     }
 
@@ -29,7 +29,7 @@ public class UpmoveCollider : MonoBehaviour
         if (other.gameObject.CompareTag("Floor") || other.gameObject.CompareTag("MoveBlock"))
         {
             player.setblock = true;//プレイヤーの足判定がついている時
-            Debug.Log("2set"+ other.tag);
+           // Debug.Log("2set"+ other.tag);
         }
     }
 
@@ -38,7 +38,7 @@ public class UpmoveCollider : MonoBehaviour
         if (other.gameObject.CompareTag("Floor") || other.gameObject.CompareTag("MoveBlock"))
         {
             player.setblock = false;//プレイヤーの足判定がついていない時
-            Debug.Log("remove");
+           // Debug.Log("remove");
         }
     }
 }
