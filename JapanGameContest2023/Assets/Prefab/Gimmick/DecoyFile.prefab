@@ -148,7 +148,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   infectionFile: {fileID: 21300000, guid: ff50cbab97ce6c64ea7fff507cf37f37, type: 3}
-  stopFrame: 150
+  stopFrame: 120
 --- !u!95 &619781952973064899
 Animator:
   serializedVersion: 5
