@@ -17,7 +17,6 @@ public class NoTapArea : MonoBehaviour
             pos.y - (size.y/2) < mouse.y && pos.y + (size.y / 2) > mouse.y) 
         {
             managerAccessor.Instance.dataMagager.noTapArea = true;
-            Debug.Log("aaa");
         }
         else
         {
