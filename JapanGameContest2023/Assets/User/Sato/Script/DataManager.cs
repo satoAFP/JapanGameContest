@@ -26,6 +26,9 @@ public class DataManager : MonoBehaviour
     //どの縁に乗っているか(8は何も入っていないデータ)
     [System.NonSerialized] public int whereEdge = 8;
 
+    //NoTapAreaにカーソルがあるとき切り替わる
+    [System.NonSerialized] public bool noTapArea = false;
+
     //主人公が動けるか編集モードに入るか切り替え用フラグ
     [System.NonSerialized] public bool playMode = true;
 
