@@ -276,11 +276,10 @@ public class Player : MonoBehaviour
     //当たり判定
     private void OnCollisionEnter2D(Collision2D other)
     {
-        if (other.gameObject.CompareTag("Floor") || other.gameObject.CompareTag("MoveBlock"))
+        if (other.gameObject.CompareTag("Goal"))
         {
-
-            JumpFlag = false;
+            Destroy(CreateObj);//移動指標オブジェクト削除
         }
     }
-
+ 
 }
