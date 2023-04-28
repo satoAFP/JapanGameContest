@@ -9,7 +9,7 @@ public class Player : MonoBehaviour
     [SerializeField, Header("プレイヤー速度")] private float speed;//プレイヤー速度
 
     //こいつはそのうちDataManagerに放り込む
-    [System.NonSerialized] public bool setblock;//足元の判定がブロックに当たっていた時
+   /* [System.NonSerialized] */public bool setblock;//足元の判定がブロックに当たっていた時
 
     [SerializeField, Header("プレイヤー上昇タイマー")] private float uptime;//プレイヤーが一度に上昇できる時間
 
@@ -52,7 +52,9 @@ public class Player : MonoBehaviour
 
     private Vector2 offset;//オフセット（Rayの開始位置)
 
-   // private bool isGrounded; // 着地しているかどうか
+    // private bool isGrounded; // 着地しているかどうか
+
+    [SerializeField]private bool ray_hit = false;//Rayが当たっていた時
 
     private bool ray_first = true;//何度もRayの処理が入ったとき一回だけ通す
 
@@ -114,70 +116,41 @@ public class Player : MonoBehaviour
                 int layer = hit.collider.gameObject.layer;//Rayが当たったオブジェクトのレイヤーを入れる
                 Debug.Log("当たったオブジェクトのレイヤーは" + LayerMask.LayerToName(layer) + "です。");
 
-                //Rayが当たったのが移動指標オブジェクトの場合、ジャンプ処理をしない
-                if (LayerMask.LayerToName(layer) == "CreateBlock")
+                //特定のレイヤーにのみジャンプ処理を行う
+                if (LayerMask.LayerToName(layer) == "Block" || LayerMask.LayerToName(layer) == "Ground")
                 {
-                    //Debug.Log("tobanai");
-                }
-                //ジャンプ処理を行う
-                else 
-                {
-                    //特定のレイヤーにのみジャンプ処理を行う
-                    if(LayerMask.LayerToName(layer) == "Block" || LayerMask.LayerToName(layer) == "Ground")
+                    //移動中のときのみRayが当たったことにする
+                    if (isMoving)
                     {
-                        //移動中＆プレイヤー上昇時間が0ではないとき上昇する
-                        if(isMoving)
-                        {
-                            if(uptime >= 0)
-                            {
-                                uptime -= Time.deltaTime;//プレイヤー上昇時間減少
-                               
-                                this.rb.AddForce(transform.up * jumpForce);
-                            }
-                            else
-                            {
-                                MoveFinish();//プレイヤー上昇時間が0になるとプレイヤーの移動を止める
-                            }
-
-                        }
-
-
-
-                        //ジャンプフラグがfalseの時&現在プレイヤーが移動しているとき、ジャンプ処理実行
-                        //if (!JumpFlag && isMoving)
-                        //{
-                           
-                        //    //複数回ジャンプ処理を行わないように初めに当たったRayのみを反応させる
-                        //    if (ray_first)
-                        //    {
-                        //        Debug.Log("J");
-                        //        speed = 1.7f;
-                        //        this.rb.AddForce(transform.up * jumpForce);
-                        //        JumpFlag = true;
-                        //        ray_first = false;
-                        //    }
-
-                        //}
+                        ray_hit = true;//Rayが当たっている
                     }
+                    //ジャンプフラグがfalseの時&現在プレイヤーが移動しているとき、ジャンプ処理実行
+                    //if (!JumpFlag && isMoving)
+                    //{
+
+                    //    //複数回ジャンプ処理を行わないように初めに当たったRayのみを反応させる
+                    //    if (ray_first)
+                    //    {
+                    //        Debug.Log("J");
+                    //        speed = 1.7f;
+                    //        this.rb.AddForce(transform.up * jumpForce);
+                    //        JumpFlag = true;
+                    //        ray_first = false;
+                    //    }
+
+                    //}
                 }
-                //else
-                //{
-                //    Debug.Log("soreigai");
-                //    //speed = fspeed;
-                //    ray_first = true;
-                //}
+           
             }
 
         }
         else
         {
-            Debug.Log("なにもあたってない");
-            //speed = fspeed;
-            ray_first = true;
+            ray_hit = false;//Rayが当たらない
         }
        
         // 移動中でなければクリックを受け付ける
-        if (!isMoving && Input.GetMouseButtonDown(0))
+        if (!isMoving && Input.GetMouseButtonDown(0) && setblock)
         {
             //Debug.Log("移動");
             // クリックされた位置を取得
@@ -241,19 +214,43 @@ public class Player : MonoBehaviour
 
                 // 移動が終わったらフラグを解除
                 //前フレームの座標と今の座標を比べて、移動量が極端に少ない場合（壁にぶつかっている状態）処理を終了
-                if (transform.position.x == clickPosition.x||Mathf.Abs(transform.position.x-mempos.x) < 0.03f)
-                {
-                    Debug.Log("b");
-                    playerPosition = transform.position;//playerPositionを更新
-                   // MoveFinish();//移動処理終了
-                }
+                //if (transform.position.x == clickPosition.x||Mathf.Abs(transform.position.x-mempos.x) < 0.03f)
+                //{
+                //    Debug.Log("b");
+                //    playerPosition = transform.position;//playerPositionを更新
+                //    MoveFinish();//移動処理終了
+                //}
+
+                //if (Mathf.Abs(transform.position.x - mempos.x) < 0.03f)
+                //{
+                //    Debug.Log("b");
+                //}
 
                 if (transform.position.x == clickPosition.x)
                 {
                     Debug.Log("cccc");
                     MoveFinish();//移動処理終了
                 }
+
             }
+
+            //Rayが当たっていたら上昇する処理を開始
+            if(ray_hit)
+            {
+               
+                if (uptime >= 0)
+                {
+                    Debug.Log("あたり");
+                    uptime -= Time.deltaTime;//プレイヤー上昇時間減少
+
+                    this.rb.AddForce(transform.up * jumpForce);
+                }
+                else
+                {
+                    MoveFinish();//プレイヤー上昇時間が0になるとプレイヤーの移動を止める
+                }
+            }
+           
 
             mempos = transform.position;//前フレームを保存
 
@@ -272,6 +269,8 @@ public class Player : MonoBehaviour
         if (isMoving)
         {
             Destroy(CreateObj);//移動指標オブジェクト削除
+
+            ray_hit = false;//移動終了後に再度飛ばないようにRayのフラグを切る
 
             isMoving = false;//移動処理終了
         }
