@@ -52,7 +52,9 @@ public class Player : MonoBehaviour
 
     private Vector2 offset;//オフセット（Rayの開始位置)
 
-   // private bool isGrounded; // 着地しているかどうか
+    // private bool isGrounded; // 着地しているかどうか
+
+    [SerializeField]private bool ray_hit = false;//Rayが当たっていた時
 
     private bool ray_first = true;//何度もRayの処理が入ったとき一回だけ通す
 
@@ -117,24 +119,11 @@ public class Player : MonoBehaviour
                 //特定のレイヤーにのみジャンプ処理を行う
                 if (LayerMask.LayerToName(layer) == "Block" || LayerMask.LayerToName(layer) == "Ground")
                 {
-                    //移動中＆プレイヤー上昇時間が0ではないとき上昇する
+                    //移動中のときのみRayが当たったことにする
                     if (isMoving)
                     {
-                        if (uptime >= 0)
-                        {
-                            uptime -= Time.deltaTime;//プレイヤー上昇時間減少
-
-                            this.rb.AddForce(transform.up * jumpForce);
-                        }
-                        else
-                        {
-                            MoveFinish();//プレイヤー上昇時間が0になるとプレイヤーの移動を止める
-                        }
-
+                        ray_hit = true;//Rayが当たっている
                     }
-
-
-
                     //ジャンプフラグがfalseの時&現在プレイヤーが移動しているとき、ジャンプ処理実行
                     //if (!JumpFlag && isMoving)
                     //{
@@ -151,14 +140,13 @@ public class Player : MonoBehaviour
 
                     //}
                 }
+           
             }
 
         }
         else
         {
-            Debug.Log("なにもあたってない");
-            //speed = fspeed;
-            ray_first = true;
+            ray_hit = false;//Rayが当たらない
         }
        
         // 移動中でなければクリックを受け付ける
@@ -246,6 +234,24 @@ public class Player : MonoBehaviour
 
             }
 
+            //Rayが当たっていたら上昇する処理を開始
+            if(ray_hit)
+            {
+               
+                if (uptime >= 0)
+                {
+                    Debug.Log("あたり");
+                    uptime -= Time.deltaTime;//プレイヤー上昇時間減少
+
+                    this.rb.AddForce(transform.up * jumpForce);
+                }
+                else
+                {
+                    MoveFinish();//プレイヤー上昇時間が0になるとプレイヤーの移動を止める
+                }
+            }
+           
+
             mempos = transform.position;//前フレームを保存
 
         }
@@ -263,6 +269,8 @@ public class Player : MonoBehaviour
         if (isMoving)
         {
             Destroy(CreateObj);//移動指標オブジェクト削除
+
+            ray_hit = false;//移動終了後に再度飛ばないようにRayのフラグを切る
 
             isMoving = false;//移動処理終了
         }
