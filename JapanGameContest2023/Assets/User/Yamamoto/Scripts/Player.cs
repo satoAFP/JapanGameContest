@@ -274,11 +274,18 @@ public class Player : MonoBehaviour
     }
 
     //当たり判定
-    private void OnCollisionEnter2D(Collision2D other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
+        //ゴールした時
         if (other.gameObject.CompareTag("Goal"))
         {
-            Destroy(CreateObj);//移動指標オブジェクト削除
+            //まだ誰もゴールしていないとき
+            if (other.gameObject.GetComponent<Goal>().goalChara)
+            {
+                other.gameObject.GetComponent<Goal>().goalChara = false;
+                Destroy(CreateObj);//移動指標オブジェクト削除
+                Destroy(gameObject);//自身も削除
+            }
         }
     }
  
