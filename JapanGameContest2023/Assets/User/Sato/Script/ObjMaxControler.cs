@@ -59,21 +59,20 @@ public class ObjMaxControler : MonoBehaviour
         //CPUの使用率を入力
         CPUSlider.value = (float)childObj / (float)objMax;
         CPUText.text = (((float)childObj / (float)objMax) * 100).ToString("N1") + "%";
-        timeText.text = minute + " : " + second;
+        timeText.text = minute.ToString("d2") + " : " + second.ToString("d2");
         blockText.text = childObj.ToString();
     }
 
-
+    //CPUパネル
     public void CPUPanel()
     {
         taskManagement.SetActive(!taskManagement.activeSelf);
     }
 
-
+    //時間表示用
     private void TimeCount()
     {
         frame++;
-
 
         if (frame >= 50) 
         {
