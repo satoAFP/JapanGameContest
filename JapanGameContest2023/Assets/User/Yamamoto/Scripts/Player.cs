@@ -276,7 +276,7 @@ public class Player : MonoBehaviour
     //“–‚½‚è”»’è
     private void OnCollisionEnter2D(Collision2D other)
     {
-        if (other.gameObject.CompareTag("Floor") || other.gameObject.CompareTag("MoveBlock"))
+        if (other.gameObject.CompareTag("Floor"))
         {
 
             JumpFlag = false;
