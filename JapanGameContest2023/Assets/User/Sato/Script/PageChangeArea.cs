@@ -13,6 +13,7 @@ public class PageChangeArea : MonoBehaviour
         for (int i = 1; i < stage.Count; i++) 
         {
             stage[i].SetActive(false);
+            transform.GetChild(i).gameObject.GetComponent<TabButton>().selectPanel.SetActive(false);
         }
     }
 
@@ -23,10 +24,12 @@ public class PageChangeArea : MonoBehaviour
         for (int i = 0; i < stage.Count; i++) 
         {
             stage[i].SetActive(false);
+            transform.GetChild(i).gameObject.GetComponent<TabButton>().selectPanel.SetActive(false);
         }
 
         //‰Ÿ‚³‚ê‚½ƒ^ƒu‚Ì•\Ž¦
         stage[num - 1].SetActive(true);
+        transform.GetChild(num - 1).gameObject.GetComponent<TabButton>().selectPanel.SetActive(true);
     }
 
 
