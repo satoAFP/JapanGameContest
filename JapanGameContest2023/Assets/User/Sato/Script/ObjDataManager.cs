@@ -16,8 +16,6 @@ public class ObjDataManager : MonoBehaviour
 
     [Header("ステージ選択用オブジェクト")] public GameObject stageSelectObj;
 
-    [Header("クリア時表示するパネル")] public GameObject clearPanel;
-
     [Header("コピーできるオブジェクトの親")] public GameObject blockParent;
 
     // Start is called before the first frame update

@@ -1,0 +1,29 @@
+出さないといけないもの
+GAME
+N_Player
+Managerシリーズ
+DisplayRange
+DisplayRightClickUI
+EditPanelGoalSystem
+BlockParent
+
+UI
+TaskManagementPanel
+ClearPanel
+GameOverPanel
+Toolber
+
+
+解説
+DataManager
+ ステージ数を入れる
+
+ObjDataManager
+ 書かれてあるものをそれぞれ入れる
+
+BlockParent
+ ここにTemplateMoveBlockを入れてください
+
+ObjMaxControler
+ 
+
