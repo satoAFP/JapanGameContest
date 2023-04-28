@@ -94,7 +94,7 @@ public class Player : MonoBehaviour
     {
         //クリック処理はUpdateでしましょう
 
-        if (managerAccessor.Instance.dataMagager.playMode && !managerAccessor.Instance.dataMagager.noTapArea)//操作モードの時
+        if (managerAccessor.Instance.dataMagager.playMode)//操作モードの時
         {
             //Rayの原点＝プレイヤーの現在の位置
             origin_x = (Vector2)transform.position + offset;//(X方向）
@@ -144,25 +144,28 @@ public class Player : MonoBehaviour
                 clickPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 clickPosition.z = 0; // z座標を0に設定（2Dゲームなので）
 
-                CreateObj = Instantiate(prefab, clickPosition, Quaternion.identity);//移動指標オブジェクト作成
-                                                                                    //ObjCount = CreateObj;//生成したオブジェクトを収納
-
-                //クリックした場所の左右判定を取る
-                if (playerPosition.x < clickPosition.x)//右
+                if (!managerAccessor.Instance.dataMagager.noTapArea)
                 {
-                    offset = new Vector2(0.5f * playerSize, 0f);//右向き
-                    transform.eulerAngles = new Vector3(0, 0, 0);
-                    //Debug.Log("右");
-                }
-                else//左
-                {
-                    offset = new Vector2(-0.5f * playerSize, 0f);//左向き
-                    transform.eulerAngles = new Vector3(0, 180, 0);
-                    // Debug.Log("左");
-                }
+                    CreateObj = Instantiate(prefab, clickPosition, Quaternion.identity);//移動指標オブジェクト作成
 
-                // 移動を開始
-                isMoving = true;
+
+                    //クリックした場所の左右判定を取る
+                    if (playerPosition.x < clickPosition.x)//右
+                    {
+                        offset = new Vector2(0.5f * playerSize, 0f);//右向き
+                        transform.eulerAngles = new Vector3(0, 0, 0);
+                        //Debug.Log("右");
+                    }
+                    else//左
+                    {
+                        offset = new Vector2(-0.5f * playerSize, 0f);//左向き
+                        transform.eulerAngles = new Vector3(0, 180, 0);
+                        // Debug.Log("左");
+                    }
+
+                    // 移動を開始
+                    isMoving = true;
+                }
             }
 
             if (setblock)
@@ -186,7 +189,7 @@ public class Player : MonoBehaviour
     void FixedUpdate()
     {
         
-        if (managerAccessor.Instance.dataMagager.playMode && !managerAccessor.Instance.dataMagager.noTapArea)//操作モードの時
+        if (managerAccessor.Instance.dataMagager.playMode)//操作モードの時
         {
             //FreezeRotationのみオンにする（Freezeは上書きできる）
             rb.constraints = RigidbodyConstraints2D.FreezeRotation;
