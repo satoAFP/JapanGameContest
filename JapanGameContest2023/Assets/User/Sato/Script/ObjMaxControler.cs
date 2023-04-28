@@ -11,6 +11,10 @@ public class ObjMaxControler : MonoBehaviour
 
     [SerializeField, Header("CPU数値表示用テキスト")] private Text CPUText;
 
+    [SerializeField, Header("タイム表示用テキスト")] private Text timeText;
+
+    [SerializeField, Header("ブロック数表示用テキスト")] private Text blockText;
+
     [SerializeField, Header("タスクマネージャー表示")] private GameObject taskManagement;
 
 
@@ -18,8 +22,14 @@ public class ObjMaxControler : MonoBehaviour
 
     [SerializeField, Header("スライダーの色変更用")] private Color[] color;
 
+
+    //時間表示用
+    private int frame = 0;
+    private int second = 0;
+    private int minute = 0;
+
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         //動かせるブロック数を取得
         int childObj = managerAccessor.Instance.objDataManager.blockParent.transform.childCount;
@@ -44,9 +54,13 @@ public class ObjMaxControler : MonoBehaviour
             managerAccessor.Instance.dataMagager.objMaxFrag = true;
         }
 
+        TimeCount();
+
         //CPUの使用率を入力
         CPUSlider.value = (float)childObj / (float)objMax;
         CPUText.text = (((float)childObj / (float)objMax) * 100).ToString("N1") + "%";
+        timeText.text = minute + " : " + second;
+        blockText.text = childObj.ToString();
     }
 
 
@@ -55,5 +69,24 @@ public class ObjMaxControler : MonoBehaviour
         taskManagement.SetActive(!taskManagement.activeSelf);
     }
 
+
+    private void TimeCount()
+    {
+        frame++;
+
+
+        if (frame >= 50) 
+        {
+            second++;
+            frame = 0;
+        }
+
+        if (second >= 60) 
+        {
+            minute++;
+            second = 0;
+        }
+
+    }
 
 }
