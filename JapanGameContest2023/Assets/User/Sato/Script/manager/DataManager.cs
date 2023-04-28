@@ -71,6 +71,11 @@ public class DataManager : MonoBehaviour
     {
         playMode = !playMode;
 
+        if(managerAccessor.Instance.dataMagager.objMaxFrag)
+        {
+            managerAccessor.Instance.dataMagager.playerlost = true;
+        }
+
         //ƒpƒlƒ‹‚Ì•¡»‚¨‚æ‚Ñíœ
         if(playMode)
         {
