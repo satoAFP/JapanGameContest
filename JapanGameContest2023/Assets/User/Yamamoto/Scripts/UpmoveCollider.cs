@@ -15,12 +15,6 @@ public class UpmoveCollider : MonoBehaviour
         player = Player.GetComponent<Player>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("Floor") || other.gameObject.CompareTag("MoveBlock"))
@@ -35,7 +29,7 @@ public class UpmoveCollider : MonoBehaviour
         if (other.gameObject.CompareTag("Floor") || other.gameObject.CompareTag("MoveBlock"))
         {
             player.setblock = true;//ƒvƒŒƒCƒ„[‚Ì‘«”»’è‚ª‚Â‚¢‚Ä‚¢‚é
-            Debug.Log("2set");
+            Debug.Log("2set"+ other.tag);
         }
     }
 
