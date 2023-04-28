@@ -124,21 +124,6 @@ public class Player : MonoBehaviour
                     {
                         ray_hit = true;//Rayが当たっている
                     }
-                    //ジャンプフラグがfalseの時&現在プレイヤーが移動しているとき、ジャンプ処理実行
-                    //if (!JumpFlag && isMoving)
-                    //{
-
-                    //    //複数回ジャンプ処理を行わないように初めに当たったRayのみを反応させる
-                    //    if (ray_first)
-                    //    {
-                    //        Debug.Log("J");
-                    //        speed = 1.7f;
-                    //        this.rb.AddForce(transform.up * jumpForce);
-                    //        JumpFlag = true;
-                    //        ray_first = false;
-                    //    }
-
-                    //}
                 }
            
             }
