@@ -9,7 +9,7 @@ public class Player : MonoBehaviour
     [SerializeField, Header("プレイヤー速度")] private float speed;//プレイヤー速度
 
     //こいつはそのうちDataManagerに放り込む
-    [System.NonSerialized] public bool setblock;//足元の判定がブロックに当たっていた時
+   /* [System.NonSerialized] */public bool setblock;//足元の判定がブロックに当たっていた時
 
     [SerializeField, Header("プレイヤー上昇タイマー")] private float uptime;//プレイヤーが一度に上昇できる時間
 
@@ -41,9 +41,7 @@ public class Player : MonoBehaviour
     private GameObject CreateObj;//移動指標オブジェクトを入れる（削除命令に使う）
 
     private Vector2 mempos;//前フレーム時の座標
-    private bool fream_move=false;//フレーム
-
-
+   
     //-----------ray関係の変数の宣言---------------
 
     private Vector2 origin_x;//rayの原点(X方向）
@@ -52,7 +50,9 @@ public class Player : MonoBehaviour
 
     private Vector2 offset;//オフセット（Rayの開始位置)
 
-   // private bool isGrounded; // 着地しているかどうか
+    // private bool isGrounded; // 着地しているかどうか
+
+    [SerializeField]private bool ray_hit = false;//Rayが当たっていた時
 
     private bool ray_first = true;//何度もRayの処理が入ったとき一回だけ通す
 
@@ -91,126 +91,89 @@ public class Player : MonoBehaviour
     private void Update()
     {
         //クリック処理はUpdateでしましょう
-      
-        //Rayの原点＝プレイヤーの現在の位置
-        origin_x = (Vector2)transform.position + offset;//(X方向）
-    
-        direction = transform.right;//X方向を指す
 
-        //プレイヤーの向いている向きにRayを飛ばす
-        RaycastHit2D hit = Physics2D.Raycast(origin_x, direction, ray_length,layermask);
-
-        // Rayの可視化
-        Debug.DrawLine(origin_x, origin_x + direction * ray_length, Color.red);//左右判定用のRay
-       
-        //左右判定用のRayが当たった時の処理
-        if (hit.collider != null)
+        if (managerAccessor.Instance.dataMagager.playMode)//操作モードの時
         {
-            Debug.DrawLine(origin_x, hit.point, Color.green);//デバッグ用のRayを可視化する処理
+            //Rayの原点＝プレイヤーの現在の位置
+            origin_x = (Vector2)transform.position + offset;//(X方向）
 
-            // 当たったオブジェクトが自身でなければ、何かしらの処理をする
-            if (hit.collider.gameObject != gameObject)
+            direction = transform.right;//X方向を指す
+
+            //プレイヤーの向いている向きにRayを飛ばす
+            RaycastHit2D hit = Physics2D.Raycast(origin_x, direction, ray_length, layermask);
+
+            // Rayの可視化
+            Debug.DrawLine(origin_x, origin_x + direction * ray_length, Color.red);//左右判定用のRay
+
+            //左右判定用のRayが当たった時の処理
+            if (hit.collider != null)
             {
-                int layer = hit.collider.gameObject.layer;//Rayが当たったオブジェクトのレイヤーを入れる
-                Debug.Log("当たったオブジェクトのレイヤーは" + LayerMask.LayerToName(layer) + "です。");
+                Debug.DrawLine(origin_x, hit.point, Color.green);//デバッグ用のRayを可視化する処理
 
-                //Rayが当たったのが移動指標オブジェクトの場合、ジャンプ処理をしない
-                if (LayerMask.LayerToName(layer) == "CreateBlock")
+                // 当たったオブジェクトが自身でなければ、何かしらの処理をする
+                if (hit.collider.gameObject != gameObject)
                 {
-                    //Debug.Log("tobanai");
-                }
-                //ジャンプ処理を行う
-                else 
-                {
+                    int layer = hit.collider.gameObject.layer;//Rayが当たったオブジェクトのレイヤーを入れる
+                    Debug.Log("当たったオブジェクトのレイヤーは" + LayerMask.LayerToName(layer) + "です。");
+
                     //特定のレイヤーにのみジャンプ処理を行う
-                    if(LayerMask.LayerToName(layer) == "Block" || LayerMask.LayerToName(layer) == "Ground")
+                    if (LayerMask.LayerToName(layer) == "Block" || LayerMask.LayerToName(layer) == "Ground")
                     {
-                        //移動中＆プレイヤー上昇時間が0ではないとき上昇する
-                        if(isMoving)
+                        //移動中のときのみRayが当たったことにする
+                        if (isMoving)
                         {
-                            if(uptime >= 0)
-                            {
-                                uptime -= Time.deltaTime;//プレイヤー上昇時間減少
-                               
-                                this.rb.AddForce(transform.up * jumpForce);
-                            }
-                            else
-                            {
-                                MoveFinish();//プレイヤー上昇時間が0になるとプレイヤーの移動を止める
-                            }
-
+                            ray_hit = true;//Rayが当たっている
                         }
-
-
-
-                        //ジャンプフラグがfalseの時&現在プレイヤーが移動しているとき、ジャンプ処理実行
-                        //if (!JumpFlag && isMoving)
-                        //{
-                           
-                        //    //複数回ジャンプ処理を行わないように初めに当たったRayのみを反応させる
-                        //    if (ray_first)
-                        //    {
-                        //        Debug.Log("J");
-                        //        speed = 1.7f;
-                        //        this.rb.AddForce(transform.up * jumpForce);
-                        //        JumpFlag = true;
-                        //        ray_first = false;
-                        //    }
-
-                        //}
                     }
+
                 }
-                //else
-                //{
-                //    Debug.Log("soreigai");
-                //    //speed = fspeed;
-                //    ray_first = true;
-                //}
+
             }
-
-        }
-        else
-        {
-            Debug.Log("なにもあたってない");
-            //speed = fspeed;
-            ray_first = true;
-        }
-       
-        // 移動中でなければクリックを受け付ける
-        if (!isMoving && Input.GetMouseButtonDown(0))
-        {
-            //Debug.Log("移動");
-            // クリックされた位置を取得
-            clickPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            clickPosition.z = 0; // z座標を0に設定（2Dゲームなので）
-
-            CreateObj = Instantiate(prefab, clickPosition, Quaternion.identity);//移動指標オブジェクト作成
-            //ObjCount = CreateObj;//生成したオブジェクトを収納
-
-            //クリックした場所の左右判定を取る
-            if (playerPosition.x < clickPosition.x)//右
+            else
             {
-                offset = new Vector2(0.5f * playerSize, 0f);//右向き
-                transform.eulerAngles = new Vector3(0, 0, 0);
-                //Debug.Log("右");
+                ray_hit = false;//Rayが当たらない
             }
-            else//左
+
+            // 移動中でなければクリックを受け付ける
+            if (!isMoving && Input.GetMouseButtonDown(0) && setblock)
             {
-                offset = new Vector2(-0.5f * playerSize, 0f);//左向き
-                transform.eulerAngles = new Vector3(0, 180, 0);
-               // Debug.Log("左");
+                //Debug.Log("移動");
+                // クリックされた位置を取得
+                clickPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                clickPosition.z = 0; // z座標を0に設定（2Dゲームなので）
+
+                if (!managerAccessor.Instance.dataMagager.noTapArea)
+                {
+                    CreateObj = Instantiate(prefab, clickPosition, Quaternion.identity);//移動指標オブジェクト作成
+
+
+                    //クリックした場所の左右判定を取る
+                    if (playerPosition.x < clickPosition.x)//右
+                    {
+                        offset = new Vector2(0.5f * playerSize, 0f);//右向き
+                        transform.eulerAngles = new Vector3(0, 0, 0);
+                        Debug.Log("右");
+                    }
+                    else//左
+                    {
+                        offset = new Vector2(-0.5f * playerSize, 0f);//左向き
+                        transform.eulerAngles = new Vector3(0, 180, 0);
+                         Debug.Log("左");
+                    }
+
+                    // 移動を開始
+                    isMoving = true;
+                }
             }
 
-            // 移動を開始
-            isMoving = true;
-        }
+            if (setblock)
+            {
+               // Debug.Log("J");
+                uptime = fuptime;
+            }
 
-        if(setblock)
-        {
-            Debug.Log("J");
-            uptime = fuptime;
         }
-
+    
     }
 
 
@@ -239,21 +202,46 @@ public class Player : MonoBehaviour
                 // キャラクターのX座標をクリックされた位置に向けて移動
                 transform.position = Vector2.MoveTowards(transform.position, new Vector2(clickPosition.x, transform.position.y), speed * Time.deltaTime);
 
+                
                 // 移動が終わったらフラグを解除
                 //前フレームの座標と今の座標を比べて、移動量が極端に少ない場合（壁にぶつかっている状態）処理を終了
-                if (transform.position.x == clickPosition.x||Mathf.Abs(transform.position.x-mempos.x) < 0.03f)
-                {
-                    Debug.Log("b");
-                    playerPosition = transform.position;//playerPositionを更新
-                   // MoveFinish();//移動処理終了
-                }
+                //if (transform.position.x == clickPosition.x||Mathf.Abs(transform.position.x-mempos.x) < 0.03f)
+                //{
+                //    Debug.Log("b");
+                //    playerPosition = transform.position;//playerPositionを更新
+                //    MoveFinish();//移動処理終了
+                //}
+
+                //if (Mathf.Abs(transform.position.x - mempos.x) < 0.03f)
+                //{
+                //    Debug.Log("b");
+                //}
 
                 if (transform.position.x == clickPosition.x)
                 {
-                    Debug.Log("cccc");
+                    //Debug.Log("cccc");
                     MoveFinish();//移動処理終了
                 }
+
             }
+
+            //Rayが当たっていたら上昇する処理を開始
+            if(ray_hit)
+            {
+               
+                if (uptime >= 0)
+                {
+                   // Debug.Log("あたり");
+                    uptime -= Time.deltaTime;//プレイヤー上昇時間減少
+
+                    this.rb.AddForce(transform.up * jumpForce);
+                }
+                else
+                {
+                    MoveFinish();//プレイヤー上昇時間が0になるとプレイヤーの移動を止める
+                }
+            }
+           
 
             mempos = transform.position;//前フレームを保存
 
@@ -273,18 +261,28 @@ public class Player : MonoBehaviour
         {
             Destroy(CreateObj);//移動指標オブジェクト削除
 
+            ray_hit = false;//移動終了後に再度飛ばないようにRayのフラグを切る
+
+            playerPosition = transform.position;//プレイヤーが動いた場所を取得する
+
             isMoving = false;//移動処理終了
         }
     }
 
     //当たり判定
-    private void OnCollisionEnter2D(Collision2D other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.CompareTag("Floor") || other.gameObject.CompareTag("MoveBlock"))
+        //ゴールした時
+        if (other.gameObject.CompareTag("Goal"))
         {
-
-            JumpFlag = false;
+            //まだ誰もゴールしていないとき
+            if (other.gameObject.GetComponent<Goal>().goalChara)
+            {
+                other.gameObject.GetComponent<Goal>().goalChara = false;
+                Destroy(CreateObj);//移動指標オブジェクト削除
+                Destroy(gameObject);//自身も削除
+            }
         }
     }
-
+ 
 }

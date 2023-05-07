@@ -15,26 +15,30 @@ public class UpmoveCollider : MonoBehaviour
         player = Player.GetComponent<Player>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("Floor") || other.gameObject.CompareTag("MoveBlock"))
         {
             player.setblock = true;//プレイヤーの足判定がついている時
-            //Debug.Log("つきつきまん");
+            //Debug.Log("set");
         }
     }
+
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("Floor") || other.gameObject.CompareTag("MoveBlock"))
+        {
+            player.setblock = true;//プレイヤーの足判定がついている時
+           // Debug.Log("2set"+ other.tag);
+        }
+    }
+
     private void OnTriggerExit2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("Floor") || other.gameObject.CompareTag("MoveBlock"))
         {
-            player.setblock = false;//プレイヤーの足判定がついている時
-            //Debug.Log("はなはなさん");
+            player.setblock = false;//プレイヤーの足判定がついていない時
+           // Debug.Log("remove");
         }
     }
 }
