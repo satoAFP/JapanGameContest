@@ -22,7 +22,7 @@ public class Player : MonoBehaviour
     private bool JumpFlag = false;//現在ジャンプしているかのフラグ
 
     //現在プレイヤーが移動しているかを判別する
-    bool isMoving = false;
+   // bool isMoving = false;
 
     private Rigidbody2D rb;//プレイヤーリジッドボディ
 
@@ -120,7 +120,7 @@ public class Player : MonoBehaviour
                     if (LayerMask.LayerToName(layer) == "Block" || LayerMask.LayerToName(layer) == "Ground")
                     {
                         //移動中のときのみRayが当たったことにする
-                        if (isMoving)
+                        if (managerAccessor.Instance.dataMagager.isMoving)
                         {
                             ray_hit = true;//Rayが当たっている
                         }
@@ -135,7 +135,7 @@ public class Player : MonoBehaviour
             }
 
             // 移動中でなければクリックを受け付ける
-            if (!isMoving && Input.GetMouseButtonDown(0) && setblock)
+            if (!managerAccessor.Instance.dataMagager.isMoving && Input.GetMouseButtonDown(0) && setblock)
             {
                 //Debug.Log("移動");
                 // クリックされた位置を取得
@@ -162,7 +162,7 @@ public class Player : MonoBehaviour
                     }
 
                     // 移動を開始
-                    isMoving = true;
+                    managerAccessor.Instance.dataMagager.isMoving = true;
                 }
             }
 
@@ -196,7 +196,7 @@ public class Player : MonoBehaviour
 
            
             // 移動中の場合は移動する
-            if (isMoving)
+            if (managerAccessor.Instance.dataMagager.isMoving)
             {
                 //Debug.Log("a");
                 // キャラクターのX座標をクリックされた位置に向けて移動
@@ -257,7 +257,7 @@ public class Player : MonoBehaviour
     //移動終了時の処理
     private void MoveFinish()
     {
-        if (isMoving)
+        if (managerAccessor.Instance.dataMagager.isMoving)
         {
             Destroy(CreateObj);//移動指標オブジェクト削除
 
@@ -265,7 +265,7 @@ public class Player : MonoBehaviour
 
             playerPosition = transform.position;//プレイヤーが動いた場所を取得する
 
-            isMoving = false;//移動処理終了
+            managerAccessor.Instance.dataMagager.isMoving = false;//移動処理終了
         }
     }
 
