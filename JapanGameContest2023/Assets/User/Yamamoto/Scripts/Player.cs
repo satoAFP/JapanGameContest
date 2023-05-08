@@ -41,9 +41,7 @@ public class Player : MonoBehaviour
     private GameObject CreateObj;//移動指標オブジェクトを入れる（削除命令に使う）
 
     private Vector2 mempos;//前フレーム時の座標
-    private bool fream_move=false;//フレーム
-
-
+   
     //-----------ray関係の変数の宣言---------------
 
     private Vector2 origin_x;//rayの原点(X方向）
@@ -154,13 +152,13 @@ public class Player : MonoBehaviour
                     {
                         offset = new Vector2(0.5f * playerSize, 0f);//右向き
                         transform.eulerAngles = new Vector3(0, 0, 0);
-                        //Debug.Log("右");
+                        Debug.Log("右");
                     }
                     else//左
                     {
                         offset = new Vector2(-0.5f * playerSize, 0f);//左向き
                         transform.eulerAngles = new Vector3(0, 180, 0);
-                        // Debug.Log("左");
+                         Debug.Log("左");
                     }
 
                     // 移動を開始
@@ -170,17 +168,12 @@ public class Player : MonoBehaviour
 
             if (setblock)
             {
-                Debug.Log("J");
+               // Debug.Log("J");
                 uptime = fuptime;
             }
 
         }
-        else
-        {
-
-        }
-
-
+    
     }
 
 
@@ -209,6 +202,7 @@ public class Player : MonoBehaviour
                 // キャラクターのX座標をクリックされた位置に向けて移動
                 transform.position = Vector2.MoveTowards(transform.position, new Vector2(clickPosition.x, transform.position.y), speed * Time.deltaTime);
 
+                
                 // 移動が終わったらフラグを解除
                 //前フレームの座標と今の座標を比べて、移動量が極端に少ない場合（壁にぶつかっている状態）処理を終了
                 //if (transform.position.x == clickPosition.x||Mathf.Abs(transform.position.x-mempos.x) < 0.03f)
@@ -225,7 +219,7 @@ public class Player : MonoBehaviour
 
                 if (transform.position.x == clickPosition.x)
                 {
-                    Debug.Log("cccc");
+                    //Debug.Log("cccc");
                     MoveFinish();//移動処理終了
                 }
 
@@ -237,7 +231,7 @@ public class Player : MonoBehaviour
                
                 if (uptime >= 0)
                 {
-                    Debug.Log("あたり");
+                   // Debug.Log("あたり");
                     uptime -= Time.deltaTime;//プレイヤー上昇時間減少
 
                     this.rb.AddForce(transform.up * jumpForce);
@@ -268,6 +262,8 @@ public class Player : MonoBehaviour
             Destroy(CreateObj);//移動指標オブジェクト削除
 
             ray_hit = false;//移動終了後に再度飛ばないようにRayのフラグを切る
+
+            playerPosition = transform.position;//プレイヤーが動いた場所を取得する
 
             isMoving = false;//移動処理終了
         }
