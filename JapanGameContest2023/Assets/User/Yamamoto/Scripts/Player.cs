@@ -190,10 +190,11 @@ public class Player : MonoBehaviour
             //FreezeRotationのみオンにする（Freezeは上書きできる）
             rb.constraints = RigidbodyConstraints2D.FreezeRotation;
 
-            //落下処理（仮）　とりあえず今は落ちたら初期位置に戻る
+            //落下処理　とりあえず今は落ちたら初期位置に戻る
             if (transform.position.y <= -10)
             {
                 managerAccessor.Instance.dataMagager.playerlost = true;//プレイヤー敗北フラグをON
+                managerAccessor.Instance.dataMagager.fallDeth = true;//落下死の判定取得
                 Destroy(this.gameObject);
             }
 
