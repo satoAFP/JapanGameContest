@@ -38,9 +38,6 @@ public class DataManager : MonoBehaviour
     //主人公が消失した時のフラグ
     [System.NonSerialized] public bool playerlost = false;
 
-    //主人公の敗北フラグ（ONでゲームオーバー）
-    [System.NonSerialized] public bool loseflag = false;
-
     //主人公の移動フラグ
     [System.NonSerialized] public bool isMoving = false;
 
@@ -72,22 +69,27 @@ public class DataManager : MonoBehaviour
     //プレイモード切替関数
     public void ModeChange()
     {
-        playMode = !playMode;
+        if (!managerAccessor.Instance.dataMagager.isMoving)
+        {
+            //プレイモード切替関数
+            playMode = !playMode;
 
-        if(managerAccessor.Instance.dataMagager.objMaxFrag)
-        {
-            managerAccessor.Instance.dataMagager.playerlost = true;
-        }
+            //オブジェクトの数が限界を超えていた時切り替えると負け
+            if (managerAccessor.Instance.dataMagager.objMaxFrag)
+            {
+                managerAccessor.Instance.dataMagager.playerlost = true;
+            }
 
-        //パネルの複製および削除
-        if(playMode)
-        {
-            Destroy(clonePanel);
-        }
-        else
-        {
-            clonePanel = Instantiate(managerAccessor.Instance.objDataManager.editPanel);
-            clonePanel.transform.position = new Vector3(0, 0, 0);
+            //パネルの複製および削除
+            if (playMode)
+            {
+                Destroy(clonePanel);
+            }
+            else
+            {
+                clonePanel = Instantiate(managerAccessor.Instance.objDataManager.editPanel);
+                clonePanel.transform.position = new Vector3(0, 0, 0);
+            }
         }
     }
 
