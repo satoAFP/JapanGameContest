@@ -15,7 +15,7 @@ public class Goal : MonoBehaviour
             //ƒS[ƒ‹‚·‚é‚Æ‚»‚±‚É‚Í‚à‚¤“ü‚ç‚È‚¢
             if(goalChara)
             {
-                transform.parent.GetComponent<GoalSystem>().goalCount++;
+                managerAccessor.Instance.dataMagager.goalPlayerNum++;
             }
         }
     }
