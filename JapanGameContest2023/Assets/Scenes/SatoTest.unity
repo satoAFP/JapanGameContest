@@ -598,6 +598,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 426408403}
     m_Modifications:
+    - target: {fileID: 2359931010143254886, guid: 5f3aa1b722a5fe14189c879c9129b0d4, type: 3}
+      propertyPath: fallText
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 2959876973710136310, guid: 5f3aa1b722a5fe14189c879c9129b0d4, type: 3}
       propertyPath: m_Name
       value: GameOverPanel
