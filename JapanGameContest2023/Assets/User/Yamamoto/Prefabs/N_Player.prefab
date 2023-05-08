@@ -196,7 +196,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 2
   setblock: 0
-  uptime: 1
+  uptime: 0.5
   jumpForce: 15
   prefab: {fileID: 296508311381969006, guid: a08b3d70316657547a3ba871669bbd40, type: 3}
   ray_hit: 0
