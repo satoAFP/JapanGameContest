@@ -41,8 +41,11 @@ public class DataManager : MonoBehaviour
     //主人公の移動フラグ
     [System.NonSerialized] public bool isMoving = false;
 
-    //主人公の移動フラグ
+    //主人公がDecoyファイルに触れたとき
     [System.NonSerialized] public bool onDecoyFile = false;
+
+    //ゴールに入った主人公の数
+    [System.NonSerialized] public int goalPlayerNum = 0;
 
 
     [Header("全ステージ数")] public int stageNum;

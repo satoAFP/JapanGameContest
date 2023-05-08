@@ -284,6 +284,8 @@ public class Player : MonoBehaviour
             //まだ誰もゴールしていないとき
             if (other.gameObject.GetComponent<Goal>().goalChara)
             {
+                //ゴールしているキャラのカウントプラス
+                managerAccessor.Instance.dataMagager.goalPlayerNum++;
                 other.gameObject.GetComponent<Goal>().goalChara = false;
                 Destroy(CreateObj);//移動指標オブジェクト削除
                 Destroy(gameObject);//自身も削除

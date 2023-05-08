@@ -8,13 +8,11 @@ public class GoalSystem : MonoBehaviour
 
     [SerializeField, Header("ƒS[ƒ‹‚·‚éƒLƒƒƒ‰‚Ì”")] private int charaNum;
 
-    [System.NonSerialized] public int goalCount;
-
 
     // Update is called once per frame
     void Update()
     {
-        if (charaNum == goalCount) 
+        if (charaNum == managerAccessor.Instance.dataMagager.goalPlayerNum) 
         {
             ClearPanel.SetActive(true);
         }
