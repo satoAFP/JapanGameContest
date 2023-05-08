@@ -182,15 +182,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6671429460971811948, guid: 779af25652b2d4948a0971094f0675b6, type: 3}
       propertyPath: m_LocalScale.y
-      value: 7.5635
+      value: 4.4133024
       objectReference: {fileID: 0}
     - target: {fileID: 6671429460971811948, guid: 779af25652b2d4948a0971094f0675b6, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.37
+      value: -3.14
       objectReference: {fileID: 0}
     - target: {fileID: 6671429460971811948, guid: 779af25652b2d4948a0971094f0675b6, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.2483
+      value: 1.05
       objectReference: {fileID: 0}
     - target: {fileID: 6671429460971811948, guid: 779af25652b2d4948a0971094f0675b6, type: 3}
       propertyPath: m_LocalPosition.z
@@ -848,7 +848,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3374213201882438883, guid: 95d09f087c4ea5843bd2abd174260358, type: 3}
       propertyPath: charaNum
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3374213201882438883, guid: 95d09f087c4ea5843bd2abd174260358, type: 3}
       propertyPath: ClearPanel
@@ -1624,15 +1624,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6671429460971811948, guid: 779af25652b2d4948a0971094f0675b6, type: 3}
       propertyPath: m_LocalScale.y
-      value: 7.5635
+      value: 3.9963744
       objectReference: {fileID: 0}
     - target: {fileID: 6671429460971811948, guid: 779af25652b2d4948a0971094f0675b6, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.12
+      value: -1.05
       objectReference: {fileID: 0}
     - target: {fileID: 6671429460971811948, guid: 779af25652b2d4948a0971094f0675b6, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.33
+      value: 0.57
       objectReference: {fileID: 0}
     - target: {fileID: 6671429460971811948, guid: 779af25652b2d4948a0971094f0675b6, type: 3}
       propertyPath: m_LocalPosition.z

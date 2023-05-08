@@ -20,8 +20,8 @@ public class PageChangeArea : MonoBehaviour
 
     public void ChangeTab(int num)
     {
-        //キャラを操作中は選択できない
-        if (!managerAccessor.Instance.dataMagager.playMode)
+        //移動中は変更できない
+        if (!managerAccessor.Instance.dataMagager.isMoving)
         {
             //一旦タブを非表示
             for (int i = 0; i < stage.Count; i++)
