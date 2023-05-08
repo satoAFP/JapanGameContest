@@ -45,6 +45,7 @@ public class DecoyFile : MonoBehaviour
             anim.SetBool("HitEnemy", true);
 
             managerAccessor.Instance.dataMagager.onDecoyFile = true;
+            managerAccessor.Instance.dataMagager.infectionDeth = true;
         }
     }
 

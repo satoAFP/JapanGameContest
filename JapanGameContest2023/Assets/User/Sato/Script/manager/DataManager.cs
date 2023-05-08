@@ -51,6 +51,14 @@ public class DataManager : MonoBehaviour
     [System.NonSerialized] public int goalPlayerNum = 0;
 
 
+    //落下ししたとき
+    [System.NonSerialized] public bool fallDeth = false;
+    //ウイルスに感染したとき
+    [System.NonSerialized] public bool infectionDeth = false;
+    //CPU使用量を超えたとき
+    [System.NonSerialized] public bool overDeth = false;
+
+
     [Header("全ステージ数")] public int stageNum;
 
     private GameObject clonePanel = null;
@@ -88,6 +96,7 @@ public class DataManager : MonoBehaviour
             if (managerAccessor.Instance.dataMagager.objMaxFrag)
             {
                 managerAccessor.Instance.dataMagager.playerlost = true;
+                managerAccessor.Instance.dataMagager.overDeth = true;
             }
 
             //パネルの複製および削除
