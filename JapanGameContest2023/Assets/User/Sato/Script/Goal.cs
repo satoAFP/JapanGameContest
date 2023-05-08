@@ -15,7 +15,7 @@ public class Goal : MonoBehaviour
             //ƒS[ƒ‹‚·‚é‚Æ‚»‚±‚É‚Í‚à‚¤“ü‚ç‚È‚¢
             if(goalChara)
             {
-                managerAccessor.Instance.dataMagager.goalPlayerNum++;
+                //managerAccessor.Instance.dataMagager.goalPlayerNum++;
             }
         }
     }
