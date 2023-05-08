@@ -41,6 +41,9 @@ public class DataManager : MonoBehaviour
     //主人公の敗北フラグ（ONでゲームオーバー）
     [System.NonSerialized] public bool loseflag = false;
 
+    //主人公の移動フラグ
+    [System.NonSerialized] public bool isMoving = false;
+
 
     [Header("全ステージ数")] public int stageNum;
 
