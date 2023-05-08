@@ -23,6 +23,9 @@ public class DataManager : MonoBehaviour
     //オブジェクトを選択した時、縁に乗ると変わる
     [System.NonSerialized] public bool onEdge = false;
 
+    //乗ってはいけないブロックにオブジェクトがあるときモードチェンジできない
+    [System.NonSerialized] public bool onBlock = false;
+
     //どの縁に乗っているか(8は何も入っていないデータ)
     [System.NonSerialized] public int whereEdge = 8;
 
@@ -75,7 +78,8 @@ public class DataManager : MonoBehaviour
     //プレイモード切替関数
     public void ModeChange()
     {
-        if (!managerAccessor.Instance.dataMagager.isMoving)
+        if (!managerAccessor.Instance.dataMagager.isMoving &&
+            !managerAccessor.Instance.dataMagager.onBlock) 
         {
             //プレイモード切替関数
             playMode = !playMode;
