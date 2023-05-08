@@ -38,7 +38,8 @@ public class Player : MonoBehaviour
     [SerializeField, Header("生成する移動指標オブジェクト")]
     private GameObject prefab;
 
-    private GameObject CreateObj;//移動指標オブジェクトを入れる（削除命令に使う）
+    [System.NonSerialized]
+    public GameObject CreateObj;//移動指標オブジェクトを入れる（削除命令に使う）
 
     private Vector2 mempos;//前フレーム時の座標
    
@@ -168,7 +169,6 @@ public class Player : MonoBehaviour
 
             if (setblock)
             {
-               // Debug.Log("J");
                 uptime = fuptime;
             }
 
@@ -192,6 +192,12 @@ public class Player : MonoBehaviour
             {
                 managerAccessor.Instance.dataMagager.playerlost = true;//プレイヤー敗北フラグをON
                 Destroy(this.gameObject);
+            }
+
+            //Decoyファイルにふれたときおとりファイルを消去
+            if(managerAccessor.Instance.dataMagager.onDecoyFile)
+            {
+                Destroy(CreateObj);
             }
 
            

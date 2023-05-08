@@ -9,7 +9,6 @@ public class DecoyFile : MonoBehaviour
     [SerializeField, Header("アニメーションの待機時間")] private int stopFrame;
 
 
-    private bool gameoverFrag = false;
     private int FrameCount = 0;
     private Animator anim;
 
@@ -22,11 +21,11 @@ public class DecoyFile : MonoBehaviour
     void FixedUpdate()
     {
         //ファイルに当たると
-        if(gameoverFrag)
+        if(managerAccessor.Instance.dataMagager.onDecoyFile)
         {
             FrameCount++;
             //設定しているフレームになるとゲームオーバー
-            if(stopFrame<=FrameCount)
+            if (stopFrame <= FrameCount) 
             {
                 managerAccessor.Instance.dataMagager.playerlost = true;
             }
@@ -38,13 +37,14 @@ public class DecoyFile : MonoBehaviour
         if (collision.tag == "Player")
         {
             //キャラ削除
+            Destroy(collision.gameObject.GetComponent<Player>().CreateObj);
             Destroy(collision.gameObject);
             //感染したファイルになる
             //gameObject.GetComponent<SpriteRenderer>().sprite = infectionFile;
 
             anim.SetBool("HitEnemy", true);
 
-            gameoverFrag = true;
+            managerAccessor.Instance.dataMagager.onDecoyFile = true;
         }
     }
 
