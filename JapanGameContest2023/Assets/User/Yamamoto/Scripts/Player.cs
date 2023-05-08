@@ -19,16 +19,14 @@ public class Player : MonoBehaviour
 
     [SerializeField, Header("ジャンプ力")] private float jumpForce = 350f;//プレイヤージャンプ力
 
-    private bool JumpFlag = false;//現在ジャンプしているかのフラグ
-
-    //現在プレイヤーが移動しているかを判別する
-   // bool isMoving = false;
-
     private Rigidbody2D rb;//プレイヤーリジッドボディ
 
     private Vector2 firstpos;//初期位置（仮）
 
     private Vector2 playerPosition;//現在のプレイヤーの位置
+
+    //GetComponentを用いてAnimatorコンポーネントを取り出す.
+    [SerializeField] private Animator animator;
 
     //-----------Click関係の関数--------------------
 
@@ -55,16 +53,10 @@ public class Player : MonoBehaviour
 
     [SerializeField]private bool ray_hit = false;//Rayが当たっていた時
 
-    private bool ray_first = true;//何度もRayの処理が入ったとき一回だけ通す
-
     private LayerMask layermask;//レイヤーマスク
 
-    //[SerializeField] private LayerMask groundlayermask;//地面判定用のレイヤーマスク
-   
-    [SerializeField, Header("テスト用Rayの長さ調整")]
+    [SerializeField, Header("Rayの長さ調整できるよ")]
     private float ray_length;
-
-    [SerializeField, Header("着地判定用のRayの長さ")] private float g_ray_lenght;
 
 
     //-----------------------------------------------
@@ -85,7 +77,9 @@ public class Player : MonoBehaviour
 
         //取得するレイヤーを獲得（左右判定用）
         layermask = LayerMask.GetMask("CreateBlock","Block", "Ground");//ここに追加したいレイヤー名を入れるとlayermaskがレイヤー判定を取るようになる
-        
+
+       // animator = GetComponent<Animator>();
+
 
     }
 
@@ -167,6 +161,15 @@ public class Player : MonoBehaviour
                 }
             }
 
+            if(managerAccessor.Instance.dataMagager.isMoving)
+            {
+                animator.SetBool("Moving", true);//移動時のアニメーションに切り替え
+            }
+            else
+            {
+                animator.SetBool("Moving", false);//停止時のアニメーションに切り替え
+            }
+
             if (setblock)
             {
                 uptime = fuptime;
@@ -204,7 +207,7 @@ public class Player : MonoBehaviour
             // 移動中の場合は移動する
             if (managerAccessor.Instance.dataMagager.isMoving)
             {
-                //Debug.Log("a");
+
                 // キャラクターのX座標をクリックされた位置に向けて移動
                 transform.position = Vector2.MoveTowards(transform.position, new Vector2(clickPosition.x, transform.position.y), speed * Time.deltaTime);
 
@@ -230,7 +233,7 @@ public class Player : MonoBehaviour
                 }
 
             }
-
+          
             //Rayが当たっていたら上昇する処理を開始
             if(ray_hit)
             {
