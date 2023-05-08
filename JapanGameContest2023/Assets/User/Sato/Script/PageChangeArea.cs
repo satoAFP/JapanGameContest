@@ -20,16 +20,20 @@ public class PageChangeArea : MonoBehaviour
 
     public void ChangeTab(int num)
     {
-        //一旦タブを非表示
-        for (int i = 0; i < stage.Count; i++) 
+        //キャラを操作中は選択できない
+        if (!managerAccessor.Instance.dataMagager.playMode)
         {
-            stage[i].SetActive(false);
-            transform.GetChild(i).gameObject.GetComponent<TabButton>().selectPanel.SetActive(false);
-        }
+            //一旦タブを非表示
+            for (int i = 0; i < stage.Count; i++)
+            {
+                stage[i].SetActive(false);
+                transform.GetChild(i).gameObject.GetComponent<TabButton>().selectPanel.SetActive(false);
+            }
 
-        //押されたタブの表示
-        stage[num - 1].SetActive(true);
-        transform.GetChild(num - 1).gameObject.GetComponent<TabButton>().selectPanel.SetActive(true);
+            //押されたタブの表示
+            stage[num - 1].SetActive(true);
+            transform.GetChild(num - 1).gameObject.GetComponent<TabButton>().selectPanel.SetActive(true);
+        }
     }
 
 
