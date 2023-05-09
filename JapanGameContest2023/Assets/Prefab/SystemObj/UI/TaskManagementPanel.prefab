@@ -700,6 +700,8 @@ MonoBehaviour:
   FillImage: {fileID: 1225756993809602495}
   CPUText: {fileID: 1225756993828710996}
   timeText: {fileID: 8656971927008174112}
+  aliveVirusText: {fileID: 7865709151828971610}
+  dethVirusText: {fileID: 7310131104577680812}
   blockText: {fileID: 986325156708439830}
   goalText: {fileID: 5223254752742501333}
   taskManagement: {fileID: 1225756992775036472}

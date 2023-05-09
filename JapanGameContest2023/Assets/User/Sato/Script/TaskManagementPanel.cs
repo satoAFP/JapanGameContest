@@ -13,6 +13,10 @@ public class TaskManagementPanel : MonoBehaviour
 
     [SerializeField, Header("タイム表示用テキスト")] private Text timeText;
 
+    [SerializeField, Header("生きているウイルスの数表示用テキスト")] private Text aliveVirusText;
+
+    [SerializeField, Header("死んでいるウイルスの数表示用テキスト")] private Text dethVirusText;
+
     [SerializeField, Header("ブロック数表示用テキスト")] private Text blockText;
 
     [SerializeField, Header("ゴール数表示用テキスト")] private Text goalText;
@@ -62,6 +66,10 @@ public class TaskManagementPanel : MonoBehaviour
         CPUText.text = (((float)blockChildObj / (float)objMax) * 100).ToString("N1") + "%";
         //経過時間表示
         timeText.text = managerAccessor.Instance.dataMagager.timeText;
+        //現在の生きているウイルスの数表示
+        aliveVirusText.text = (goalChildObj - managerAccessor.Instance.dataMagager.goalPlayerNum).ToString();
+        //現在の死んでいるウイルスの数表示
+        dethVirusText.text = managerAccessor.Instance.dataMagager.goalPlayerNum.ToString();
         //現在のblockの数表示
         blockText.text = blockChildObj.ToString();
         //現在のゴールの数表示
