@@ -701,6 +701,7 @@ MonoBehaviour:
   CPUText: {fileID: 1225756993828710996}
   timeText: {fileID: 8656971927008174112}
   blockText: {fileID: 986325156708439830}
+  goalText: {fileID: 5223254752742501333}
   taskManagement: {fileID: 1225756992775036472}
   objMax: 3
   color:
@@ -1241,7 +1242,7 @@ GameObject:
   - component: {fileID: 6936847508840141901}
   - component: {fileID: 5223254752742501333}
   m_Layer: 5
-  m_Name: RrashText
+  m_Name: TrashText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

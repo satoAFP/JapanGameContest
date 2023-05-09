@@ -15,6 +15,8 @@ public class TaskManagementPanel : MonoBehaviour
 
     [SerializeField, Header("ブロック数表示用テキスト")] private Text blockText;
 
+    [SerializeField, Header("ゴール数表示用テキスト")] private Text goalText;
+
     [SerializeField, Header("タスクマネージャー表示")] private GameObject taskManagement;
 
 
@@ -22,73 +24,54 @@ public class TaskManagementPanel : MonoBehaviour
 
     [SerializeField, Header("スライダーの色変更用")] private Color[] color;
 
+    //動かせるブロックの数格納
+    private int blockChildObj = 0;
 
-    //時間表示用
-    private int frame = 0;
-    private int second = 0;
-    private int minute = 0;
+    //ゴールの数格納
+    private int goalChildObj = 0;
 
     // Update is called once per frame
     void FixedUpdate()
     {
         //動かせるブロック数を取得
-        int childObj = managerAccessor.Instance.objDataManager.blockParent.transform.childCount;
-
+        blockChildObj = managerAccessor.Instance.objDataManager.blockParent.transform.childCount;
+        goalChildObj = managerAccessor.Instance.objDataManager.goalParent.transform.childCount;
 
         //最大数未満の時
-        if(childObj < objMax)
+        if (blockChildObj < objMax)
         {
             FillImage.color = color[0];
             managerAccessor.Instance.dataMagager.objMaxFrag = false;
         }
         //最大数の時
-        else if (childObj == objMax) 
+        else if (blockChildObj == objMax) 
         {
             FillImage.color = color[1];
             managerAccessor.Instance.dataMagager.objMaxFrag = false;
         }
         //最大数を超えた時
-        else if (childObj > objMax)
+        else if (blockChildObj > objMax)
         {
             FillImage.color = color[2];
             managerAccessor.Instance.dataMagager.objMaxFrag = true;
         }
 
-        //時間計算
-        TimeCount();
 
         //CPUの使用率を入力
-        CPUSlider.value = (float)childObj / (float)objMax;
-        CPUText.text = (((float)childObj / (float)objMax) * 100).ToString("N1") + "%";
+        CPUSlider.value = (float)blockChildObj / (float)objMax;
+        CPUText.text = (((float)blockChildObj / (float)objMax) * 100).ToString("N1") + "%";
         //経過時間表示
         timeText.text = managerAccessor.Instance.dataMagager.timeText;
         //現在のblockの数表示
-        blockText.text = childObj.ToString();
+        blockText.text = blockChildObj.ToString();
+        //現在のゴールの数表示
+        goalText.text = goalChildObj.ToString();
     }
 
     //CPUパネル
     public void CPUPanel()
     {
         taskManagement.SetActive(!taskManagement.activeSelf);
-    }
-
-    //時間表示用
-    private void TimeCount()
-    {
-        frame++;
-
-        if (frame >= 50) 
-        {
-            second++;
-            frame = 0;
-        }
-
-        if (second >= 60) 
-        {
-            minute++;
-            second = 0;
-        }
-
     }
 
 }
