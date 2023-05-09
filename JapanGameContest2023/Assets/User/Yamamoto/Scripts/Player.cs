@@ -30,16 +30,18 @@ public class Player : MonoBehaviour
 
     //-----------Click関係の関数--------------------
 
-    // クリックされた位置
-    private Vector3 clickPosition;
+    //public FileGene fileGene;
 
-    [SerializeField, Header("生成する移動指標オブジェクト")]
-    private GameObject prefab;
+    // クリックされた位置
+    //private Vector3 clickPosition;
+
+    //[SerializeField, Header("生成する移動指標オブジェクト")]
+    //private GameObject prefab;
 
     [System.NonSerialized]
     public GameObject CreateObj;//移動指標オブジェクトを入れる（削除命令に使う）
 
-    private Vector2 mempos;//前フレーム時の座標
+    //private Vector2 mempos;//前フレーム時の座標
    
     //-----------ray関係の変数の宣言---------------
 
@@ -134,16 +136,16 @@ public class Player : MonoBehaviour
             {
                 //Debug.Log("移動");
                 // クリックされた位置を取得
-                clickPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                clickPosition.z = 0; // z座標を0に設定（2Dゲームなので）
+               // clickPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                //clickPosition.z = 0; // z座標を0に設定（2Dゲームなので）
 
                 if (!managerAccessor.Instance.dataMagager.noTapArea)
                 {
-                    CreateObj = Instantiate(prefab, clickPosition, Quaternion.identity);//移動指標オブジェクト作成
+                   // CreateObj = Instantiate(prefab, clickPosition, Quaternion.identity);//移動指標オブジェクト作成
 
 
                     //クリックした場所の左右判定を取る
-                    if (playerPosition.x < clickPosition.x)//右
+                    if (playerPosition.x < managerAccessor.Instance.dataMagager.clickPosition.x)//右
                     {
                         offset = new Vector2(0.5f * playerSize, 0f);//右向き
                         transform.eulerAngles = new Vector3(0, 0, 0);
@@ -198,36 +200,16 @@ public class Player : MonoBehaviour
                 Destroy(this.gameObject);
             }
 
-            //Decoyファイルにふれたときおとりファイルを消去
-            if(managerAccessor.Instance.dataMagager.onDecoyFile)
-            {
-                Destroy(CreateObj);
-            }
-
-           
             // 移動中の場合は移動する
             if (managerAccessor.Instance.dataMagager.isMoving)
             {
 
                 // キャラクターのX座標をクリックされた位置に向けて移動
-                transform.position = Vector2.MoveTowards(transform.position, new Vector2(clickPosition.x, transform.position.y), speed * Time.deltaTime);
+                transform.position = Vector2.MoveTowards(transform.position, new Vector2(managerAccessor.Instance.dataMagager.clickPosition.x, transform.position.y), speed * Time.deltaTime);
 
                 
                 // 移動が終わったらフラグを解除
-                //前フレームの座標と今の座標を比べて、移動量が極端に少ない場合（壁にぶつかっている状態）処理を終了
-                //if (transform.position.x == clickPosition.x||Mathf.Abs(transform.position.x-mempos.x) < 0.03f)
-                //{
-                //    Debug.Log("b");
-                //    playerPosition = transform.position;//playerPositionを更新
-                //    MoveFinish();//移動処理終了
-                //}
-
-                //if (Mathf.Abs(transform.position.x - mempos.x) < 0.03f)
-                //{
-                //    Debug.Log("b");
-                //}
-
-                if (transform.position.x == clickPosition.x)
+                if (transform.position.x == managerAccessor.Instance.dataMagager.clickPosition.x)
                 {
                     //Debug.Log("cccc");
                     MoveFinish();//移動処理終了
@@ -253,7 +235,7 @@ public class Player : MonoBehaviour
             }
            
 
-            mempos = transform.position;//前フレームを保存
+           // mempos = transform.position;//前フレームを保存
 
         }
         else//エディットモードの時
@@ -269,7 +251,7 @@ public class Player : MonoBehaviour
     {
         if (managerAccessor.Instance.dataMagager.isMoving)
         {
-            Destroy(CreateObj);//移動指標オブジェクト削除
+           // Destroy(CreateObj);//移動指標オブジェクト削除
 
             ray_hit = false;//移動終了後に再度飛ばないようにRayのフラグを切る
 
@@ -291,7 +273,7 @@ public class Player : MonoBehaviour
                 //ゴールしているキャラのカウントプラス
                 managerAccessor.Instance.dataMagager.goalPlayerNum++;
                 other.gameObject.GetComponent<Goal>().goalChara = false;
-                Destroy(CreateObj);//移動指標オブジェクト削除
+                //Destroy(CreateObj);//移動指標オブジェクト削除
                 Destroy(gameObject);//自身も削除
             }
         }

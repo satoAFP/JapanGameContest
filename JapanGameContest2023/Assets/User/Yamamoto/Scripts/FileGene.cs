@@ -5,8 +5,7 @@ using UnityEngine;
 public class FileGene : MonoBehaviour
 {
 
-    // クリックされた位置
-    private Vector3 clickPosition;
+    public int playercount = 0;//プレイヤーの数を数える
 
     [SerializeField, Header("生成する移動指標オブジェクト")]
     private GameObject prefab;
@@ -14,10 +13,12 @@ public class FileGene : MonoBehaviour
     [System.NonSerialized]
     public GameObject CreateObj;//移動指標オブジェクトを入れる（削除命令に使う）
 
+    private bool nocreate = false;//オブジェクト生成をさせないフラグ
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        playercount = GameObject.FindGameObjectsWithTag("Player").Length;//プレイヤーの数を数える
     }
 
     // Update is called once per frame
@@ -25,11 +26,36 @@ public class FileGene : MonoBehaviour
     {
         if (managerAccessor.Instance.dataMagager.playMode)//操作モードの時
         {
-            // クリックされた位置を取得
-            clickPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            clickPosition.z = 0; // z座標を0に設定（2Dゲームなので）
+
+            //Decoyファイルにふれたときおとりファイルを消去
+            if (managerAccessor.Instance.dataMagager.onDecoyFile)
+            {
+                Destroy(CreateObj);
+            }
+
+            if (!managerAccessor.Instance.dataMagager.isMoving)
+            {
+                if(Input.GetMouseButtonDown(0))
+                {
+                    // クリックされた位置を取得
+                    managerAccessor.Instance.dataMagager.clickPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                    managerAccessor.Instance.dataMagager.clickPosition.z = 0; // z座標を0に設定（2Dゲームなので）
+
+                    if (!managerAccessor.Instance.dataMagager.noTapArea && !nocreate)
+                    {
+                        CreateObj = Instantiate(prefab, managerAccessor.Instance.dataMagager.clickPosition, Quaternion.identity);//移動指標オブジェクト作成
+                    }
+
+                }
+            }
 
 
+            if(playercount == 0)
+            {
+                nocreate = true;
+                Destroy(CreateObj);
+            }
+           
 
         }
 
