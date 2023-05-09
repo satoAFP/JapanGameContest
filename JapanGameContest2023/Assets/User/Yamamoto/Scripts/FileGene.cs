@@ -23,8 +23,13 @@ public class FileGene : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // クリックされた位置を取得
-        clickPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        if (managerAccessor.Instance.dataMagager.playMode)//操作モードの時
+        {
+
+        }
+
+            // クリックされた位置を取得
+            clickPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         clickPosition.z = 0; // z座標を0に設定（2Dゲームなので）
     }
 }
