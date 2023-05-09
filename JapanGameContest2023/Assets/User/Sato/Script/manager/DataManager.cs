@@ -17,6 +17,9 @@ public class DataManager : MonoBehaviour
     //コピーデータの削除を最初の一回しか行わないためのフラグ
     [System.NonSerialized] public bool copyReset = true;
 
+    //時間表示用テキスト
+    [System.NonSerialized] public string timeText = null;
+
     //オブジェクトが最大数になった時変わるフラグ
     [System.NonSerialized] public bool objMaxFrag = false;
 
@@ -61,7 +64,14 @@ public class DataManager : MonoBehaviour
 
     [Header("全ステージ数")] public int stageNum;
 
+
     private GameObject clonePanel = null;
+
+
+    //時間表示用
+    private int frame = 0;
+    private int second = 0;
+    private int minute = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -69,6 +79,33 @@ public class DataManager : MonoBehaviour
         //マネージャーアクセッサに登録
         managerAccessor.Instance.dataMagager = this;
     }
+
+    private void FixedUpdate()
+    {
+        managerAccessor.Instance.dataMagager.TimeCount();
+    }
+
+
+    //時間表示用
+    public void TimeCount()
+    {
+        frame++;
+
+        if (frame >= 50)
+        {
+            second++;
+            frame = 0;
+        }
+
+        if (second >= 60)
+        {
+            minute++;
+            second = 0;
+        }
+
+        managerAccessor.Instance.dataMagager.timeText = minute.ToString("d2") + " : " + second.ToString("d2");
+    }
+
 
     //マウス座標をワールド座標変換関数
     public Vector3 MouseWorldChange()
