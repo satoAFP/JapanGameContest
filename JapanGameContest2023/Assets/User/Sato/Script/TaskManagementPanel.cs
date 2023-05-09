@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ObjMaxControler : MonoBehaviour
+public class TaskManagementPanel : MonoBehaviour
 {
     [SerializeField, Header("CPU表示用スライダー")] private Slider CPUSlider;
 
@@ -54,12 +54,15 @@ public class ObjMaxControler : MonoBehaviour
             managerAccessor.Instance.dataMagager.objMaxFrag = true;
         }
 
+        //時間計算
         TimeCount();
 
         //CPUの使用率を入力
         CPUSlider.value = (float)childObj / (float)objMax;
         CPUText.text = (((float)childObj / (float)objMax) * 100).ToString("N1") + "%";
-        timeText.text = minute.ToString("d2") + " : " + second.ToString("d2");
+        //経過時間表示
+        timeText.text = managerAccessor.Instance.dataMagager.timeText;
+        //現在のblockの数表示
         blockText.text = childObj.ToString();
     }
 
