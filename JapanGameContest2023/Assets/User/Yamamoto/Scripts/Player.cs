@@ -31,7 +31,7 @@ public class Player : MonoBehaviour
     //-----------Click関係の関数--------------------
 
     // クリックされた位置
-    //private Vector3 clickPosition;
+    private Vector3 clickPosition;
 
     [SerializeField, Header("生成する移動指標オブジェクト")]
     private GameObject prefab;
