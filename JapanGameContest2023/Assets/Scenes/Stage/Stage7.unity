@@ -3513,6 +3513,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1187894963}
     m_Modifications:
+    - target: {fileID: 2359931010143254886, guid: 5f3aa1b722a5fe14189c879c9129b0d4, type: 3}
+      propertyPath: fallHintText
+      value: "\u5225\u306E\u30DA\u30FC\u30B8\u3092\u78BA\u8A8D\u3057\u3066\u307F\u307E\u3057\u3087\u3046\u3002"
+      objectReference: {fileID: 0}
+    - target: {fileID: 2359931010143254886, guid: 5f3aa1b722a5fe14189c879c9129b0d4, type: 3}
+      propertyPath: infectionHintText
+      value: "\u5225\u306E\u30DA\u30FC\u30B8\u3092\u78BA\u8A8D\u3057\u3066\u307F\u307E\u3057\u3087\u3046\u3002"
+      objectReference: {fileID: 0}
     - target: {fileID: 3099624516476883722, guid: 5f3aa1b722a5fe14189c879c9129b0d4, type: 3}
       propertyPath: m_RootOrder
       value: 3

@@ -3220,6 +3220,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1187894963}
     m_Modifications:
+    - target: {fileID: 2359931010143254886, guid: 5f3aa1b722a5fe14189c879c9129b0d4, type: 3}
+      propertyPath: fallHintText
+      value: "\u30A6\u30A4\u30EB\u30B9\u306F\u30D5\u30A1\u30A4\u30EB\u306B\u5F93\u3044\u307E\u3059\u3002"
+      objectReference: {fileID: 0}
+    - target: {fileID: 2359931010143254886, guid: 5f3aa1b722a5fe14189c879c9129b0d4, type: 3}
+      propertyPath: infectionHintText
+      value: "\u5225\u306E\u30EB\u30FC\u30C8\u3092\u691C\u8A0E\u3057\u307E\u3057\u3087\u3046\u3002"
+      objectReference: {fileID: 0}
     - target: {fileID: 3099624516476883722, guid: 5f3aa1b722a5fe14189c879c9129b0d4, type: 3}
       propertyPath: m_RootOrder
       value: 3
