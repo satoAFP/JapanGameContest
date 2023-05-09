@@ -18,6 +18,8 @@ public class ObjDataManager : MonoBehaviour
 
     [Header("コピーできるオブジェクトの親")] public GameObject blockParent;
 
+    [Header("ゴールを格納している親")] public GameObject goalParent;
+
     // Start is called before the first frame update
     void Start()
     {

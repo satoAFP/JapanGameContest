@@ -44,6 +44,9 @@ public class DataManager : MonoBehaviour
     //主人公が消失した時のフラグ
     [System.NonSerialized] public bool playerlost = false;
 
+    //マウスがクリックした座標を取得
+    [System.NonSerialized] public Vector3 clickPosition;
+
     //主人公の移動フラグ
     [System.NonSerialized] public bool isMoving = false;
 

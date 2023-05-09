@@ -140,7 +140,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!61 &6772154
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1163,10 +1163,10 @@ MonoBehaviour:
   setblock: 0
   uptime: 0
   jumpForce: 350
+  animator: {fileID: 0}
   prefab: {fileID: 0}
   ray_hit: 0
   ray_length: 0.5
-  g_ray_lenght: 1
 --- !u!61 &661334958
 BoxCollider2D:
   m_ObjectHideFlags: 0
