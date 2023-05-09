@@ -12,9 +12,6 @@ EditorBuildSettings:
     path: Assets/Scenes/ShibaTest.unity
     guid: 2398fe04ceb94904496cad02e8f1ec31
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
-  - enabled: 1
     path: Assets/Scenes/StageSelect.unity
     guid: 6ac8603934ac17f43adf62fc80b07564
   - enabled: 1
@@ -33,15 +30,21 @@ EditorBuildSettings:
     path: Assets/Scenes/Stage/Stage5.unity
     guid: 467fa03adb59c024eb5adbfb8432f9a6
   - enabled: 1
-    path: Assets/Scenes/Stage/Stage7.unity
+    path: Assets/Scenes/Stage/Stage6.unity
     guid: f3243a19ff425754583f639b9e6ba0e1
   - enabled: 1
-    path: Assets/Scenes/Stage/Stage8.unity
+    path: Assets/Scenes/Stage/Stage7.unity
     guid: f41cc2cae15edf647bb4b5cfcbe09e0f
   - enabled: 1
-    path: Assets/Scenes/Stage/Stage6.unity
+    path: Assets/Scenes/Stage/Stage8.unity
     guid: 8b6fbe2d777c0d14e89de53d1b4e0209
   - enabled: 1
     path: Assets/Scenes/Stage/Stage9.unity
     guid: 00956a473c95e304e80eb2f575c6e73c
+  - enabled: 1
+    path: Assets/Scenes/Stage/Stage10.unity
+    guid: f5197dc65ed15664992342b80c27c6ae
+  - enabled: 1
+    path: Assets/Scenes/Stage/Stage11.unity
+    guid: 3a96510b9233b554f84481088fdb845a
   m_configObjects: {}
