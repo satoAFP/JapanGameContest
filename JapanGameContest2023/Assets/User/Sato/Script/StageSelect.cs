@@ -19,22 +19,25 @@ public class StageSelect : MonoBehaviour
 
     //最初の一回だけ入る
     private bool first1 = true;
+    private bool clonefirst = true;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        //ステージの生成
-        for (int i = 0; i < managerAccessor.Instance.dataMagager.stageNum; i++) 
-        {
-            stages.Add(Instantiate(managerAccessor.Instance.objDataManager.stageSelectObj));
-            stages[i].transform.parent = stageParent.transform;
-            stages[i].transform.GetChild(0).GetComponent<Text>().text = "STAGE" + (i + 1);
-        }
-    }
 
     // Update is called once per frame
     void FixedUpdate()
     {
+        //最初の生成
+        if(clonefirst)
+        {
+            //ステージの生成
+            for (int i = 0; i < managerAccessor.Instance.dataMagager.stageNum; i++)
+            {
+                stages.Add(Instantiate(managerAccessor.Instance.objDataManager.stageSelectObj));
+                stages[i].transform.parent = stageParent.transform;
+                stages[i].transform.GetChild(0).GetComponent<Text>().text = "STAGE" + (i + 1);
+            }
+            clonefirst = false;
+        }
+
         //カーソルを合わせたときパネルが出る
         for (int i = 0; i < stages.Count; i++)
         {
