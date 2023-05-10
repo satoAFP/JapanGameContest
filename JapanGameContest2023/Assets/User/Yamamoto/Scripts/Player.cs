@@ -68,6 +68,8 @@ public class Player : MonoBehaviour
 
         playerPosition = firstpos;//最初はプレイヤーの初期位置を入れる
 
+        mempos = new Vector2(0, 0);//初期化
+
         script = GameObject.Find("Clickjudge").GetComponent<FileGene>();//FileGeneスクリプト取得
 
         fuptime = uptime;//プレイヤー上昇時間を保存
@@ -77,6 +79,8 @@ public class Player : MonoBehaviour
 
         //取得するレイヤーを獲得（左右判定用）
         layermask = LayerMask.GetMask("CreateBlock","Block", "Ground");//ここに追加したいレイヤー名を入れるとlayermaskがレイヤー判定を取るようになる
+
+        
 
     }
 
@@ -127,20 +131,14 @@ public class Player : MonoBehaviour
             }
 
             // 移動中でなければクリックを受け付ける
-            if (!managerAccessor.Instance.dataMagager.isMoving && Input.GetMouseButtonDown(0) && setblock)
+            if (Input.GetMouseButtonDown(0) && setblock)
             {
-                //Debug.Log("移動");
-                // クリックされた位置を取得
-               // clickPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                //clickPosition.z = 0; // z座標を0に設定（2Dゲームなので）
-
                 if (!managerAccessor.Instance.dataMagager.noTapArea)
                 {
                    // CreateObj = Instantiate(prefab, clickPosition, Quaternion.identity);//移動指標オブジェクト作成
 
-
                     //クリックした場所の左右判定を取る
-                    if (playerPosition.x < managerAccessor.Instance.dataMagager.clickPosition.x)//右
+                    if (transform.position.x < managerAccessor.Instance.dataMagager.clickPosition.x)//右
                     {
                         offset = new Vector2(0.5f * playerSize, 0f);//右向き
                         transform.eulerAngles = new Vector3(0, 0, 0);
@@ -195,9 +193,24 @@ public class Player : MonoBehaviour
                 Destroy(this.gameObject);
             }
 
+            
+
             // 移動中の場合は移動する
             if (managerAccessor.Instance.dataMagager.isMoving)
             {
+                //if (mempos.x != transform.position.x || mempos.y != transform.position.y)//前フレームと比較しプレイヤーが全く動かなかったら、移動終了
+                //{
+                //    //playerPosition = mempos;
+                //    Debug.Log("2");
+                //}
+                //else
+                //{
+                //    //MoveFinish();
+                //    Debug.Log("3");
+                //}
+
+
+                //mempos = transform.position;//前フレームを保存
 
                 // キャラクターのX座標をクリックされた位置に向けて移動
                 transform.position = Vector2.MoveTowards(transform.position, new Vector2(managerAccessor.Instance.dataMagager.clickPosition.x, transform.position.y), speed * Time.deltaTime);
@@ -230,18 +243,8 @@ public class Player : MonoBehaviour
             }
            
 
-            mempos = transform.position;//前フレームを保存
-
-            if(mempos != playerPosition)//前フレームと比較しプレイヤーが全く動かなかったら、移動終了
-            {
-                playerPosition = mempos;
-                Debug.Log("oo2");
-            }
-            else
-            {
-                MoveFinish();
-                Debug.Log("oo3");
-            }
+          
+            
 
         }
         else//エディットモードの時
@@ -261,7 +264,7 @@ public class Player : MonoBehaviour
 
             ray_hit = false;//移動終了後に再度飛ばないようにRayのフラグを切る
 
-            playerPosition = transform.position;//プレイヤーが動いた場所を取得する
+            //playerPosition = transform.position;//プレイヤーが動いた場所を取得する
 
             managerAccessor.Instance.dataMagager.isMoving = false;//移動処理終了
         }
