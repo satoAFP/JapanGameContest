@@ -9,7 +9,7 @@ public class Player : MonoBehaviour
     [SerializeField, Header("プレイヤー速度")] private float speed;//プレイヤー速度
 
     //こいつはそのうちDataManagerに放り込む
-   /* [System.NonSerialized] */public bool setblock;//足元の判定がブロックに当たっていた時
+    [System.NonSerialized] public bool setblock;//足元の判定がブロックに当たっていた時
 
     [SerializeField, Header("プレイヤー上昇タイマー")] private float uptime;//プレイヤーが一度に上昇できる時間
 
@@ -25,21 +25,19 @@ public class Player : MonoBehaviour
 
     private Vector2 playerPosition;//現在のプレイヤーの位置
 
+    [SerializeField]private Vector2 mempos;//１つ前のフレームでの移動時のプレイヤーの位置
+
     //GetComponentを用いてAnimatorコンポーネントを取り出す.
     [SerializeField] private Animator animator;
 
     //-----------Click関係の関数--------------------
 
-    // クリックされた位置
-    private Vector3 clickPosition;
-
-    [SerializeField, Header("生成する移動指標オブジェクト")]
-    private GameObject prefab;
+    private FileGene script;//FileGeneスクリプト
 
     [System.NonSerialized]
     public GameObject CreateObj;//移動指標オブジェクトを入れる（削除命令に使う）
 
-    private Vector2 mempos;//前フレーム時の座標
+    //private Vector2 mempos;//前フレーム時の座標
    
     //-----------ray関係の変数の宣言---------------
 
@@ -70,6 +68,10 @@ public class Player : MonoBehaviour
 
         playerPosition = firstpos;//最初はプレイヤーの初期位置を入れる
 
+        mempos = new Vector2(0, 0);//初期化
+
+        script = GameObject.Find("Clickjudge").GetComponent<FileGene>();//FileGeneスクリプト取得
+
         fuptime = uptime;//プレイヤー上昇時間を保存
 
         // プレイヤーの中心からのオフセットを計算する
@@ -78,8 +80,7 @@ public class Player : MonoBehaviour
         //取得するレイヤーを獲得（左右判定用）
         layermask = LayerMask.GetMask("CreateBlock","Block", "Ground");//ここに追加したいレイヤー名を入れるとlayermaskがレイヤー判定を取るようになる
 
-       // animator = GetComponent<Animator>();
-
+        
 
     }
 
@@ -130,20 +131,14 @@ public class Player : MonoBehaviour
             }
 
             // 移動中でなければクリックを受け付ける
-            if (!managerAccessor.Instance.dataMagager.isMoving && Input.GetMouseButtonDown(0) && setblock)
+            if (Input.GetMouseButtonDown(0) && setblock)
             {
-                //Debug.Log("移動");
-                // クリックされた位置を取得
-                clickPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                clickPosition.z = 0; // z座標を0に設定（2Dゲームなので）
-
                 if (!managerAccessor.Instance.dataMagager.noTapArea)
                 {
-                    CreateObj = Instantiate(prefab, clickPosition, Quaternion.identity);//移動指標オブジェクト作成
-
+                   // CreateObj = Instantiate(prefab, clickPosition, Quaternion.identity);//移動指標オブジェクト作成
 
                     //クリックした場所の左右判定を取る
-                    if (playerPosition.x < clickPosition.x)//右
+                    if (transform.position.x < managerAccessor.Instance.dataMagager.clickPosition.x)//右
                     {
                         offset = new Vector2(0.5f * playerSize, 0f);//右向き
                         transform.eulerAngles = new Vector3(0, 0, 0);
@@ -198,36 +193,31 @@ public class Player : MonoBehaviour
                 Destroy(this.gameObject);
             }
 
-            //Decoyファイルにふれたときおとりファイルを消去
-            if(managerAccessor.Instance.dataMagager.onDecoyFile)
-            {
-                Destroy(CreateObj);
-            }
+            
 
-           
             // 移動中の場合は移動する
             if (managerAccessor.Instance.dataMagager.isMoving)
             {
+                //if (mempos.x != transform.position.x || mempos.y != transform.position.y)//前フレームと比較しプレイヤーが全く動かなかったら、移動終了
+                //{
+                //    //playerPosition = mempos;
+                //    Debug.Log("2");
+                //}
+                //else
+                //{
+                //    //MoveFinish();
+                //    Debug.Log("3");
+                //}
+
+
+                //mempos = transform.position;//前フレームを保存
 
                 // キャラクターのX座標をクリックされた位置に向けて移動
-                transform.position = Vector2.MoveTowards(transform.position, new Vector2(clickPosition.x, transform.position.y), speed * Time.deltaTime);
+                transform.position = Vector2.MoveTowards(transform.position, new Vector2(managerAccessor.Instance.dataMagager.clickPosition.x, transform.position.y), speed * Time.deltaTime);
 
                 
                 // 移動が終わったらフラグを解除
-                //前フレームの座標と今の座標を比べて、移動量が極端に少ない場合（壁にぶつかっている状態）処理を終了
-                //if (transform.position.x == clickPosition.x||Mathf.Abs(transform.position.x-mempos.x) < 0.03f)
-                //{
-                //    Debug.Log("b");
-                //    playerPosition = transform.position;//playerPositionを更新
-                //    MoveFinish();//移動処理終了
-                //}
-
-                //if (Mathf.Abs(transform.position.x - mempos.x) < 0.03f)
-                //{
-                //    Debug.Log("b");
-                //}
-
-                if (transform.position.x == clickPosition.x)
+                if (transform.position.x == managerAccessor.Instance.dataMagager.clickPosition.x)
                 {
                     //Debug.Log("cccc");
                     MoveFinish();//移動処理終了
@@ -253,7 +243,8 @@ public class Player : MonoBehaviour
             }
            
 
-            mempos = transform.position;//前フレームを保存
+          
+            
 
         }
         else//エディットモードの時
@@ -269,11 +260,11 @@ public class Player : MonoBehaviour
     {
         if (managerAccessor.Instance.dataMagager.isMoving)
         {
-            Destroy(CreateObj);//移動指標オブジェクト削除
+            script.playercount--;//プレイヤーの数-1
 
             ray_hit = false;//移動終了後に再度飛ばないようにRayのフラグを切る
 
-            playerPosition = transform.position;//プレイヤーが動いた場所を取得する
+            //playerPosition = transform.position;//プレイヤーが動いた場所を取得する
 
             managerAccessor.Instance.dataMagager.isMoving = false;//移動処理終了
         }
@@ -291,7 +282,7 @@ public class Player : MonoBehaviour
                 //ゴールしているキャラのカウントプラス
                 managerAccessor.Instance.dataMagager.goalPlayerNum++;
                 other.gameObject.GetComponent<Goal>().goalChara = false;
-                Destroy(CreateObj);//移動指標オブジェクト削除
+                script.playercount--;//プレイヤーの数-1
                 Destroy(gameObject);//自身も削除
             }
         }
