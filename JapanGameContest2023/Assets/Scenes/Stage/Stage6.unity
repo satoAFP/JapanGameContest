@@ -167,6 +167,11 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &124610045 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3374213201882438884, guid: 95d09f087c4ea5843bd2abd174260358, type: 3}
+  m_PrefabInstance: {fileID: 1733227770}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &152762200
 GameObject:
   m_ObjectHideFlags: 0
@@ -286,6 +291,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1187894963}
     m_Modifications:
+    - target: {fileID: 2359931010143254886, guid: 5f3aa1b722a5fe14189c879c9129b0d4, type: 3}
+      propertyPath: fallHintText
+      value: "\u30B4\u30DF\u7BB1\u306B\u306F1\u5339\u3057\u304B\u5165\u308C\u307E\u305B\u3093\u3002"
+      objectReference: {fileID: 0}
+    - target: {fileID: 2359931010143254886, guid: 5f3aa1b722a5fe14189c879c9129b0d4, type: 3}
+      propertyPath: infectionHintText
+      value: "\u5225\u306E\u30EB\u30FC\u30C8\u3092\u691C\u8A0E\u3057\u307E\u3057\u3087\u3046\u3002"
+      objectReference: {fileID: 0}
     - target: {fileID: 3099624516476883722, guid: 5f3aa1b722a5fe14189c879c9129b0d4, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -1328,6 +1341,10 @@ PrefabInstance:
       propertyPath: editPanel
       value: 
       objectReference: {fileID: 3071785169817507711, guid: 7fc2dccf950d6cf4c83d9bef880106e6, type: 3}
+    - target: {fileID: 2299700927561021572, guid: d9cad45be0c8bd04aa1a630f6fedfb0e, type: 3}
+      propertyPath: goalParent
+      value: 
+      objectReference: {fileID: 124610045}
     - target: {fileID: 2299700927561021572, guid: d9cad45be0c8bd04aa1a630f6fedfb0e, type: 3}
       propertyPath: blockParent
       value: 

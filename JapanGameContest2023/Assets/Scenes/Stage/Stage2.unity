@@ -233,6 +233,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 95d09f087c4ea5843bd2abd174260358, type: 3}
+--- !u!1 &153584149 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3374213201882438884, guid: 95d09f087c4ea5843bd2abd174260358, type: 3}
+  m_PrefabInstance: {fileID: 153584148}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &389388022
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -476,6 +481,10 @@ PrefabInstance:
       propertyPath: clearPanel
       value: 
       objectReference: {fileID: 1994861581}
+    - target: {fileID: 2299700927561021572, guid: d9cad45be0c8bd04aa1a630f6fedfb0e, type: 3}
+      propertyPath: goalParent
+      value: 
+      objectReference: {fileID: 153584149}
     - target: {fileID: 2299700927561021572, guid: d9cad45be0c8bd04aa1a630f6fedfb0e, type: 3}
       propertyPath: blockParent
       value: 
@@ -1359,6 +1368,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1187894963}
     m_Modifications:
+    - target: {fileID: 2359931010143254886, guid: 5f3aa1b722a5fe14189c879c9129b0d4, type: 3}
+      propertyPath: fallHintText
+      value: "\u30D6\u30ED\u30C3\u30AF\u306F\u52D5\u304B\u305B\u307E\u3059\u3002"
+      objectReference: {fileID: 0}
+    - target: {fileID: 2359931010143254886, guid: 5f3aa1b722a5fe14189c879c9129b0d4, type: 3}
+      propertyPath: infectionHintText
+      value: "\u5225\u306E\u65B9\u6CD5\u3092\u691C\u8A0E\u3057\u307E\u3057\u3087\u3046\u3002"
+      objectReference: {fileID: 0}
     - target: {fileID: 3099624516476883722, guid: 5f3aa1b722a5fe14189c879c9129b0d4, type: 3}
       propertyPath: m_RootOrder
       value: 3

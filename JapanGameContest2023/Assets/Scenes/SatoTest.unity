@@ -417,6 +417,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 189574630901616390, guid: be7cb79784ac654488d8995ef91e9326, type: 3}
     - target: {fileID: 2299700927561021572, guid: d9cad45be0c8bd04aa1a630f6fedfb0e, type: 3}
+      propertyPath: goalParent
+      value: 
+      objectReference: {fileID: 1480926623}
+    - target: {fileID: 2299700927561021572, guid: d9cad45be0c8bd04aa1a630f6fedfb0e, type: 3}
       propertyPath: blockParent
       value: 
       objectReference: {fileID: 650750991}
@@ -852,7 +856,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3374213201882438883, guid: 95d09f087c4ea5843bd2abd174260358, type: 3}
       propertyPath: charaNum
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3374213201882438883, guid: 95d09f087c4ea5843bd2abd174260358, type: 3}
       propertyPath: ClearPanel
@@ -1450,6 +1454,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: be7cb79784ac654488d8995ef91e9326, type: 3}
+--- !u!1 &1480926623 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3374213201882438884, guid: 95d09f087c4ea5843bd2abd174260358, type: 3}
+  m_PrefabInstance: {fileID: 601893068}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1543132340
 PrefabInstance:
   m_ObjectHideFlags: 0

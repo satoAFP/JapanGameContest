@@ -449,6 +449,18 @@ PrefabInstance:
       propertyPath: fallText
       value: "\u30A6\u30A4\u30EB\u30B9\u304C\u7BC4\u56F2\u5916\u306B\u51FA\u307E\u3057\u305F\u3002"
       objectReference: {fileID: 0}
+    - target: {fileID: 2359931010143254886, guid: 5f3aa1b722a5fe14189c879c9129b0d4, type: 3}
+      propertyPath: fallHintText
+      value: "\u30D6\u30ED\u30C3\u30AF\u306F\u52D5\u304B\u305B\u307E\u3059\u3002"
+      objectReference: {fileID: 0}
+    - target: {fileID: 2359931010143254886, guid: 5f3aa1b722a5fe14189c879c9129b0d4, type: 3}
+      propertyPath: overHintText
+      value: "CPU\u306E\u72B6\u6CC1\u306F\u30BF\u30B9\u30AF\u30DE\u30CD\u30FC\u30B8\u30E3\u30FC\u3067\u78BA\u8A8D\u3067\u304D\u307E\u3059\u3002"
+      objectReference: {fileID: 0}
+    - target: {fileID: 2359931010143254886, guid: 5f3aa1b722a5fe14189c879c9129b0d4, type: 3}
+      propertyPath: infectionHintText
+      value: "\u5225\u306E\u30EB\u30FC\u30C8\u3092\u691C\u8A0E\u3057\u307E\u3057\u3087\u3046\u3002"
+      objectReference: {fileID: 0}
     - target: {fileID: 3099624516476883722, guid: 5f3aa1b722a5fe14189c879c9129b0d4, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -731,6 +743,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2bcb002a706f99a44b172d1651ccec0b, type: 3}
+--- !u!1 &325733283 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3374213201882438884, guid: 95d09f087c4ea5843bd2abd174260358, type: 3}
+  m_PrefabInstance: {fileID: 546755348}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &404197040
 GameObject:
   m_ObjectHideFlags: 0
@@ -1378,6 +1395,10 @@ PrefabInstance:
       propertyPath: clearPanel
       value: 
       objectReference: {fileID: 986226655}
+    - target: {fileID: 2299700927561021572, guid: d9cad45be0c8bd04aa1a630f6fedfb0e, type: 3}
+      propertyPath: goalParent
+      value: 
+      objectReference: {fileID: 325733283}
     - target: {fileID: 2299700927561021572, guid: d9cad45be0c8bd04aa1a630f6fedfb0e, type: 3}
       propertyPath: blockParent
       value: 
