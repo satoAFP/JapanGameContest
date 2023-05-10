@@ -130,12 +130,14 @@ public class Player : MonoBehaviour
                 ray_hit = false;//Rayが当たらない
             }
 
-            // 移動中でなければクリックを受け付ける
-            if (Input.GetMouseButtonDown(0) && setblock)
+
+            if (!managerAccessor.Instance.dataMagager.noTapArea)
             {
-                if (!managerAccessor.Instance.dataMagager.noTapArea)
+                // 移動中でなければクリックを受け付ける
+                if (Input.GetMouseButtonDown(0) && setblock)
                 {
-                   // CreateObj = Instantiate(prefab, clickPosition, Quaternion.identity);//移動指標オブジェクト作成
+
+                    // CreateObj = Instantiate(prefab, clickPosition, Quaternion.identity);//移動指標オブジェクト作成
 
                     //クリックした場所の左右判定を取る
                     if (transform.position.x < managerAccessor.Instance.dataMagager.clickPosition.x)//右
@@ -148,13 +150,15 @@ public class Player : MonoBehaviour
                     {
                         offset = new Vector2(-0.5f * playerSize, 0f);//左向き
                         transform.eulerAngles = new Vector3(0, 180, 0);
-                         Debug.Log("左");
+                        Debug.Log("左");
                     }
 
                     // 移動を開始
                     managerAccessor.Instance.dataMagager.isMoving = true;
+
                 }
             }
+               
 
             if(managerAccessor.Instance.dataMagager.isMoving)
             {
