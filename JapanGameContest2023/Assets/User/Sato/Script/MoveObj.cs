@@ -15,8 +15,11 @@ public class MoveObj : MonoBehaviour
             collision.gameObject.tag == "Goal" ||
             collision.gameObject.tag == "DecoyFile")
         {
-            managerAccessor.Instance.dataMagager.onBlock = true;
-            Debug.Log("aaa");
+            //編集モードの時のみ
+            if (!managerAccessor.Instance.dataMagager.playMode)
+            {
+                managerAccessor.Instance.dataMagager.onBlock = true;
+            }
         }
     }
 
@@ -26,7 +29,11 @@ public class MoveObj : MonoBehaviour
             collision.gameObject.tag == "Goal" ||
             collision.gameObject.tag == "DecoyFile")
         {
-            managerAccessor.Instance.dataMagager.onBlock = false;
+            //編集モードの時のみ
+            if (!managerAccessor.Instance.dataMagager.playMode)
+            {
+                managerAccessor.Instance.dataMagager.onBlock = false;
+            }
         }
     }
 
