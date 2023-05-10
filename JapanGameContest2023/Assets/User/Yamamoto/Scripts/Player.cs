@@ -9,7 +9,7 @@ public class Player : MonoBehaviour
     [SerializeField, Header("プレイヤー速度")] private float speed;//プレイヤー速度
 
     //こいつはそのうちDataManagerに放り込む
-   /* [System.NonSerialized] */public bool setblock;//足元の判定がブロックに当たっていた時
+    [System.NonSerialized] public bool setblock;//足元の判定がブロックに当たっていた時
 
     [SerializeField, Header("プレイヤー上昇タイマー")] private float uptime;//プレイヤーが一度に上昇できる時間
 
@@ -25,20 +25,14 @@ public class Player : MonoBehaviour
 
     private Vector2 playerPosition;//現在のプレイヤーの位置
 
+    [SerializeField]private Vector2 mempos;//１つ前のフレームでの移動時のプレイヤーの位置
+
     //GetComponentを用いてAnimatorコンポーネントを取り出す.
     [SerializeField] private Animator animator;
 
     //-----------Click関係の関数--------------------
 
     private FileGene script;//FileGeneスクリプト
-
-    //public FileGene fileGene;
-
-    // クリックされた位置
-    //private Vector3 clickPosition;
-
-    //[SerializeField, Header("生成する移動指標オブジェクト")]
-    //private GameObject prefab;
 
     [System.NonSerialized]
     public GameObject CreateObj;//移動指標オブジェクトを入れる（削除命令に使う）
@@ -83,9 +77,6 @@ public class Player : MonoBehaviour
 
         //取得するレイヤーを獲得（左右判定用）
         layermask = LayerMask.GetMask("CreateBlock","Block", "Ground");//ここに追加したいレイヤー名を入れるとlayermaskがレイヤー判定を取るようになる
-
-       // animator = GetComponent<Animator>();
-
 
     }
 
@@ -239,7 +230,18 @@ public class Player : MonoBehaviour
             }
            
 
-           // mempos = transform.position;//前フレームを保存
+            mempos = transform.position;//前フレームを保存
+
+            if(mempos != playerPosition)//前フレームと比較しプレイヤーが全く動かなかったら、移動終了
+            {
+                playerPosition = mempos;
+                Debug.Log("oo2");
+            }
+            else
+            {
+                MoveFinish();
+                Debug.Log("oo3");
+            }
 
         }
         else//エディットモードの時
