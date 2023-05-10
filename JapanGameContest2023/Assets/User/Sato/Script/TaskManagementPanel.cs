@@ -76,10 +76,16 @@ public class TaskManagementPanel : MonoBehaviour
         goalText.text = goalChildObj.ToString();
     }
 
-    //CPUパネル
-    public void CPUPanel()
+    //CPUパネル出現
+    public void CPUPanelOn()
     {
         taskManagement.SetActive(!taskManagement.activeSelf);
+    }
+
+    //CPUパネル出現
+    public void CPUPanelOff()
+    {
+        taskManagement.SetActive(false);
     }
 
 }
