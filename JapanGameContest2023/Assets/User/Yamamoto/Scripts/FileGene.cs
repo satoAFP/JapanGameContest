@@ -34,18 +34,18 @@ public class FileGene : MonoBehaviour
                 Destroy(CreateObj);
             }
 
-           
-            if (Input.GetMouseButtonDown(0))
+            if (!managerAccessor.Instance.dataMagager.noTapArea)
             {
-                // クリックされた位置を取得
-                managerAccessor.Instance.dataMagager.clickPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                managerAccessor.Instance.dataMagager.clickPosition.z = 0; // z座標を0に設定（2Dゲームなので）
-
-                if (!managerAccessor.Instance.dataMagager.noTapArea)
+                if (Input.GetMouseButtonDown(0))
                 {
+                    // クリックされた位置を取得
+                    managerAccessor.Instance.dataMagager.clickPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                    managerAccessor.Instance.dataMagager.clickPosition.z = 0; // z座標を0に設定（2Dゲームなので）
+
+
                     if (CreateObj == null) //初めて移動指標オブジェクトを作るとき
                     {
-                       
+
                         CreateObj = Instantiate(prefab, managerAccessor.Instance.dataMagager.clickPosition, Quaternion.identity);//移動指標オブジェクト作成
                         nocreate = true;
                     }
@@ -56,10 +56,13 @@ public class FileGene : MonoBehaviour
                         CreateObj = Instantiate(prefab, managerAccessor.Instance.dataMagager.clickPosition, Quaternion.identity);//新たに移動指標オブジェクト作成
                     }
 
-                   
-                }
 
+
+
+                }
             }
+
+                
 
             if (playercount == 0)//移動しているプレイヤーが0になるとCreateObj削除
             {
