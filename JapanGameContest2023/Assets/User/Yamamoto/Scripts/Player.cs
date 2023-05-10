@@ -30,6 +30,8 @@ public class Player : MonoBehaviour
 
     //-----------Click関係の関数--------------------
 
+    private FileGene script;//FileGeneスクリプト
+
     //public FileGene fileGene;
 
     // クリックされた位置
@@ -71,6 +73,8 @@ public class Player : MonoBehaviour
         firstpos = this.transform.position;//プレイヤーの初期位置を取得
 
         playerPosition = firstpos;//最初はプレイヤーの初期位置を入れる
+
+        script = GameObject.Find("Clickjudge").GetComponent<FileGene>();//FileGeneスクリプト取得
 
         fuptime = uptime;//プレイヤー上昇時間を保存
 
@@ -251,7 +255,7 @@ public class Player : MonoBehaviour
     {
         if (managerAccessor.Instance.dataMagager.isMoving)
         {
-           // Destroy(CreateObj);//移動指標オブジェクト削除
+            script.playercount--;//プレイヤーの数-1
 
             ray_hit = false;//移動終了後に再度飛ばないようにRayのフラグを切る
 
@@ -273,7 +277,7 @@ public class Player : MonoBehaviour
                 //ゴールしているキャラのカウントプラス
                 managerAccessor.Instance.dataMagager.goalPlayerNum++;
                 other.gameObject.GetComponent<Goal>().goalChara = false;
-                //Destroy(CreateObj);//移動指標オブジェクト削除
+                script.playercount--;//プレイヤーの数-1
                 Destroy(gameObject);//自身も削除
             }
         }

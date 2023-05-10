@@ -15,10 +15,11 @@ public class FileGene : MonoBehaviour
 
     private bool nocreate = false;//オブジェクト生成をさせないフラグ
 
+
     // Start is called before the first frame update
     void Start()
     {
-        playercount = GameObject.FindGameObjectsWithTag("Player").Length;//プレイヤーの数を数える
+        playercount = GameObject.FindGameObjectsWithTag("Player").Length;  
     }
 
     // Update is called once per frame
@@ -44,16 +45,18 @@ public class FileGene : MonoBehaviour
                     if (!managerAccessor.Instance.dataMagager.noTapArea && !nocreate)
                     {
                         CreateObj = Instantiate(prefab, managerAccessor.Instance.dataMagager.clickPosition, Quaternion.identity);//移動指標オブジェクト作成
+                        nocreate = true;
                     }
 
                 }
             }
 
 
-            if(playercount == 0)
+            if(playercount == 0)//移動しているプレイヤーが0になるとCreateObj削除
             {
-                nocreate = true;
                 Destroy(CreateObj);
+                nocreate = false;
+                playercount = GameObject.FindGameObjectsWithTag("Player").Length;//プレイヤーの数を再カウント
             }
            
 
