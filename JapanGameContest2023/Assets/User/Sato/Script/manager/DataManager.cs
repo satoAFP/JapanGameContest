@@ -47,6 +47,9 @@ public class DataManager : MonoBehaviour
     //マウスがクリックした座標を取得
     [System.NonSerialized] public Vector3 clickPosition;
 
+    //プレイヤーの数を数える（各プレイヤーの移動をしているかを確認するために使う）
+    [System.NonSerialized] public int playercount = 0;
+
     //主人公の移動フラグ
     [System.NonSerialized] public bool isMoving = false;
 

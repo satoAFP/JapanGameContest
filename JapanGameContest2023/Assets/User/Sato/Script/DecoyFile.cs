@@ -37,7 +37,7 @@ public class DecoyFile : MonoBehaviour
         if (collision.tag == "Player")
         {
             //キャラ削除
-            Destroy(collision.gameObject.GetComponent<Player>().CreateObj);
+           // Destroy(collision.gameObject.GetComponent<Player>().CreateObj);
             Destroy(collision.gameObject);
             //感染したファイルになる
             //gameObject.GetComponent<SpriteRenderer>().sprite = infectionFile;
