@@ -24,30 +24,30 @@ EditorBuildSettings:
     path: Assets/Scenes/Stage/Stage3.unity
     guid: af5124c2793e32847bc1d5647f14c860
   - enabled: 1
-    path: Assets/Scenes/Stage/Stage4.unity
+    path: Assets/Scenes/Stage/Stage6.unity
     guid: 1e8fbeaae19b69747baf74a9dcf1b21a
   - enabled: 1
-    path: Assets/Scenes/Stage/Stage5.unity
+    path: Assets/Scenes/Stage/Stage10.unity
     guid: 467fa03adb59c024eb5adbfb8432f9a6
   - enabled: 1
-    path: Assets/Scenes/Stage/Stage6.unity
+    path: Assets/Scenes/Stage/Stage7.unity
     guid: f3243a19ff425754583f639b9e6ba0e1
   - enabled: 1
-    path: Assets/Scenes/Stage/Stage7.unity
+    path: Assets/Scenes/Stage/Stage11.unity
     guid: f41cc2cae15edf647bb4b5cfcbe09e0f
   - enabled: 1
-    path: Assets/Scenes/Stage/Stage8.unity
+    path: Assets/Scenes/Stage/Stage12.unity
     guid: 8b6fbe2d777c0d14e89de53d1b4e0209
   - enabled: 1
     path: Assets/Scenes/Stage/Stage9.unity
     guid: 00956a473c95e304e80eb2f575c6e73c
   - enabled: 1
-    path: Assets/Scenes/Stage/Stage10.unity
+    path: Assets/Scenes/Stage/Stage8.unity
     guid: f5197dc65ed15664992342b80c27c6ae
   - enabled: 1
-    path: Assets/Scenes/Stage/Stage11.unity
+    path: Assets/Scenes/Stage/Stage4.unity
     guid: 3a96510b9233b554f84481088fdb845a
   - enabled: 1
-    path: Assets/Scenes/Stage/Stage12.unity
+    path: Assets/Scenes/Stage/Stage5.unity
     guid: 55a72140ddecdbb4f839356d906d36b1
   m_configObjects: {}
