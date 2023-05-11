@@ -68,6 +68,7 @@ public class DataManager : MonoBehaviour
     [System.NonSerialized] public bool overDeth = false;
 
 
+
     [Header("全ステージ数")] public int stageNum;
 
 
