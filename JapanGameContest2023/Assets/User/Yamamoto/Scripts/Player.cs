@@ -101,6 +101,13 @@ public class Player : MonoBehaviour
             // Rayの可視化
             Debug.DrawLine(origin_x, origin_x + direction * ray_length, Color.red);//左右判定用のRay
 
+
+            if (!animator.GetCurrentAnimatorStateInfo(0).IsName("PlayerStart"))
+            {
+                animator.SetBool("StartAnim", true);//移動時のアニメーションに切り替え
+                Debug.Log("Animation finished");
+            }
+
             //左右判定用のRayが当たった時の処理
             if (hit.collider != null)
             {
