@@ -707,6 +707,7 @@ MonoBehaviour:
   blockText: {fileID: 986325156708439830}
   goalText: {fileID: 5223254752742501333}
   taskManagement: {fileID: 1225756992775036472}
+  notapArea: {fileID: 1361335475709753480}
   objMax: 3
   color:
   - {r: 0.17254902, g: 0.33333334, b: 0.65882355, a: 1}
@@ -2425,6 +2426,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: NoTapArea
       objectReference: {fileID: 0}
+    - target: {fileID: 7461622880818392538, guid: 94994bcce8391be428949ec20148c66b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7461622880818392539, guid: 94994bcce8391be428949ec20148c66b, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -2511,6 +2516,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 94994bcce8391be428949ec20148c66b, type: 3}
+--- !u!1 &1361335475709753480 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7461622880818392538, guid: 94994bcce8391be428949ec20148c66b, type: 3}
+  m_PrefabInstance: {fileID: 8460413346360481106}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &1361335475709753481 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7461622880818392539, guid: 94994bcce8391be428949ec20148c66b, type: 3}
