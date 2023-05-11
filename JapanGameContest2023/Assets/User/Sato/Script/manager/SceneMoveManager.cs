@@ -36,4 +36,10 @@ public class SceneMoveManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
+    //ƒV[ƒ“‚Ì–¼‘Oæ“¾ŠÖ”
+    public string GetSceneName()
+    {
+        return SceneManager.GetActiveScene().name;
+    }
+
 }
