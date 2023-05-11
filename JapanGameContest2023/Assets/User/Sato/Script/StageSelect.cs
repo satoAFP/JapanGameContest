@@ -151,4 +151,15 @@ public class StageSelect : MonoBehaviour
             }
         }
     }
+
+
+
+    public void ResetData()
+    {
+        for(int i=0;i< managerAccessor.Instance.dataMagager.stageNum;i++)
+        {
+            PlayerPrefs.DeleteKey("Stage" + i);
+        }
+    }
+
 }
