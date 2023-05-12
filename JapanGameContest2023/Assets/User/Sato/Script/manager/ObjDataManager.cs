@@ -20,6 +20,8 @@ public class ObjDataManager : MonoBehaviour
 
     [Header("ゴールを格納している親")] public GameObject goalParent;
 
+    [Header("範囲選択するオブジェクト")] public RangeSelection rangeSelection;
+
     // Start is called before the first frame update
     void Start()
     {

@@ -191,9 +191,8 @@ public class DataManager : MonoBehaviour
                 GameObject clone = Instantiate(dataManager.copyObjsData[i]);
                 clone.transform.localPosition += moveAmount;
                 clone.transform.parent = managerAccessor.Instance.objDataManager.blockParent.transform;
-                //Šù‚É‘I‘ğ‚³‚ê‚½ó‘Ô‚É‚µ‚Ä‚¨‚­
-                dataManager.selectObjsData.Add(clone);
             }
+
 
             //ƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚ê‚½‚çUI‚ªÁ‚¦‚é
             Destroy(dataManager.rightClickUIClone);
