@@ -24,7 +24,12 @@ public class MouseIcon : MonoBehaviour
 
     [SerializeField, Header("矢印の画像")] private Sprite arrow;
 
+    [SerializeField, Header("ロードするオブジェクト")] private GameObject loadImg;
+
     [SerializeField, Header("マウスの位置ずれた差分加算用")] private Vector3 cursorMove;
+
+
+    private Vector3 loadRotate = new Vector2(0, 0);
 
     // Update is called once per frame
     void FixedUpdate()
@@ -63,6 +68,14 @@ public class MouseIcon : MonoBehaviour
         {
             gameObject.GetComponent<Image>().sprite = cursor;
             gameObject.GetComponent<RectTransform>().rotation = Quaternion.identity;
+        }
+
+        if (managerAccessor.Instance.dataMagager.sceneMoveStart)
+        {
+            gameObject.GetComponent<Image>().color = new Color(0, 0, 0, 0);
+            loadImg.SetActive(true);
+            loadRotate.z -= 2f;
+            loadImg.GetComponent<RectTransform>().eulerAngles = loadRotate;
         }
 
     }

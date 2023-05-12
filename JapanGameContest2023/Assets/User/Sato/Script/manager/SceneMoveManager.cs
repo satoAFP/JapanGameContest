@@ -15,6 +15,7 @@ public class SceneMoveManager : MonoBehaviour
     //コルーチン呼び出し用
     public void SceneMoveName(string name)
     {
+        managerAccessor.Instance.dataMagager.sceneMoveStart = true;
         StartCoroutine(CSceneMoveName(name));
     }
 
@@ -25,9 +26,18 @@ public class SceneMoveManager : MonoBehaviour
         SceneManager.LoadScene(name);
     }
 
-    //次のステージにシーン移動
+    //コルーチン呼び出し用
     public void SceneMoveNext()
     {
+        managerAccessor.Instance.dataMagager.sceneMoveStart = true;
+        StartCoroutine("CSceneMoveNext");
+    }
+
+    //次のステージにシーン移動
+    private IEnumerator CSceneMoveNext()
+    {
+        yield return new WaitForSeconds(0.5f);
+
         for (int i = 0; i < managerAccessor.Instance.dataMagager.stageNum; i++) 
         {
             if (SceneManager.GetActiveScene().name == "Stage" + (i + 1))
@@ -47,6 +57,13 @@ public class SceneMoveManager : MonoBehaviour
     //リロード処理
     public void SceneMoveRetry()
     {
+        StartCoroutine("CSceneMoveRetry");
+    }
+
+    private IEnumerator CSceneMoveRetry()
+    {
+        yield return new WaitForSeconds(0.5f);
+
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
@@ -56,9 +73,5 @@ public class SceneMoveManager : MonoBehaviour
         return SceneManager.GetActiveScene().name;
     }
 
-    public IEnumerator SetText()
-    {
-        yield return new WaitForSeconds(1.0f);
-    }
 
 }

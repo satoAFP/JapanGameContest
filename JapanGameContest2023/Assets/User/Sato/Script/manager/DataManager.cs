@@ -61,6 +61,10 @@ public class DataManager : MonoBehaviour
     [System.NonSerialized] public int goalPlayerNum = 0;
 
 
+    //シーン切り替え開始
+    [System.NonSerialized] public bool sceneMoveStart = false;
+
+
     //落下ししたとき
     [System.NonSerialized] public bool fallDeth = false;
     //ウイルスに感染したとき
