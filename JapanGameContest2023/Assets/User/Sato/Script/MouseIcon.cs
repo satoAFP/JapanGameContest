@@ -38,7 +38,7 @@ public class MouseIcon : MonoBehaviour
         gameObject.GetComponent<RectTransform>().position = Input.mousePosition + cursorMove;
 
         //ƒJ[ƒ\ƒ‹‚ª‚»‚ê‚¼‚ê‚Ì‰‚Éæ‚Á‚Ä‚¢‚é‚Æ‚«‰æ‘œ‚ğ–îˆó‚É•Ï‚¦‚é
-        if (managerAccessor.Instance.dataMagager.onEdge) 
+        if (managerAccessor.Instance.dataMagager.onEdge && !managerAccessor.Instance.dataMagager.playMode)  
         {
             gameObject.GetComponent<Image>().sprite = arrow;
 
