@@ -12,9 +12,16 @@ public class SceneMoveManager : MonoBehaviour
         managerAccessor.Instance.sceneMoveManager = this;
     }
 
-    //名前から参照してシーン移動
+    //コルーチン呼び出し用
     public void SceneMoveName(string name)
     {
+        StartCoroutine(CSceneMoveName(name));
+    }
+
+    //名前から参照してシーン移動
+    private IEnumerator CSceneMoveName(string name)
+    {
+        yield return new WaitForSeconds(0.5f);
         SceneManager.LoadScene(name);
     }
 
@@ -47,6 +54,11 @@ public class SceneMoveManager : MonoBehaviour
     public string GetSceneName()
     {
         return SceneManager.GetActiveScene().name;
+    }
+
+    public IEnumerator SetText()
+    {
+        yield return new WaitForSeconds(1.0f);
     }
 
 }

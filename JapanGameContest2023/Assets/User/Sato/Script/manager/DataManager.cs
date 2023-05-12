@@ -224,4 +224,6 @@ public class DataManager : MonoBehaviour
         Destroy(dataManager.rightClickUIClone);
 
     }
+
+    
 }
