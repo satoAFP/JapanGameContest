@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DataManager : MonoBehaviour
 {
@@ -147,11 +148,17 @@ public class DataManager : MonoBehaviour
             if (playMode)
             {
                 Destroy(clonePanel);
+
+                //モードチェンジの画像変更
+                managerAccessor.Instance.objDataManager.modeChangeObj.GetComponent<Image>().sprite = managerAccessor.Instance.objDataManager.playModeImg;
             }
             else
             {
                 clonePanel = Instantiate(managerAccessor.Instance.objDataManager.editPanel);
                 clonePanel.transform.position = new Vector3(0, 0, 0);
+
+                //モードチェンジの画像変更
+                managerAccessor.Instance.objDataManager.modeChangeObj.GetComponent<Image>().sprite = managerAccessor.Instance.objDataManager.editModeImg;
             }
         }
     }
