@@ -70,11 +70,15 @@ public class MouseIcon : MonoBehaviour
             gameObject.GetComponent<RectTransform>().rotation = Quaternion.identity;
         }
 
+        //シーン移動が始まるとロード中の画像に代わる
         if (managerAccessor.Instance.dataMagager.sceneMoveStart)
         {
+            //カーソル非表示
             gameObject.GetComponent<Image>().color = new Color(0, 0, 0, 0);
+            //ロード画像表示
             loadImg.SetActive(true);
-            loadRotate.z -= 2f;
+            //回転処理
+            loadRotate.z -= managerAccessor.Instance.dataMagager.loadRotate;
             loadImg.GetComponent<RectTransform>().eulerAngles = loadRotate;
         }
 

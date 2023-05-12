@@ -76,6 +76,10 @@ public class DataManager : MonoBehaviour
 
     [Header("全ステージ数")] public int stageNum;
 
+    [Header("シーン移動時のロード時間")] public float loadTime;
+
+    [Header("ロード画像回転速度")] public float loadRotate;
+
 
     private GameObject clonePanel = null;
 
