@@ -28,7 +28,18 @@ public class TitleSystem : MonoBehaviour
     {
         dt = DateTime.Now;
         timeText.text = dt.Hour.ToString("d2") + ":" + dt.Minute.ToString("d2");
-        dayText.text = dt.Month.ToString() + "月" + dt.Day.ToString() + "日";
+        dayText.text = dt.Month.ToString() + "月" + dt.Day.ToString() + "日" + "(" + Week(dt.Year, dt.Month, dt.Day) + ")";
+    }
+
+    //年月日から曜日を求める関数
+    private string Week(int y, int m, int d)
+    {
+        //一週間
+        string[] week = { "日", "月", "火", "水", "木", "金", "土", };
+        //ツェラーの公式
+        int w= (y + y / 4 - y / 100 + y / 400 + (13 * m + 8) / 5 + d) % 7;
+
+        return week[w];
     }
 
     public void ClickTitle()

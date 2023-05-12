@@ -134,7 +134,6 @@ GameObject:
   - component: {fileID: 10204794}
   - component: {fileID: 10204797}
   - component: {fileID: 10204796}
-  - component: {fileID: 10204795}
   m_Layer: 5
   m_Name: NameSpace
   m_TagString: Untagged
@@ -160,23 +159,8 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -80, y: -200}
-  m_SizeDelta: {x: 500, y: 75}
+  m_SizeDelta: {x: 500, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &10204795
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 10204793}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
-  m_EffectDistance: {x: 7, y: 7}
-  m_UseGraphicAlpha: 1
 --- !u!114 &10204796
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -197,7 +181,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 5dc37dfa714f8814fa12ccbd8a252099, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
