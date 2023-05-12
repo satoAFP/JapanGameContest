@@ -5,7 +5,7 @@ using UnityEngine;
 public class FileGene : MonoBehaviour
 {
 
-    public int playercount = 0;//プレイヤーの数を数える
+    public int playercount = 0;//プレイヤーの数を数える（ファイル削除命令用）
 
     [SerializeField, Header("生成する移動指標オブジェクト")]
     private GameObject prefab;
@@ -68,6 +68,7 @@ public class FileGene : MonoBehaviour
             {
                 Destroy(CreateObj);
                 nocreate = false;
+                managerAccessor.Instance.dataMagager.isMoving = false;//プレイヤー全体の移動処理を終了
                 playercount = GameObject.FindGameObjectsWithTag("Player").Length;//プレイヤーの数を再カウント
             }
            

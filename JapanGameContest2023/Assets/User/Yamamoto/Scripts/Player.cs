@@ -21,11 +21,13 @@ public class Player : MonoBehaviour
 
     private Rigidbody2D rb;//プレイヤーリジッドボディ
 
-    private Vector2 firstpos;//初期位置（仮）
+    private bool moving = false;//プレイヤー各自の移動フラグ
 
-    private Vector2 playerPosition;//現在のプレイヤーの位置
+    //private Vector2 firstpos;//初期位置（仮）
 
-    [SerializeField]private Vector2 mempos;//１つ前のフレームでの移動時のプレイヤーの位置
+    //private Vector2 playerPosition;//現在のプレイヤーの位置
+
+    //[SerializeField]private Vector2 mempos;//１つ前のフレームでの移動時のプレイヤーの位置
 
     //GetComponentを用いてAnimatorコンポーネントを取り出す.
     [SerializeField] private Animator animator;
@@ -64,11 +66,11 @@ public class Player : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();//リジットボディの取得
 
-        firstpos = this.transform.position;//プレイヤーの初期位置を取得
+        //firstpos = this.transform.position;//プレイヤーの初期位置を取得
 
-        playerPosition = firstpos;//最初はプレイヤーの初期位置を入れる
+        //playerPosition = firstpos;//最初はプレイヤーの初期位置を入れる
 
-        mempos = new Vector2(0, 0);//初期化
+        //mempos = new Vector2(0, 0);//初期化
 
         script = GameObject.Find("Clickjudge").GetComponent<FileGene>();//FileGeneスクリプト取得
 
@@ -123,7 +125,7 @@ public class Player : MonoBehaviour
                     if (LayerMask.LayerToName(layer) == "Block" || LayerMask.LayerToName(layer) == "Ground")
                     {
                         //移動中のときのみRayが当たったことにする
-                        if (managerAccessor.Instance.dataMagager.isMoving)
+                        if (moving)
                         {
                             ray_hit = true;//Rayが当たっている
                         }
@@ -161,13 +163,14 @@ public class Player : MonoBehaviour
                     }
 
                     // 移動を開始
-                    managerAccessor.Instance.dataMagager.isMoving = true;
+                    managerAccessor.Instance.dataMagager.isMoving = true;//プレイヤー全体の移動処理
+                    moving = true;//そのプレイヤー自身の移動フラグもON
 
                 }
             }
                
 
-            if(managerAccessor.Instance.dataMagager.isMoving)
+            if(moving)
             {
                 animator.SetBool("Moving", true);//移動時のアニメーションに切り替え
             }
@@ -207,7 +210,7 @@ public class Player : MonoBehaviour
             
 
             // 移動中の場合は移動する
-            if (managerAccessor.Instance.dataMagager.isMoving)
+            if (moving)
             {
                 //if (mempos.x != transform.position.x || mempos.y != transform.position.y)//前フレームと比較しプレイヤーが全く動かなかったら、移動終了
                 //{
@@ -269,7 +272,7 @@ public class Player : MonoBehaviour
     //移動終了時の処理
     private void MoveFinish()
     {
-        if (managerAccessor.Instance.dataMagager.isMoving)
+        if (moving)
         {
             script.playercount--;//プレイヤーの数-1
 
@@ -277,7 +280,7 @@ public class Player : MonoBehaviour
 
             //playerPosition = transform.position;//プレイヤーが動いた場所を取得する
 
-            managerAccessor.Instance.dataMagager.isMoving = false;//移動処理終了
+            moving = false;//目的地にたどり着いたプレイヤーの移動処理終了
         }
     }
 
