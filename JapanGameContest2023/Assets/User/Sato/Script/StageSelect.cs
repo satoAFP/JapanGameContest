@@ -5,6 +5,10 @@ using UnityEngine.UI;
 
 public class StageSelect : MonoBehaviour
 {
+    [SerializeField, Header("ファイルのクリア時の画像")] private Sprite clearFile;
+
+    [SerializeField, Header("ファイルのクリアされていない時の画像")] private Sprite noClearFile;
+
     [SerializeField, Header("ステージ配置時の親オブジェクト")] private GameObject stageParent;
 
     [SerializeField, Header("ダブルクリックする間隔時間")] private int clickFrameRate;
@@ -28,12 +32,32 @@ public class StageSelect : MonoBehaviour
         //最初の生成
         if(clonefirst)
         {
+            //ステージ数取得
+            int stage = managerAccessor.Instance.dataMagager.stageNum;
+
+            //ステージのクリア状況データ取得用
+            int stageClear = 0;
+
             //ステージの生成
-            for (int i = 0; i < managerAccessor.Instance.dataMagager.stageNum; i++)
+            for (int i = 0; i < stage; i++)
             {
+                //クリア状況データを取得
+                stageClear = PlayerPrefs.GetInt("Stage" + i, 0);
+
+                //複製時の親、名前、画像の変更
                 stages.Add(Instantiate(managerAccessor.Instance.objDataManager.stageSelectObj));
                 stages[i].transform.parent = stageParent.transform;
                 stages[i].transform.GetChild(0).GetComponent<Text>().text = "STAGE" + (i + 1);
+                if (stageClear == 1) 
+                {
+                    //クリアされていた時
+                    stages[i].GetComponent<Image>().sprite = clearFile;
+                }
+                else
+                {
+                    //クリアされていなかった時
+                    stages[i].GetComponent<Image>().sprite = noClearFile;
+                }
             }
             clonefirst = false;
         }
@@ -127,4 +151,15 @@ public class StageSelect : MonoBehaviour
             }
         }
     }
+
+
+
+    public void ResetData()
+    {
+        for(int i=0;i< managerAccessor.Instance.dataMagager.stageNum;i++)
+        {
+            PlayerPrefs.DeleteKey("Stage" + i);
+        }
+    }
+
 }

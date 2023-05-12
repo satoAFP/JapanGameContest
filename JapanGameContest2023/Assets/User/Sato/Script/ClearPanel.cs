@@ -18,9 +18,4 @@ public class ClearPanel : MonoBehaviour
         timeText.text = managerAccessor.Instance.dataMagager.timeText;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

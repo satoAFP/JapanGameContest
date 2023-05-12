@@ -25,7 +25,14 @@ public class SceneMoveManager : MonoBehaviour
         {
             if (SceneManager.GetActiveScene().name == "Stage" + (i + 1))
             {
-                SceneManager.LoadScene("Stage" + (i + 2));
+                if (SceneManager.GetActiveScene().name != "Stage" + managerAccessor.Instance.dataMagager.stageNum)
+                {
+                    SceneManager.LoadScene("Stage" + (i + 2));
+                }
+                else
+                {
+                    SceneManager.LoadScene("StageSelect");
+                }
             }
         }
     }
@@ -34,6 +41,12 @@ public class SceneMoveManager : MonoBehaviour
     public void SceneMoveRetry()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    //ƒV[ƒ“‚Ì–¼‘Oæ“¾ŠÖ”
+    public string GetSceneName()
+    {
+        return SceneManager.GetActiveScene().name;
     }
 
 }

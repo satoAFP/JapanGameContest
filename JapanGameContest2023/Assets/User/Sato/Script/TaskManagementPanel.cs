@@ -22,7 +22,7 @@ public class TaskManagementPanel : MonoBehaviour
     [SerializeField, Header("ゴール数表示用テキスト")] private Text goalText;
 
     [SerializeField, Header("タスクマネージャー表示")] private GameObject taskManagement;
-
+    [SerializeField, Header("NoTapArea表示")] private GameObject notapArea;
 
     [SerializeField,Header("出せるオブジェクトの最大数")] private int objMax;
 
@@ -80,12 +80,14 @@ public class TaskManagementPanel : MonoBehaviour
     public void CPUPanelOn()
     {
         taskManagement.SetActive(!taskManagement.activeSelf);
+        notapArea.SetActive(!notapArea.activeSelf);
     }
 
     //CPUパネル出現
     public void CPUPanelOff()
     {
         taskManagement.SetActive(false);
+        notapArea.SetActive(false);
     }
 
 }
