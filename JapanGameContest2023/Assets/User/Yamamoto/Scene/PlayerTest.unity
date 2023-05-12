@@ -1119,7 +1119,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6325921300723310981, guid: 8f92970b58884574c8586638d496a955, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6325921300723310981, guid: 8f92970b58884574c8586638d496a955, type: 3}
       propertyPath: m_TagString
@@ -1160,11 +1160,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 0
-  setblock: 0
   uptime: 0
   jumpForce: 350
   animator: {fileID: 0}
-  prefab: {fileID: 0}
   ray_hit: 0
   ray_length: 0.5
 --- !u!61 &661334958
@@ -2326,7 +2324,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!61 &1236869772
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2437,7 +2435,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!61 &1254429482
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2549,7 +2547,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!61 &1256664131
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2660,7 +2658,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!61 &1272427879
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3112,7 +3110,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!61 &1899372368
 BoxCollider2D:
   m_ObjectHideFlags: 0
