@@ -22,6 +22,12 @@ public class ObjDataManager : MonoBehaviour
 
     [Header("範囲選択するオブジェクト")] public RangeSelection rangeSelection;
 
+    [Header("モードチェンジで画像を表示しているオブジェクト")] public GameObject modeChangeObj;
+
+    [Header("モードチェンジで使用する画像(playmode)")] public Sprite playModeImg;
+
+    [Header("モードチェンジで使用する画像(editmode)")] public Sprite editModeImg;
+
     // Start is called before the first frame update
     void Start()
     {

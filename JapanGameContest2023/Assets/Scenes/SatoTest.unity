@@ -435,6 +435,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 650750991}
     - target: {fileID: 2299700927561021572, guid: d9cad45be0c8bd04aa1a630f6fedfb0e, type: 3}
+      propertyPath: modeChangeObj
+      value: 
+      objectReference: {fileID: 2142779830}
+    - target: {fileID: 2299700927561021572, guid: d9cad45be0c8bd04aa1a630f6fedfb0e, type: 3}
       propertyPath: rangeSelection
       value: 
       objectReference: {fileID: 499408672}
@@ -2079,6 +2083,11 @@ PrefabInstance:
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3099624516476883722, guid: 5f3aa1b722a5fe14189c879c9129b0d4, type: 3}
   m_PrefabInstance: {fileID: 320288997}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2142779830 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6577071187039260812, guid: 876afd29f9074f8488d5666ef96292de, type: 3}
+  m_PrefabInstance: {fileID: 8967756127003500630}
   m_PrefabAsset: {fileID: 0}
 --- !u!224 &1078586097715154755 stripped
 RectTransform:
