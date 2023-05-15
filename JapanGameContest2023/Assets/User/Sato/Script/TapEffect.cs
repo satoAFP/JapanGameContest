@@ -21,7 +21,8 @@ public class TapEffect : MonoBehaviour
                 for (int i = 0; i < starNum; i++) 
                 {
                     GameObject clone = Instantiate(starObj);
-                    clone.GetComponent<TapEffect_Star>().Move(AngleToVector2((i + 1) * (360 / starNum)));
+                    clone.gameObject.transform.position = managerAccessor.Instance.dataMagager.MouseWorldChange();
+                    clone.GetComponent<TapEffect_Star>().movePower = AngleToVector2((i + 1) * (360 / starNum));
                 }
 
                 first = false;
