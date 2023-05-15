@@ -81,6 +81,12 @@ public class MouseIcon : MonoBehaviour
             loadRotate.z -= managerAccessor.Instance.dataMagager.loadRotate;
             loadImg.GetComponent<RectTransform>().eulerAngles = loadRotate;
         }
+        else
+        {
+            gameObject.GetComponent<Image>().color = new Color(1, 1, 1, 1);
+            loadImg.SetActive(false);
+            loadImg.GetComponent<RectTransform>().eulerAngles = new Vector3(0, 0, 0);
+        }
 
     }
 }
