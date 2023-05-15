@@ -64,6 +64,9 @@ public class DataManager : MonoBehaviour
     //シーン切り替え開始
     [System.NonSerialized] public bool sceneMoveStart = false;
 
+    //クリックできないエリア
+    [System.NonSerialized] public bool isNoClick = false;
+
 
     //落下ししたとき
     [System.NonSerialized] public bool fallDeth = false;

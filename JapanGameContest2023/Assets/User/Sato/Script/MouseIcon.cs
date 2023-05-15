@@ -24,6 +24,8 @@ public class MouseIcon : MonoBehaviour
 
     [SerializeField, Header("矢印の画像")] private Sprite arrow;
 
+    [SerializeField, Header("禁止の画像")] private Sprite ban;
+
     [SerializeField, Header("ロードするオブジェクト")] private GameObject loadImg;
 
     [SerializeField, Header("マウスの位置ずれた差分加算用")] private Vector3 cursorMove;
@@ -67,6 +69,12 @@ public class MouseIcon : MonoBehaviour
         else
         {
             gameObject.GetComponent<Image>().sprite = cursor;
+            gameObject.GetComponent<RectTransform>().rotation = Quaternion.identity;
+        }
+
+        if(managerAccessor.Instance.dataMagager.isNoClick)
+        {
+            gameObject.GetComponent<Image>().sprite = ban;
             gameObject.GetComponent<RectTransform>().rotation = Quaternion.identity;
         }
 

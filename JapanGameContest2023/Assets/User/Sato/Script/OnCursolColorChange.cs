@@ -22,11 +22,28 @@ public class OnCursolColorChange : MonoBehaviour
         {
             color.a = alpha;
             gameObject.GetComponent<Image>().color = color;
+
+            if (managerAccessor.Instance.dataMagager.isMoving)
+            {
+                if (gameObject.transform.parent.gameObject.name == "ChangeButton")
+                {
+                    managerAccessor.Instance.dataMagager.isNoClick = true;
+                }
+            }
+            else
+            {
+                managerAccessor.Instance.dataMagager.isNoClick = false;
+            }
         }
         else
         {
             color.a = 0;
             gameObject.GetComponent<Image>().color = color;
+
+            if (gameObject.transform.parent.gameObject.name == "ChangeButton")
+            {
+                managerAccessor.Instance.dataMagager.isNoClick = false;
+            }
         }
     }
 }
