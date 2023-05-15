@@ -19,6 +19,7 @@ public class MoveObj : MonoBehaviour
             if (!managerAccessor.Instance.dataMagager.playMode)
             {
                 managerAccessor.Instance.dataMagager.onBlock = true;
+                gameObject.GetComponent<SpriteRenderer>().color = new Color32(255, 0, 0, 255);
             }
         }
     }
@@ -33,6 +34,7 @@ public class MoveObj : MonoBehaviour
             if (!managerAccessor.Instance.dataMagager.playMode)
             {
                 managerAccessor.Instance.dataMagager.onBlock = false;
+                gameObject.GetComponent<SpriteRenderer>().color = new Color32(100, 100, 100, 255);
             }
         }
     }
@@ -44,6 +46,7 @@ public class MoveObj : MonoBehaviour
             collision.gameObject.tag == "DecoyFile")
         {
             managerAccessor.Instance.dataMagager.onBlock = true;
+            gameObject.GetComponent<SpriteRenderer>().color = new Color32(255, 0, 0, 255);
         }
     }
 
@@ -54,6 +57,7 @@ public class MoveObj : MonoBehaviour
             collision.gameObject.tag == "DecoyFile")
         {
             managerAccessor.Instance.dataMagager.onBlock = false;
+            gameObject.GetComponent<SpriteRenderer>().color = new Color32(100, 100, 100, 255);
         }
     }
 }

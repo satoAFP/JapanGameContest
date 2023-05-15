@@ -72,6 +72,7 @@ public class MouseIcon : MonoBehaviour
             gameObject.GetComponent<RectTransform>().rotation = Quaternion.identity;
         }
 
+        //マウスをクリックできない場合の画像
         if(managerAccessor.Instance.dataMagager.isNoClick)
         {
             gameObject.GetComponent<Image>().sprite = ban;

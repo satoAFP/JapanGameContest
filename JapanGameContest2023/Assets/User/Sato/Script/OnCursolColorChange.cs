@@ -23,6 +23,7 @@ public class OnCursolColorChange : MonoBehaviour
             color.a = alpha;
             gameObject.GetComponent<Image>().color = color;
 
+            //モードチェンジのみカーソルが禁止になる場合がる
             if (managerAccessor.Instance.dataMagager.isMoving)
             {
                 if (gameObject.transform.parent.gameObject.name == "ChangeButton")
