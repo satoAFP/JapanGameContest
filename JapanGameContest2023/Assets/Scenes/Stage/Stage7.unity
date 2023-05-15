@@ -391,6 +391,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameOverPanel
       objectReference: {fileID: 0}
+    - target: {fileID: 8645591168870708275, guid: 5f3aa1b722a5fe14189c879c9129b0d4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1074100959}
+    - target: {fileID: 8645591168870708275, guid: 5f3aa1b722a5fe14189c879c9129b0d4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SceneMoveRetry
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f3aa1b722a5fe14189c879c9129b0d4, type: 3}
 --- !u!224 &241128755 stripped
