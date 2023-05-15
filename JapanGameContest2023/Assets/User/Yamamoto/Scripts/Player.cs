@@ -59,6 +59,11 @@ public class Player : MonoBehaviour
     private float ray_length;
 
 
+    public bool Objhit = false;//壁やブロックを登ることを許可するフラグ
+
+    public bool TimeStart = false;//uptime開始のフラグ
+
+
     //-----------------------------------------------
 
     // Start is called before the first frame update
@@ -110,34 +115,47 @@ public class Player : MonoBehaviour
                 Debug.Log("Animation finished");
             }
 
-            //左右判定用のRayが当たった時の処理
-            if (hit.collider != null)
+
+            if(Objhit)//プレイヤーの向いている方向にある判定に壁orブロックが当たっているとき
             {
-                Debug.DrawLine(origin_x, hit.point, Color.green);//デバッグ用のRayを可視化する処理
-
-                // 当たったオブジェクトが自身でなければ、何かしらの処理をする
-                if (hit.collider.gameObject != gameObject)
+                if(moving)//なおかつプレイヤーが動いているときに上昇を許可
                 {
-                    int layer = hit.collider.gameObject.layer;//Rayが当たったオブジェクトのレイヤーを入れる
-                    Debug.Log("当たったオブジェクトのレイヤーは" + LayerMask.LayerToName(layer) + "です。");
-
-                    //特定のレイヤーにのみジャンプ処理を行う
-                    if (LayerMask.LayerToName(layer) == "Block" || LayerMask.LayerToName(layer) == "Ground")
-                    {
-                        //移動中のときのみRayが当たったことにする
-                        if (moving)
-                        {
-                            ray_hit = true;//Rayが当たっている
-                        }
-                    }
-
+                    TimeStart = true;
                 }
-
             }
             else
             {
-                ray_hit = false;//Rayが当たらない
+                TimeStart = false;
             }
+
+            //左右判定用のRayが当たった時の処理
+            //if (hit.collider != null)
+            //{
+            //    Debug.DrawLine(origin_x, hit.point, Color.green);//デバッグ用のRayを可視化する処理
+
+            //    // 当たったオブジェクトが自身でなければ、何かしらの処理をする
+            //    if (hit.collider.gameObject != gameObject)
+            //    {
+            //        int layer = hit.collider.gameObject.layer;//Rayが当たったオブジェクトのレイヤーを入れる
+            //        Debug.Log("当たったオブジェクトのレイヤーは" + LayerMask.LayerToName(layer) + "です。");
+
+            //        //特定のレイヤーにのみジャンプ処理を行う
+            //        if (LayerMask.LayerToName(layer) == "Block" || LayerMask.LayerToName(layer) == "Ground")
+            //        {
+            //            //移動中のときのみRayが当たったことにする
+            //            if (moving)
+            //            {
+            //                ray_hit = true;//Rayが当たっている
+            //            }
+            //        }
+
+            //    }
+
+            //}
+            //else
+            //{
+            //    ray_hit = false;//Rayが当たらない
+            //}
 
 
             if (!managerAccessor.Instance.dataMagager.noTapArea)
@@ -241,7 +259,7 @@ public class Player : MonoBehaviour
             }
           
             //Rayが当たっていたら上昇する処理を開始
-            if(ray_hit)
+            if(TimeStart)
             {
                
                 //設定されたプレイヤー上昇時間分だけプレイヤーが上昇する
@@ -279,7 +297,9 @@ public class Player : MonoBehaviour
         {
             script.playercount--;//プレイヤーの数-1
 
-            ray_hit = false;//移動終了後に再度飛ばないようにRayのフラグを切る
+            TimeStart = false;//移動終了後に再度上昇しないようにする
+
+            //ray_hit = false;//移動終了後に再度飛ばないようにRayのフラグを切る
 
             //playerPosition = transform.position;//プレイヤーが動いた場所を取得する
 
