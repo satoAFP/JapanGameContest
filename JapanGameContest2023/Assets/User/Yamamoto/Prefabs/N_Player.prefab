@@ -302,7 +302,6 @@ MonoBehaviour:
   speed: 2
   uptime: 0.5
   jumpForce: 15
-  mempos: {x: 0, y: 0}
   animator: {fileID: 9043107177384224216}
   ray_hit: 0
   ray_length: 0.5
