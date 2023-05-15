@@ -44,6 +44,8 @@ public class TapEffect_Star : MonoBehaviour
             rb.AddForce(new Vector2(movePower.x, movePower.y));  // —Í‚ð‰Á‚¦‚é
 
 
+
+
             frameCount++;
         }
         else
