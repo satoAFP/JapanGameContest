@@ -181,6 +181,7 @@ public class Player : MonoBehaviour
 
             if (setblock)
             {
+                animator.SetBool("Wallhit", false);//壁から落ちるアニメーション終了
                 uptime = fuptime;
             }
 
@@ -243,6 +244,7 @@ public class Player : MonoBehaviour
             if(ray_hit)
             {
                
+                //設定されたプレイヤー上昇時間分だけプレイヤーが上昇する
                 if (uptime >= 0)
                 {
                    // Debug.Log("あたり");
@@ -252,6 +254,7 @@ public class Player : MonoBehaviour
                 }
                 else
                 {
+                    animator.SetBool("Wallhit", true);//壁から落ちるアニメーション開始
                     MoveFinish();//プレイヤー上昇時間が0になるとプレイヤーの移動を止める
                 }
             }
