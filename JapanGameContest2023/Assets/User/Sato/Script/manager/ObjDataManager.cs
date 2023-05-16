@@ -16,6 +16,8 @@ public class ObjDataManager : MonoBehaviour
 
     [Header("ステージ選択用オブジェクト")] public GameObject stageSelectObj;
 
+    [Header("README用オブジェクト")] public GameObject READMEObj;
+
     [Header("コピーできるオブジェクトの親")] public GameObject blockParent;
 
     [Header("ゴールを格納している親")] public GameObject goalParent;

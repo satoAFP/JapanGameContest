@@ -10,6 +10,9 @@ public class MoveObj : MonoBehaviour
     [System.NonSerialized] public int objNum;
 
     private Rigidbody2D rigidbody2D;    //リジットボディ取得用
+    private Vector3 memStartPos;        //モード切り替わった時の初期位置記憶用
+    private bool isStartMove = false;   //モード切り替わった後移動したかどうかの判定
+
 
     private void Start()
     {
@@ -18,6 +21,8 @@ public class MoveObj : MonoBehaviour
 
         //リジットボディの取得
         rigidbody2D = gameObject.GetComponent<Rigidbody2D>();
+
+        memStartPos = transform.position;
     }
 
     private void FixedUpdate()
@@ -28,23 +33,42 @@ public class MoveObj : MonoBehaviour
             //処理軽減のため止まっているStayを動かす
             rigidbody2D.WakeUp();
         }
+
+
+        //モード切り替わった時移動したかどうか判定
+        if(managerAccessor.Instance.dataMagager.playMode)
+        {
+            isStartMove = false;
+        }
+        else
+        {
+            //動いた時
+            if (memStartPos.x != transform.position.x || memStartPos.y != transform.position.y) 
+            {
+                isStartMove = true;
+            }
+        }
     }
 
 
     //乗ってはいけないオブジェクトの上にいるときの処理-----------------------------
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        for (int i = 0; i < tagNames.Length; i++) 
+        //キャラが動いた時
+        if (isStartMove)
         {
-            if(collision.gameObject.tag == tagNames[i])
+            for (int i = 0; i < tagNames.Length; i++)
             {
-                //編集モードの時のみ
-                if (!managerAccessor.Instance.dataMagager.playMode)
+                if (collision.gameObject.tag == tagNames[i])
                 {
-                    //ブロックが乗っている判定に変更
-                    managerAccessor.Instance.dataMagager.onBlock = true;
-                    //色の変更
-                    gameObject.GetComponent<SpriteRenderer>().color = new Color32(255, 0, 0, 255);
+                    //編集モードの時のみ
+                    if (!managerAccessor.Instance.dataMagager.playMode)
+                    {
+                        //ブロックが乗っている判定に変更
+                        managerAccessor.Instance.dataMagager.onBlock = true;
+                        //色の変更
+                        gameObject.GetComponent<SpriteRenderer>().color = new Color32(255, 0, 0, 255);
+                    }
                 }
             }
         }
@@ -52,15 +76,19 @@ public class MoveObj : MonoBehaviour
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        for (int i = 0; i < tagNames.Length; i++)
+        //キャラが動いた時
+        if (isStartMove)
         {
-            if (collision.gameObject.tag == tagNames[i])
+            for (int i = 0; i < tagNames.Length; i++)
             {
-                //編集モードの時のみ
-                if (!managerAccessor.Instance.dataMagager.playMode)
+                if (collision.gameObject.tag == tagNames[i])
                 {
-                    managerAccessor.Instance.dataMagager.onBlock = true;
-                    gameObject.GetComponent<SpriteRenderer>().color = new Color32(255, 0, 0, 255);
+                    //編集モードの時のみ
+                    if (!managerAccessor.Instance.dataMagager.playMode)
+                    {
+                        managerAccessor.Instance.dataMagager.onBlock = true;
+                        gameObject.GetComponent<SpriteRenderer>().color = new Color32(255, 0, 0, 255);
+                    }
                 }
             }
         }
@@ -68,17 +96,21 @@ public class MoveObj : MonoBehaviour
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        for (int i = 0; i < tagNames.Length; i++)
+        //キャラが動いた時
+        if (isStartMove)
         {
-            if (collision.gameObject.tag == tagNames[i])
+            for (int i = 0; i < tagNames.Length; i++)
             {
-                //編集モードの時のみ
-                if (!managerAccessor.Instance.dataMagager.playMode)
+                if (collision.gameObject.tag == tagNames[i])
                 {
-                    //ブロックが乗っていない判定に変更
-                    managerAccessor.Instance.dataMagager.onBlock = false;
-                    //色の変更
-                    gameObject.GetComponent<SpriteRenderer>().color = new Color32(100, 100, 100, 255);
+                    //編集モードの時のみ
+                    if (!managerAccessor.Instance.dataMagager.playMode)
+                    {
+                        //ブロックが乗っていない判定に変更
+                        managerAccessor.Instance.dataMagager.onBlock = false;
+                        //色の変更
+                        gameObject.GetComponent<SpriteRenderer>().color = new Color32(100, 100, 100, 255);
+                    }
                 }
             }
         }
@@ -86,17 +118,21 @@ public class MoveObj : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        for (int i = 0; i < tagNames.Length; i++)
+        //キャラが動いた時
+        if (isStartMove)
         {
-            if (collision.gameObject.tag == tagNames[i])
+            for (int i = 0; i < tagNames.Length; i++)
             {
-                //編集モードの時のみ
-                if (!managerAccessor.Instance.dataMagager.playMode)
+                if (collision.gameObject.tag == tagNames[i])
                 {
-                    //ブロックが乗っている判定に変更
-                    managerAccessor.Instance.dataMagager.onBlock = true;
-                    //色の変更
-                    gameObject.GetComponent<SpriteRenderer>().color = new Color32(255, 0, 0, 255);
+                    //編集モードの時のみ
+                    if (!managerAccessor.Instance.dataMagager.playMode)
+                    {
+                        //ブロックが乗っている判定に変更
+                        managerAccessor.Instance.dataMagager.onBlock = true;
+                        //色の変更
+                        gameObject.GetComponent<SpriteRenderer>().color = new Color32(255, 0, 0, 255);
+                    }
                 }
             }
         }
@@ -104,15 +140,19 @@ public class MoveObj : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        for (int i = 0; i < tagNames.Length; i++)
+        //キャラが動いた時
+        if (isStartMove)
         {
-            if (collision.gameObject.tag == tagNames[i])
+            for (int i = 0; i < tagNames.Length; i++)
             {
-                //編集モードの時のみ
-                if (!managerAccessor.Instance.dataMagager.playMode)
+                if (collision.gameObject.tag == tagNames[i])
                 {
-                    managerAccessor.Instance.dataMagager.onBlock = true;
-                    gameObject.GetComponent<SpriteRenderer>().color = new Color32(255, 0, 0, 255);
+                    //編集モードの時のみ
+                    if (!managerAccessor.Instance.dataMagager.playMode)
+                    {
+                        managerAccessor.Instance.dataMagager.onBlock = true;
+                        gameObject.GetComponent<SpriteRenderer>().color = new Color32(255, 0, 0, 255);
+                    }
                 }
             }
         }
@@ -120,16 +160,20 @@ public class MoveObj : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        for (int i = 0; i < tagNames.Length; i++)
+        //キャラが動いた時
+        if (isStartMove)
         {
-            if (collision.gameObject.tag == tagNames[i])
+            for (int i = 0; i < tagNames.Length; i++)
             {
-                //編集モードの時のみ
-                if (!managerAccessor.Instance.dataMagager.playMode)
+                if (collision.gameObject.tag == tagNames[i])
                 {
-                    //ブロックが乗っていない判定に変更
-                    managerAccessor.Instance.dataMagager.onBlock = false;
-                    gameObject.GetComponent<SpriteRenderer>().color = new Color32(100, 100, 100, 255);
+                    //編集モードの時のみ
+                    if (!managerAccessor.Instance.dataMagager.playMode)
+                    {
+                        //ブロックが乗っていない判定に変更
+                        managerAccessor.Instance.dataMagager.onBlock = false;
+                        gameObject.GetComponent<SpriteRenderer>().color = new Color32(100, 100, 100, 255);
+                    }
                 }
             }
         }
