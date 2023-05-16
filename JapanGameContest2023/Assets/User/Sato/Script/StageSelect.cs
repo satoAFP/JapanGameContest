@@ -38,6 +38,11 @@ public class StageSelect : MonoBehaviour
             //ステージのクリア状況データ取得用
             int stageClear = 0;
 
+            //複製時の親、名前、画像の変更
+            GameObject textClene = Instantiate(managerAccessor.Instance.objDataManager.READMEObj);
+            textClene.transform.parent = stageParent.transform;
+            textClene.transform.GetChild(0).GetComponent<Text>().text = "README";
+
             //ステージの生成
             for (int i = 0; i < stage; i++)
             {
