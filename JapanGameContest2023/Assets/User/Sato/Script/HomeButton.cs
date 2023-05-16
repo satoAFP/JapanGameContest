@@ -4,15 +4,21 @@ using UnityEngine;
 
 public class HomeButton : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField, Header("ホームウィンドウ")] private GameObject homeWindow;
+
+    //シャットダウンなどを表示非表示させる関数
+    public void WindowButton()
     {
-        
+        homeWindow.SetActive(!homeWindow.activeSelf);
     }
 
-    // Update is called once per frame
-    void Update()
+    //ゲームを終了させる関数
+    public void ShutdownButton()
     {
-        
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;//ゲームプレイ終了
+#else
+        Application.Quit();//ゲームプレイ終了
+#endif
     }
 }
