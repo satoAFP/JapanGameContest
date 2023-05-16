@@ -2522,7 +2522,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4706863795650856257, guid: 15b7aa2f4f6799b4ba758d4a714ccfea, type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4706863795650856257, guid: 15b7aa2f4f6799b4ba758d4a714ccfea, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2530,7 +2530,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4706863795650856257, guid: 15b7aa2f4f6799b4ba758d4a714ccfea, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.75
+      value: 2.2
       objectReference: {fileID: 0}
     - target: {fileID: 4706863795650856257, guid: 15b7aa2f4f6799b4ba758d4a714ccfea, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2815,6 +2815,14 @@ PrefabInstance:
     - target: {fileID: 6029827403666188302, guid: 876afd29f9074f8488d5666ef96292de, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: TaskManagementPanel, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 6032681938666234773, guid: 876afd29f9074f8488d5666ef96292de, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 15184517}
+    - target: {fileID: 6032681938666234773, guid: 876afd29f9074f8488d5666ef96292de, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SceneMoveRetry
       objectReference: {fileID: 0}
     - target: {fileID: 8967756126598099130, guid: 876afd29f9074f8488d5666ef96292de, type: 3}
       propertyPath: m_Pivot.x
