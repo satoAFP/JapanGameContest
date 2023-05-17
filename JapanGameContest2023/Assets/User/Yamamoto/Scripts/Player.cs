@@ -66,7 +66,6 @@ public class Player : MonoBehaviour
         //ステージ1の時のみ登場アニメーションを画面外からやってくるアニメーションにする
         if (managerAccessor.Instance.sceneMoveManager.GetSceneName() == "Stage1" && stage1)
         {
-            //GameObject decoifail = 
             Debug.Log("ステージ1である");
             animator.Play("Stage1PlayerStart");
             animator.SetBool("Stage1", false);//一度だけアニメーション再生させるためfalseに
