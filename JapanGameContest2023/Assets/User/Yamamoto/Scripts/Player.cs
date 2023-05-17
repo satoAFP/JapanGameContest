@@ -63,6 +63,7 @@ public class Player : MonoBehaviour
 
     public bool TimeStart = false;//uptime開始のフラグ
 
+    private bool StartAction = false;//アニメーション終了後にプレイヤーの処理開始
 
     //-----------------------------------------------
 
@@ -87,16 +88,31 @@ public class Player : MonoBehaviour
         //取得するレイヤーを獲得（左右判定用）
         layermask = LayerMask.GetMask("CreateBlock","Block", "Ground");//ここに追加したいレイヤー名を入れるとlayermaskがレイヤー判定を取るようになる
 
-        
+        //animator.Play("Stage1PlayerStart");
 
+     
     }
 
     private void Update()
     {
         //クリック処理はUpdateでしましょう
 
+        bool stage1 = animator.GetBool("Stage1");//プレイヤーアニメーターからbool型のStage1を持ってくる
+
+        //ステージ1の時のみ登場アニメーションを画面外からやってくるアニメーションにする
+        if (managerAccessor.Instance.sceneMoveManager.GetSceneName() == "Stage1" && stage1)
+        {
+            Debug.Log("ステージ1である");
+            animator.Play("Stage1PlayerStart");
+            animator.SetBool("Stage1", false);//一度だけアニメーション再生させるためfalseに
+        }
+       
+
+
         if (managerAccessor.Instance.dataMagager.playMode)//操作モードの時
         {
+           
+
             //Rayの原点＝プレイヤーの現在の位置
             origin_x = (Vector2)transform.position + offset;//(X方向）
 
@@ -164,8 +180,6 @@ public class Player : MonoBehaviour
                 if (Input.GetMouseButtonDown(0) && setblock)
                 {
 
-                    // CreateObj = Instantiate(prefab, clickPosition, Quaternion.identity);//移動指標オブジェクト作成
-
                     //クリックした場所の左右判定を取る
                     if (transform.position.x < managerAccessor.Instance.dataMagager.clickPosition.x)//右
                     {
@@ -231,20 +245,7 @@ public class Player : MonoBehaviour
             // 移動中の場合は移動する
             if (moving)
             {
-                //if (mempos.x != transform.position.x || mempos.y != transform.position.y)//前フレームと比較しプレイヤーが全く動かなかったら、移動終了
-                //{
-                //    //playerPosition = mempos;
-                //    Debug.Log("2");
-                //}
-                //else
-                //{
-                //    //MoveFinish();
-                //    Debug.Log("3");
-                //}
-
-
-                //mempos = transform.position;//前フレームを保存
-
+               
                 // キャラクターのX座標をクリックされた位置に向けて移動
                 transform.position = Vector2.MoveTowards(transform.position, new Vector2(managerAccessor.Instance.dataMagager.clickPosition.x, transform.position.y), speed * Time.deltaTime);
 
@@ -286,7 +287,8 @@ public class Player : MonoBehaviour
         {
              MoveFinish();//移動処理終了
             //Rigidbodyを制限する
-            rb.constraints = RigidbodyConstraints2D.FreezeAll;
+            rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+            rb.constraints = RigidbodyConstraints2D.FreezePositionX;
         }
     }
 
