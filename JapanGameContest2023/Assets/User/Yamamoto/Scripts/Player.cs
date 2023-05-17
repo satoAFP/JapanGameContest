@@ -96,7 +96,7 @@ public class Player : MonoBehaviour
                 TimeStart = false;
             }
 
-            if (!managerAccessor.Instance.dataMagager.noTapArea)
+            if (!managerAccessor.Instance.dataMagager.noTapArea　&& !managerAccessor.Instance.dataMagager.objMaxFrag)
             {
                 // 移動中でなければクリックを受け付ける
                 if (Input.GetMouseButtonDown(0) && setblock && StartAction)
