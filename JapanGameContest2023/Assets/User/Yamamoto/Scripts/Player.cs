@@ -15,33 +15,31 @@ public class Player : MonoBehaviour
 
     private float fuptime;//uptimeの開始時の数値を入れる
 
-    //private float playerSize = 1f; // プレイヤーの幅
-
     [SerializeField, Header("ジャンプ力")] private float jumpForce = 350f;//プレイヤージャンプ力
 
     private Rigidbody2D rb;//プレイヤーリジッドボディ
 
     private bool moving = false;//プレイヤー各自の移動フラグ
 
-    //GetComponentを用いてAnimatorコンポーネントを取り出す.
-    [SerializeField] private Animator animator;
+    public bool Objhit = false;//壁やブロックを登ることを許可するフラグ
+
+    public bool TimeStart = false;//uptime開始のフラグ
 
     //-----------Click関係の関数--------------------
 
     private FileGene script;//FileGeneスクリプト
 
-    [System.NonSerialized]
-    public GameObject CreateObj;//移動指標オブジェクトを入れる（削除命令に使う）
+    //[System.NonSerialized]
+    //public GameObject CreateObj;//移動指標オブジェクトを入れる（削除命令に使う）
 
     //private Vector2 mempos;//前フレーム時の座標
    
-    //-----------ray関係の変数の宣言---------------
+    //-----------アニメーション関係の変数の宣言---------------
 
-    public bool Objhit = false;//壁やブロックを登ることを許可するフラグ
+    //GetComponentを用いてAnimatorコンポーネントを取り出す.
+    [SerializeField] private Animator animator;
 
-    public bool TimeStart = false;//uptime開始のフラグ
-
-    private bool StartAction = false;//アニメーション終了後にプレイヤーの処理開始
+    public bool StartAction = false;//アニメーション終了後にプレイヤーの処理開始
 
     //-----------------------------------------------
 
@@ -66,7 +64,6 @@ public class Player : MonoBehaviour
         //ステージ1の時のみ登場アニメーションを画面外からやってくるアニメーションにする
         if (managerAccessor.Instance.sceneMoveManager.GetSceneName() == "Stage1" && stage1)
         {
-            //GameObject decoifail = 
             Debug.Log("ステージ1である");
             animator.Play("Stage1PlayerStart");
             animator.SetBool("Stage1", false);//一度だけアニメーション再生させるためfalseに
