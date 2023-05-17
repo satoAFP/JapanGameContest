@@ -146,3 +146,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1330cb407f1a183409ba940dfa3dadb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tagNames:
+  - Player
+  - Goal
+  - DecoyFile

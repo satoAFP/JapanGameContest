@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DataManager : MonoBehaviour
 {
@@ -60,6 +61,13 @@ public class DataManager : MonoBehaviour
     [System.NonSerialized] public int goalPlayerNum = 0;
 
 
+    //シーン切り替え開始
+    [System.NonSerialized] public bool sceneMoveStart = false;
+
+    //クリックできないエリア
+    [System.NonSerialized] public bool isNoClick = false;
+
+
     //落下ししたとき
     [System.NonSerialized] public bool fallDeth = false;
     //ウイルスに感染したとき
@@ -70,6 +78,10 @@ public class DataManager : MonoBehaviour
 
 
     [Header("全ステージ数")] public int stageNum;
+
+    [Header("シーン移動時のロード時間")] public float loadTime;
+
+    [Header("ロード画像回転速度")] public float loadRotate;
 
 
     private GameObject clonePanel = null;
@@ -147,11 +159,17 @@ public class DataManager : MonoBehaviour
             if (playMode)
             {
                 Destroy(clonePanel);
+
+                //モードチェンジの画像変更
+                managerAccessor.Instance.objDataManager.modeChangeObj.GetComponent<Image>().sprite = managerAccessor.Instance.objDataManager.playModeImg;
             }
             else
             {
                 clonePanel = Instantiate(managerAccessor.Instance.objDataManager.editPanel);
                 clonePanel.transform.position = new Vector3(0, 0, 0);
+
+                //モードチェンジの画像変更
+                managerAccessor.Instance.objDataManager.modeChangeObj.GetComponent<Image>().sprite = managerAccessor.Instance.objDataManager.editModeImg;
             }
         }
     }
@@ -191,9 +209,8 @@ public class DataManager : MonoBehaviour
                 GameObject clone = Instantiate(dataManager.copyObjsData[i]);
                 clone.transform.localPosition += moveAmount;
                 clone.transform.parent = managerAccessor.Instance.objDataManager.blockParent.transform;
-                //既に選択された状態にしておく
-                dataManager.selectObjsData.Add(clone);
             }
+
 
             //ボタンが押されたらUIが消える
             Destroy(dataManager.rightClickUIClone);
@@ -218,4 +235,6 @@ public class DataManager : MonoBehaviour
         Destroy(dataManager.rightClickUIClone);
 
     }
+
+    
 }

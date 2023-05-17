@@ -16,9 +16,17 @@ public class ObjDataManager : MonoBehaviour
 
     [Header("ステージ選択用オブジェクト")] public GameObject stageSelectObj;
 
+    [Header("README用オブジェクト")] public GameObject READMEObj;
+
     [Header("コピーできるオブジェクトの親")] public GameObject blockParent;
 
     [Header("ゴールを格納している親")] public GameObject goalParent;
+
+    [Header("モードチェンジで画像を表示しているオブジェクト")] public GameObject modeChangeObj;
+
+    [Header("モードチェンジで使用する画像(playmode)")] public Sprite playModeImg;
+
+    [Header("モードチェンジで使用する画像(editmode)")] public Sprite editModeImg;
 
     // Start is called before the first frame update
     void Start()

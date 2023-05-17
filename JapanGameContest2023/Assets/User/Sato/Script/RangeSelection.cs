@@ -57,13 +57,15 @@ public class RangeSelection : MonoBehaviour
     private Vector2 memjudgeEndPos;                     //選択されているオブジェクトの掴める範囲(右上)
 
 
-    private List<GameObject> cloneDot = new List<GameObject>();//ドット格納用
     private Vector2 startPos;                           //クリックしたときの初期位置
     private Vector2 usePos;                             //初期位置代入
     private Vector2 square;                             //四角の縦横の長さ
     private int checkPos = 0;                           //クリック後、startPosを原点に縦横それぞれの位置チェック用
     private int dotNum;                                 //ドットの数格納用
     private Vector2 inUsePos;                           //usePosの修正値代入用
+
+    //DataManagerでも使用
+    [System.NonSerialized] public List<GameObject> cloneDot = new List<GameObject>();//ドット格納用
 
 
     // Update is called once per frame

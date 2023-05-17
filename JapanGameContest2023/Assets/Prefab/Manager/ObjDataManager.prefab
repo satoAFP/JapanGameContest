@@ -50,3 +50,9 @@ MonoBehaviour:
   selectionObj: {fileID: 9051249717450221384, guid: ec47c9b168ab82e42877f5a5d7420255, type: 3}
   dotObj: {fileID: 332988442142004690, guid: e6e5c8117a240b242872310fd2fc84fd, type: 3}
   stageSelectObj: {fileID: 614616833512129852, guid: 1fd703144d2abf34190677acdd1dfab5, type: 3}
+  READMEObj: {fileID: 7853683777998862972, guid: 0fddc3d871b754945baeae9a39d9b26a, type: 3}
+  blockParent: {fileID: 0}
+  goalParent: {fileID: 0}
+  modeChangeObj: {fileID: 0}
+  playModeImg: {fileID: 21300000, guid: 3fc8d085c8436b545893ae295b3f6a8f, type: 3}
+  editModeImg: {fileID: 21300000, guid: da16625c92446014291a94eca10138ca, type: 3}

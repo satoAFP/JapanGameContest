@@ -24,7 +24,14 @@ public class MouseIcon : MonoBehaviour
 
     [SerializeField, Header("矢印の画像")] private Sprite arrow;
 
+    [SerializeField, Header("禁止の画像")] private Sprite ban;
+
+    [SerializeField, Header("ロードするオブジェクト")] private GameObject loadImg;
+
     [SerializeField, Header("マウスの位置ずれた差分加算用")] private Vector3 cursorMove;
+
+
+    private Vector3 loadRotate = new Vector2(0, 0);
 
     // Update is called once per frame
     void FixedUpdate()
@@ -33,7 +40,7 @@ public class MouseIcon : MonoBehaviour
         gameObject.GetComponent<RectTransform>().position = Input.mousePosition + cursorMove;
 
         //カーソルがそれぞれの縁に乗っているとき画像を矢印に変える
-        if (managerAccessor.Instance.dataMagager.onEdge) 
+        if (managerAccessor.Instance.dataMagager.onEdge && !managerAccessor.Instance.dataMagager.playMode)  
         {
             gameObject.GetComponent<Image>().sprite = arrow;
 
@@ -63,6 +70,31 @@ public class MouseIcon : MonoBehaviour
         {
             gameObject.GetComponent<Image>().sprite = cursor;
             gameObject.GetComponent<RectTransform>().rotation = Quaternion.identity;
+        }
+
+        //マウスをクリックできない場合の画像
+        if(managerAccessor.Instance.dataMagager.isNoClick)
+        {
+            gameObject.GetComponent<Image>().sprite = ban;
+            gameObject.GetComponent<RectTransform>().rotation = Quaternion.identity;
+        }
+
+        //シーン移動が始まるとロード中の画像に代わる
+        if (managerAccessor.Instance.dataMagager.sceneMoveStart)
+        {
+            //カーソル非表示
+            gameObject.GetComponent<Image>().color = new Color(0, 0, 0, 0);
+            //ロード画像表示
+            loadImg.SetActive(true);
+            //回転処理
+            loadRotate.z -= managerAccessor.Instance.dataMagager.loadRotate;
+            loadImg.GetComponent<RectTransform>().eulerAngles = loadRotate;
+        }
+        else
+        {
+            gameObject.GetComponent<Image>().color = new Color(1, 1, 1, 1);
+            loadImg.SetActive(false);
+            loadImg.GetComponent<RectTransform>().eulerAngles = new Vector3(0, 0, 0);
         }
 
     }

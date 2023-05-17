@@ -15,6 +15,7 @@ public class OnCursolColorChange : MonoBehaviour
         Vector2 size = gameObject.GetComponent<RectTransform>().sizeDelta;
         Vector2 mouse = Input.mousePosition;
         Color color = gameObject.GetComponent<Image>().color;
+        DataManager dataManager = managerAccessor.Instance.dataMagager;
 
         //オブジェクト内にカーソルが入っている時、切り替える
         if (pos.x - (size.x / 2) < mouse.x && pos.x + (size.x / 2) > mouse.x &&
@@ -22,11 +23,29 @@ public class OnCursolColorChange : MonoBehaviour
         {
             color.a = alpha;
             gameObject.GetComponent<Image>().color = color;
+
+            //モードチェンジのみカーソルが禁止になる場合がる
+            if (dataManager.isMoving || dataManager.onBlock) 
+            {
+                if (gameObject.transform.parent.gameObject.name == "ChangeButton")
+                {
+                    managerAccessor.Instance.dataMagager.isNoClick = true;
+                }
+            }
+            else
+            {
+                dataManager.isNoClick = false;
+            }
         }
         else
         {
             color.a = 0;
             gameObject.GetComponent<Image>().color = color;
+
+            if (gameObject.transform.parent.gameObject.name == "ChangeButton")
+            {
+                managerAccessor.Instance.dataMagager.isNoClick = false;
+            }
         }
     }
 }
