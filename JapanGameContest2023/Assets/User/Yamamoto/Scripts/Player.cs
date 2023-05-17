@@ -43,6 +43,9 @@ public class Player : MonoBehaviour
 
     //-----------------------------------------------
 
+
+    [SerializeField] private Vector2 origin;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -59,7 +62,6 @@ public class Player : MonoBehaviour
     {
         //クリック処理はUpdateでしましょう
         bool stage1 = animator.GetBool("Stage1");//プレイヤーアニメーターからbool型のStage1を持ってくる
-        
 
         //ステージ1の時のみ登場アニメーションを画面外からやってくるアニメーションにする
         if (managerAccessor.Instance.sceneMoveManager.GetSceneName() == "Stage1" && stage1)
@@ -72,7 +74,7 @@ public class Player : MonoBehaviour
        
         if (managerAccessor.Instance.dataMagager.playMode)//操作モードの時
         {
-            animator.SetFloat("AniSpeed", 0.5f); //アニメーションを再生させる
+            animator.SetFloat("AniSpeed", 0.6f); //アニメーションを再生させる
 
             if (!animator.GetCurrentAnimatorStateInfo(0).IsName("PlayerAnim"))
             {
@@ -102,20 +104,24 @@ public class Player : MonoBehaviour
                 // 移動中でなければクリックを受け付ける
                 if (Input.GetMouseButtonDown(0) && setblock && StartAction)
                 {
+                    
+                    //※移動中に再度入力しても左右判定を受け付けない不具合！！
 
                     //クリックした場所の左右判定を取る
-                    if (transform.position.x <= managerAccessor.Instance.dataMagager.clickPosition.x)//右
+                    if (origin.x <= managerAccessor.Instance.dataMagager.clickPosition.x)//右
                     {
                         //offset = new Vector2(0.5f * playerSize, 0f);//右向き
                         transform.eulerAngles = new Vector3(0, 0, 0);
                         Debug.Log("右");
                     }
-                    else if (transform.position.x > managerAccessor.Instance.dataMagager.clickPosition.x)//左
+                    else//左
                     {
                        // offset = new Vector2(-0.5f * playerSize, 0f);//左向き
                         transform.eulerAngles = new Vector3(0, 180, 0);
                         Debug.Log("左");
                     }
+
+                    
 
                     // 移動を開始
                     managerAccessor.Instance.dataMagager.isMoving = true;//プレイヤー全体の移動処理
@@ -174,7 +180,8 @@ public class Player : MonoBehaviour
                 // キャラクターのX座標をクリックされた位置に向けて移動
                 transform.position = Vector2.MoveTowards(transform.position, new Vector2(managerAccessor.Instance.dataMagager.clickPosition.x, transform.position.y), speed * Time.deltaTime);
 
-                
+                origin = transform.position;
+
                 // 移動が終わったらフラグを解除
                 if (transform.position.x == managerAccessor.Instance.dataMagager.clickPosition.x)
                 {
