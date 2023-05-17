@@ -15,19 +15,13 @@ public class Player : MonoBehaviour
 
     private float fuptime;//uptimeの開始時の数値を入れる
 
-    private float playerSize = 1f; // プレイヤーの幅
+    //private float playerSize = 1f; // プレイヤーの幅
 
     [SerializeField, Header("ジャンプ力")] private float jumpForce = 350f;//プレイヤージャンプ力
 
     private Rigidbody2D rb;//プレイヤーリジッドボディ
 
     private bool moving = false;//プレイヤー各自の移動フラグ
-
-    //private Vector2 firstpos;//初期位置（仮）
-
-    //private Vector2 playerPosition;//現在のプレイヤーの位置
-
-    //[SerializeField]private Vector2 mempos;//１つ前のフレームでの移動時のプレイヤーの位置
 
     //GetComponentを用いてAnimatorコンポーネントを取り出す.
     [SerializeField] private Animator animator;
@@ -43,22 +37,6 @@ public class Player : MonoBehaviour
    
     //-----------ray関係の変数の宣言---------------
 
-    private Vector2 origin_x;//rayの原点(X方向）
-
-    private Vector2 direction;//rayの方向ベクトル
-
-    private Vector2 offset;//オフセット（Rayの開始位置)
-
-    // private bool isGrounded; // 着地しているかどうか
-
-    [SerializeField]private bool ray_hit = false;//Rayが当たっていた時
-
-    private LayerMask layermask;//レイヤーマスク
-
-    [SerializeField, Header("Rayの長さ調整できるよ")]
-    private float ray_length;
-
-
     public bool Objhit = false;//壁やブロックを登ることを許可するフラグ
 
     public bool TimeStart = false;//uptime開始のフラグ
@@ -72,25 +50,11 @@ public class Player : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();//リジットボディの取得
 
-        //firstpos = this.transform.position;//プレイヤーの初期位置を取得
-
-        //playerPosition = firstpos;//最初はプレイヤーの初期位置を入れる
-
-        //mempos = new Vector2(0, 0);//初期化
 
         script = GameObject.Find("Clickjudge").GetComponent<FileGene>();//FileGeneスクリプト取得
 
         fuptime = uptime;//プレイヤー上昇時間を保存
 
-        // プレイヤーの中心からのオフセットを計算する
-        offset = new Vector2(0.5f * playerSize, 0f);//はじめは右向き
-
-        //取得するレイヤーを獲得（左右判定用）
-        layermask = LayerMask.GetMask("CreateBlock","Block", "Ground");//ここに追加したいレイヤー名を入れるとlayermaskがレイヤー判定を取るようになる
-
-        //animator.Play("Stage1PlayerStart");
-
-     
     }
 
     private void Update()
@@ -102,33 +66,24 @@ public class Player : MonoBehaviour
         //ステージ1の時のみ登場アニメーションを画面外からやってくるアニメーションにする
         if (managerAccessor.Instance.sceneMoveManager.GetSceneName() == "Stage1" && stage1)
         {
+            //GameObject decoifail = 
             Debug.Log("ステージ1である");
             animator.Play("Stage1PlayerStart");
             animator.SetBool("Stage1", false);//一度だけアニメーション再生させるためfalseに
         }
+
        
-
-
         if (managerAccessor.Instance.dataMagager.playMode)//操作モードの時
         {
            
-
-            //Rayの原点＝プレイヤーの現在の位置
-            origin_x = (Vector2)transform.position + offset;//(X方向）
-
-            direction = transform.right;//X方向を指す
-
-            //プレイヤーの向いている向きにRayを飛ばす
-            RaycastHit2D hit = Physics2D.Raycast(origin_x, direction, ray_length, layermask);
-
-            // Rayの可視化
-            Debug.DrawLine(origin_x, origin_x + direction * ray_length, Color.red);//左右判定用のRay
-
-
-            if (!animator.GetCurrentAnimatorStateInfo(0).IsName("PlayerStart"))
+            if (!animator.GetCurrentAnimatorStateInfo(0).IsName("PlayerAnim"))
             {
-                animator.SetBool("StartAnim", true);//移動時のアニメーションに切り替え
+                StartAction = false;//登場アニメーション再生中のため移動処理をクリック反応させない
                 Debug.Log("Animation finished");
+            }
+            else
+            {
+                StartAction = true;
             }
 
 
@@ -144,52 +99,22 @@ public class Player : MonoBehaviour
                 TimeStart = false;
             }
 
-            //左右判定用のRayが当たった時の処理
-            //if (hit.collider != null)
-            //{
-            //    Debug.DrawLine(origin_x, hit.point, Color.green);//デバッグ用のRayを可視化する処理
-
-            //    // 当たったオブジェクトが自身でなければ、何かしらの処理をする
-            //    if (hit.collider.gameObject != gameObject)
-            //    {
-            //        int layer = hit.collider.gameObject.layer;//Rayが当たったオブジェクトのレイヤーを入れる
-            //        Debug.Log("当たったオブジェクトのレイヤーは" + LayerMask.LayerToName(layer) + "です。");
-
-            //        //特定のレイヤーにのみジャンプ処理を行う
-            //        if (LayerMask.LayerToName(layer) == "Block" || LayerMask.LayerToName(layer) == "Ground")
-            //        {
-            //            //移動中のときのみRayが当たったことにする
-            //            if (moving)
-            //            {
-            //                ray_hit = true;//Rayが当たっている
-            //            }
-            //        }
-
-            //    }
-
-            //}
-            //else
-            //{
-            //    ray_hit = false;//Rayが当たらない
-            //}
-
-
             if (!managerAccessor.Instance.dataMagager.noTapArea)
             {
                 // 移動中でなければクリックを受け付ける
-                if (Input.GetMouseButtonDown(0) && setblock)
+                if (Input.GetMouseButtonDown(0) && setblock && StartAction)
                 {
 
                     //クリックした場所の左右判定を取る
-                    if (transform.position.x < managerAccessor.Instance.dataMagager.clickPosition.x)//右
+                    if (transform.position.x <= managerAccessor.Instance.dataMagager.clickPosition.x)//右
                     {
-                        offset = new Vector2(0.5f * playerSize, 0f);//右向き
+                        //offset = new Vector2(0.5f * playerSize, 0f);//右向き
                         transform.eulerAngles = new Vector3(0, 0, 0);
                         Debug.Log("右");
                     }
-                    else//左
+                    else if (transform.position.x > managerAccessor.Instance.dataMagager.clickPosition.x)//左
                     {
-                        offset = new Vector2(-0.5f * playerSize, 0f);//左向き
+                       // offset = new Vector2(-0.5f * playerSize, 0f);//左向き
                         transform.eulerAngles = new Vector3(0, 180, 0);
                         Debug.Log("左");
                     }
@@ -232,6 +157,8 @@ public class Player : MonoBehaviour
             //FreezeRotationのみオンにする（Freezeは上書きできる）
             rb.constraints = RigidbodyConstraints2D.FreezeRotation;
 
+            rb.WakeUp();//動いていないとリジットボディが止まってしまうのでここで再起動
+
             //落下処理　とりあえず今は落ちたら初期位置に戻る
             if (transform.position.y <= -10)
             {
@@ -259,7 +186,7 @@ public class Player : MonoBehaviour
 
             }
           
-            //Rayが当たっていたら上昇する処理を開始
+            //プレイヤーがオブジェクトに当たっていたら上昇する処理を開始
             if(TimeStart)
             {
                
@@ -287,8 +214,7 @@ public class Player : MonoBehaviour
         {
              MoveFinish();//移動処理終了
             //Rigidbodyを制限する
-            rb.constraints = RigidbodyConstraints2D.FreezeRotation;
-            rb.constraints = RigidbodyConstraints2D.FreezePositionX;
+            rb.constraints = RigidbodyConstraints2D.FreezeAll;
         }
     }
 
