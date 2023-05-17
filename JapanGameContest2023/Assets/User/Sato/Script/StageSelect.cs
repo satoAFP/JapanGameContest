@@ -13,13 +13,17 @@ public class StageSelect : MonoBehaviour
 
     [SerializeField, Header("ダブルクリックする間隔時間")] private int clickFrameRate;
 
+    [SerializeField, Header("テキスト表示用オブジェクト")] private GameObject textObj;
+
     private List<GameObject> stages = new List<GameObject>();   //ステージ記憶用
     private int frameCount = 0;                                 //ダブルクリックの間隔をカウント
     private bool oneClick = false;                            　//一回目クリックされた判定
     private bool doubleClick = false;                           //二回目クリックされた判定
     private int stageNumber = 999;                              //ステージの番号
     private int firstStageNumber = 999;                         //最初クリックしたときのステージ番号
-    private int secondStageNumber = 999;                        //最初クリックしたときのステージ番号
+    private int secondStageNumber = 999;                        //二回目クリックしたときのステージ番号
+    private GameObject textClone = null;                        //README表示用
+    private bool isText = false;                                //テキストを選択しているか
 
     //最初の一回だけ入る
     private bool first1 = true;
@@ -39,9 +43,9 @@ public class StageSelect : MonoBehaviour
             int stageClear = 0;
 
             //複製時の親、名前、画像の変更
-            GameObject textClene = Instantiate(managerAccessor.Instance.objDataManager.READMEObj);
-            textClene.transform.parent = stageParent.transform;
-            textClene.transform.GetChild(0).GetComponent<Text>().text = "README";
+            textClone = Instantiate(managerAccessor.Instance.objDataManager.stageSelectObj);
+            textClone.transform.parent = stageParent.transform;
+            textClone.transform.GetChild(0).GetComponent<Text>().text = "README";
 
             //ステージの生成
             for (int i = 0; i < stage; i++)
@@ -52,7 +56,7 @@ public class StageSelect : MonoBehaviour
                 //複製時の親、名前、画像の変更
                 stages.Add(Instantiate(managerAccessor.Instance.objDataManager.stageSelectObj));
                 stages[i].transform.parent = stageParent.transform;
-                stages[i].transform.GetChild(0).GetComponent<Text>().text = "STAGE" + (i + 1);
+                stages[i].transform.GetChild(0).GetComponent<Text>().text = "STAGE" + (i + 1) + ".exe";
                 if (stageClear == 1) 
                 {
                     //クリアされていた時
@@ -94,6 +98,8 @@ public class StageSelect : MonoBehaviour
                     //一旦選択状態解除
                     stages[i].GetComponent<RectTransform>().transform.GetChild(1).gameObject.SetActive(false);
                 }
+                textClone.transform.GetChild(1).gameObject.SetActive(false);
+
 
                 for (int i = 0; i < stages.Count; i++)
                 {
@@ -110,6 +116,7 @@ public class StageSelect : MonoBehaviour
                         secondStageNumber = i + 1;
                         //選択したアイコンを選択状態にする
                         stageNum.transform.GetChild(1).gameObject.SetActive(true);
+                        isText = false;
                         break;
                     }
                     else
@@ -120,9 +127,21 @@ public class StageSelect : MonoBehaviour
                 }
 
                 //一回クリックされたら&&一回目と二回目のステージ番号が同じとき&&クリックした番号が存在しているとき
-                if (oneClick && firstStageNumber == secondStageNumber && secondStageNumber != 999)  
+                if (oneClick && firstStageNumber == secondStageNumber && secondStageNumber != 999 || isText) 
                 {
                     doubleClick = true;
+                }
+
+
+                //マウスが座標内にいるとき
+                if (textClone.GetComponent<RectTransform>().position.x - textClone.GetComponent<RectTransform>().sizeDelta.x + 60 < Input.mousePosition.x &&
+                    textClone.GetComponent<RectTransform>().position.x + textClone.GetComponent<RectTransform>().sizeDelta.x - 60 > Input.mousePosition.x &&
+                    textClone.GetComponent<RectTransform>().position.y - textClone.GetComponent<RectTransform>().sizeDelta.y + 40 < Input.mousePosition.y &&
+                    textClone.GetComponent<RectTransform>().position.y + textClone.GetComponent<RectTransform>().sizeDelta.y - 60 > Input.mousePosition.y)
+                {
+                    //選択したアイコンを選択状態にする
+                    textClone.transform.GetChild(1).gameObject.SetActive(true);
+                    isText = true;
                 }
 
                 oneClick = true;
@@ -141,6 +160,7 @@ public class StageSelect : MonoBehaviour
             if (clickFrameRate == frameCount) 
             {
                 oneClick = false;
+                isText = false;
                 frameCount = 0;
             }
             frameCount++;
@@ -149,10 +169,21 @@ public class StageSelect : MonoBehaviour
         //ダブルクリックに成功したとき
         if (doubleClick)
         {
-            if (stageNumber != 999)
+            //テキストを選択していないとき
+            if (!isText)
             {
-                //ステージ移動
-                managerAccessor.Instance.sceneMoveManager.SceneMoveName("Stage" + stageNumber);
+                if (stageNumber != 999)
+                {
+                    //ステージ移動
+                    managerAccessor.Instance.sceneMoveManager.SceneMoveName("Stage" + stageNumber);
+                }
+            }
+            else
+            {
+                //テキスト表示
+                StartCoroutine("LoadAni");
+                isText = false;
+                doubleClick = false;
             }
         }
     }
@@ -161,10 +192,25 @@ public class StageSelect : MonoBehaviour
 
     public void ResetData()
     {
-        for(int i=0;i< managerAccessor.Instance.dataMagager.stageNum;i++)
+        for (int i = 0; i < managerAccessor.Instance.dataMagager.stageNum; i++) 
         {
             PlayerPrefs.DeleteKey("Stage" + i);
         }
+    }
+
+    public void EndText()
+    {
+        textObj.SetActive(false);
+        isText = false;
+    }
+
+    //テキストの出現アニメーション
+    private IEnumerator LoadAni()
+    {
+        managerAccessor.Instance.dataMagager.sceneMoveStart = true;
+        yield return new WaitForSeconds(managerAccessor.Instance.dataMagager.loadTime);
+        textObj.SetActive(true);
+        managerAccessor.Instance.dataMagager.sceneMoveStart = false;
     }
 
 }
