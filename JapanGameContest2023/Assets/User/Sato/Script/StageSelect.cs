@@ -125,7 +125,7 @@ public class StageSelect : MonoBehaviour
                         secondStageNumber = 999;
                     }
                 }
-                Debug.Log(oneClick + firstStageNumber.ToString() + secondStageNumber.ToString()+isText);
+
                 //一回クリックされたら&&一回目と二回目のステージ番号が同じとき&&クリックした番号が存在しているとき
                 if (oneClick && firstStageNumber == secondStageNumber && secondStageNumber != 999 || isText) 
                 {
@@ -169,6 +169,7 @@ public class StageSelect : MonoBehaviour
         //ダブルクリックに成功したとき
         if (doubleClick)
         {
+            //テキストを選択していないとき
             if (!isText)
             {
                 if (stageNumber != 999)
@@ -179,9 +180,10 @@ public class StageSelect : MonoBehaviour
             }
             else
             {
-                textObj.SetActive(true);
+                //テキスト表示
+                StartCoroutine("LoadAni");
                 isText = false;
-                oneClick = false;
+                doubleClick = false;
             }
         }
     }
@@ -200,6 +202,15 @@ public class StageSelect : MonoBehaviour
     {
         textObj.SetActive(false);
         isText = false;
+    }
+
+    //テキストの出現アニメーション
+    private IEnumerator LoadAni()
+    {
+        managerAccessor.Instance.dataMagager.sceneMoveStart = true;
+        yield return new WaitForSeconds(managerAccessor.Instance.dataMagager.loadTime);
+        textObj.SetActive(true);
+        managerAccessor.Instance.dataMagager.sceneMoveStart = false;
     }
 
 }
