@@ -304,8 +304,6 @@ MonoBehaviour:
   uptime: 0.5
   jumpForce: 15
   animator: {fileID: 9043107177384224216}
-  ray_hit: 0
-  ray_length: 0.5
   Objhit: 0
   TimeStart: 0
 --- !u!58 &6325921300723310987
@@ -400,7 +398,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0, g: 1, b: 1, a: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
