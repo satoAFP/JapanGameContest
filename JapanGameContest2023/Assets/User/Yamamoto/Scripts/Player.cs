@@ -58,8 +58,8 @@ public class Player : MonoBehaviour
     private void Update()
     {
         //クリック処理はUpdateでしましょう
-
         bool stage1 = animator.GetBool("Stage1");//プレイヤーアニメーターからbool型のStage1を持ってくる
+        
 
         //ステージ1の時のみ登場アニメーションを画面外からやってくるアニメーションにする
         if (managerAccessor.Instance.sceneMoveManager.GetSceneName() == "Stage1" && stage1)
@@ -72,7 +72,8 @@ public class Player : MonoBehaviour
        
         if (managerAccessor.Instance.dataMagager.playMode)//操作モードの時
         {
-           
+            animator.SetFloat("AniSpeed", 0.5f); //アニメーションを再生させる
+
             if (!animator.GetCurrentAnimatorStateInfo(0).IsName("PlayerAnim"))
             {
                 StartAction = false;//登場アニメーション再生中のため移動処理をクリック反応させない
@@ -96,7 +97,7 @@ public class Player : MonoBehaviour
                 TimeStart = false;
             }
 
-            if (!managerAccessor.Instance.dataMagager.noTapArea)
+            if (!managerAccessor.Instance.dataMagager.noTapArea　&& !managerAccessor.Instance.dataMagager.objMaxFrag)
             {
                 // 移動中でなければクリックを受け付ける
                 if (Input.GetMouseButtonDown(0) && setblock && StartAction)
@@ -210,6 +211,8 @@ public class Player : MonoBehaviour
         else//エディットモードの時
         {
              MoveFinish();//移動処理終了
+            animator.SetFloat("AniSpeed", 0.0f); // 一時停止
+
             //Rigidbodyを制限する
             rb.constraints = RigidbodyConstraints2D.FreezeAll;
         }

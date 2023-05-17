@@ -13,9 +13,7 @@ public class FileGene : MonoBehaviour
     [System.NonSerialized]
     public GameObject CreateObj;//移動指標オブジェクトを入れる（削除命令に使う）
 
-    private bool nocreate = false;//オブジェクト生成をさせないフラグ
-
-
+ 
     // Start is called before the first frame update
     void Start()
     {
@@ -47,7 +45,6 @@ public class FileGene : MonoBehaviour
                     {
 
                         CreateObj = Instantiate(prefab, managerAccessor.Instance.dataMagager.clickPosition, Quaternion.identity);//移動指標オブジェクト作成
-                        nocreate = true;
                     }
                     else
                     {
@@ -67,7 +64,6 @@ public class FileGene : MonoBehaviour
             if (playercount == 0)//移動しているプレイヤーが0になるとCreateObj削除
             {
                 Destroy(CreateObj);
-                nocreate = false;
                 managerAccessor.Instance.dataMagager.isMoving = false;//プレイヤー全体の移動処理を終了
                 playercount = GameObject.FindGameObjectsWithTag("Player").Length;//プレイヤーの数を再カウント
             }
