@@ -993,6 +993,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: tab (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 6307855543608180297, guid: 2343c982239675141bf8b90779576c05, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 1b1c6a4c10950d9428f2eb776fc380a0, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2343c982239675141bf8b90779576c05, type: 3}
 --- !u!1001 &443424594
