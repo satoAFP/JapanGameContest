@@ -6,21 +6,25 @@ using UnityEngine.UI;
 public class SmallWindow : MonoBehaviour
 {
     [SerializeField, Header("SmallWindow入れる")] private GameObject smallWindow;
-    [SerializeField, Header("SmallWindow入れる")] private Image gameImg;
+    [SerializeField, Header("スクショした画像を格納するオブジェクト")] private Image gameImg;
 
-    private RectTransform rt;
 
+    private bool isScreenShot = false;//スクリーンショットをしたかどうか
+
+    //最初しか通らない
     private bool first = true;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        rt = gameObject.GetComponent<RectTransform>();
+        
+
+        Debug.Log(transform.parent.name);
     }
 
     // Update is called once per frame
     void Update()
     {
+
         //必要な情報の取得
         Vector2 pos = gameObject.GetComponent<RectTransform>().position;
         Vector2 size = gameObject.GetComponent<RectTransform>().sizeDelta;
@@ -32,15 +36,16 @@ public class SmallWindow : MonoBehaviour
         {
             if (first)
             {
-                CaptureScreenShot("Assets/Resources/" + transform.parent.name + ".png");
-                StartCoroutine("CSceneMoveRetry");
-                smallWindow.SetActive(true);
+                //自身の親の親のオブジェクトに格納されているステージのSetActiveがtrueの時スクショが出来る
+                if (transform.parent.parent.GetComponent<PageChangeArea>().stage[transform.parent.GetComponent<TabButton>().number].activeSelf)
+                {
+                    //画面のスクリーンショット
+                    CaptureScreenShot("Assets/Resources/" + transform.parent.name + ".png");
+                    isScreenShot = true;
+                }
+                //スクショのタイムラグを待つ
+                StartCoroutine("ScreenShotWait");
 
-                string path = "Assets/Resources/" + transform.parent.name + ".png";
-                byte[] data = System.IO.File.ReadAllBytes(path);
-                Texture2D texture = new Texture2D(2, 2);
-                texture.LoadImage(data);
-                gameImg.sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero);
 
                 first = false;
             }
@@ -55,15 +60,35 @@ public class SmallWindow : MonoBehaviour
 
 
 
-    // 画面全体のスクリーンショットを保存する
+    //画面全体のスクリーンショットを保存する
+    //引数1 保存する階層と名前
     private void CaptureScreenShot(string filePath)
     {
         ScreenCapture.CaptureScreenshot(filePath);
     }
 
-
-    private IEnumerator CSceneMoveRetry()
+    //ファイルの画像を参照し、オブジェクトに貼り付ける関数
+    //引数1 参照する階層と画像の名前
+    private void ImgPaste(string path)
     {
-        yield return new WaitForSeconds(3.0f);
+        //画像の表示処理
+        byte[] data = System.IO.File.ReadAllBytes(path);
+        Texture2D texture = new Texture2D(2, 2);
+        texture.LoadImage(data);
+        gameImg.sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero);
+    }
+
+    //スクリーンショットの処理をいったん待つための関数
+    private IEnumerator ScreenShotWait()
+    {
+        yield return new WaitForSeconds(0.1f);
+
+        if (isScreenShot)
+        {
+            ImgPaste("Assets/Resources/" + transform.parent.name + ".png");
+        }
+
+        //SmallWindow表示
+        smallWindow.SetActive(true);
     }
 }

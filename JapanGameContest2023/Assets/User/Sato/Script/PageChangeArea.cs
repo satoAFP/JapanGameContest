@@ -4,15 +4,20 @@ using UnityEngine;
 
 public class PageChangeArea : MonoBehaviour
 {
-    [SerializeField, Header("切り替えたいオブジェクト")] private List<GameObject> stage;
+    [SerializeField, Header("切り替えたいオブジェクト")] public List<GameObject> stage;
 
 
     private void Start()
     {
+        //tabボタンに番号振り分け
+        transform.GetChild(0).gameObject.GetComponent<TabButton>().number = 0;
+
         //ステージ内の1つ目のタブのみ表示
         for (int i = 1; i < stage.Count; i++) 
         {
             stage[i].SetActive(false);
+            //配列1以降のtabボタンにも番号振り分け
+            transform.GetChild(i).gameObject.GetComponent<TabButton>().number = i;
             transform.GetChild(i).gameObject.GetComponent<TabButton>().selectPanel.SetActive(false);
         }
     }
