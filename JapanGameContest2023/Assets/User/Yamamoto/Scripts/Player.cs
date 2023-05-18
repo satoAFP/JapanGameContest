@@ -33,6 +33,7 @@ public class Player : MonoBehaviour
     //public GameObject CreateObj;//移動指標オブジェクトを入れる（削除命令に使う）
 
     //private Vector2 mempos;//前フレーム時の座標
+
    
     //-----------アニメーション関係の変数の宣言---------------
 
@@ -76,13 +77,14 @@ public class Player : MonoBehaviour
         {
             animator.SetFloat("AniSpeed", 0.6f); //アニメーションを再生させる
 
-            if (!animator.GetCurrentAnimatorStateInfo(0).IsName("PlayerAnim"))
+            if (animator.GetCurrentAnimatorStateInfo(0).IsName("Stage1PlayerStart"))
             {
                 StartAction = false;//登場アニメーション再生中のため移動処理をクリック反応させない
                 Debug.Log("Animation finished");
             }
             else
             {
+                Debug.Log("BB");
                 StartAction = true;
             }
 
@@ -101,33 +103,37 @@ public class Player : MonoBehaviour
 
             if (!managerAccessor.Instance.dataMagager.noTapArea　&& !managerAccessor.Instance.dataMagager.objMaxFrag)
             {
-                // 移動中でなければクリックを受け付ける
-                if (Input.GetMouseButtonDown(0) && setblock && StartAction)
+                if(StartAction)
                 {
-                    
-                    //※移動中に再度入力しても左右判定を受け付けない不具合！！
 
-                    //クリックした場所の左右判定を取る
-                    if (origin.x <= managerAccessor.Instance.dataMagager.clickPosition.x)//右
+                    // 移動中でなければクリックを受け付ける
+                    if (script.posupdate && setblock)
                     {
-                        //offset = new Vector2(0.5f * playerSize, 0f);//右向き
-                        transform.eulerAngles = new Vector3(0, 0, 0);
-                        Debug.Log("右");
+                        //※移動中に再度入力しても左右判定を受け付けない不具合！！
+
+                        //クリックした場所の左右判定を取る
+                        if (origin.x <= managerAccessor.Instance.dataMagager.clickPosition.x)//右
+                        {
+                            //offset = new Vector2(0.5f * playerSize, 0f);//右向き
+                            transform.eulerAngles = new Vector3(0, 0, 0);
+                            Debug.Log("右");
+                        }
+                        else//左
+                        {
+                            // offset = new Vector2(-0.5f * playerSize, 0f);//左向き
+                            transform.eulerAngles = new Vector3(0, 180, 0);
+                            Debug.Log("左");
+                        }
+
+                      
+                        // 移動を開始
+                        managerAccessor.Instance.dataMagager.isMoving = true;//プレイヤー全体の移動処理
+                        moving = true;//そのプレイヤー自身の移動フラグもON
+
                     }
-                    else//左
-                    {
-                       // offset = new Vector2(-0.5f * playerSize, 0f);//左向き
-                        transform.eulerAngles = new Vector3(0, 180, 0);
-                        Debug.Log("左");
-                    }
-
-                    
-
-                    // 移動を開始
-                    managerAccessor.Instance.dataMagager.isMoving = true;//プレイヤー全体の移動処理
-                    moving = true;//そのプレイヤー自身の移動フラグもON
-
                 }
+
+               
             }
                
 
