@@ -45,7 +45,7 @@ public class StageSelect : MonoBehaviour
             //複製時の親、名前、画像の変更
             textClone = Instantiate(managerAccessor.Instance.objDataManager.stageSelectObj);
             textClone.transform.parent = stageParent.transform;
-            textClone.transform.GetChild(0).GetComponent<Text>().text = "README";
+            textClone.transform.GetChild(0).GetComponent<Text>().text = "README.txt";
 
             //ステージの生成
             for (int i = 0; i < stage; i++)
@@ -85,6 +85,17 @@ public class StageSelect : MonoBehaviour
             {
                 stageNum.transform.GetChild(2).gameObject.SetActive(true);
             }
+        }
+
+        textClone.transform.GetChild(2).gameObject.SetActive(false);
+
+        //マウスが座標内にいるとき
+        if (textClone.GetComponent<RectTransform>().position.x - textClone.GetComponent<RectTransform>().sizeDelta.x + 60 < Input.mousePosition.x &&
+            textClone.GetComponent<RectTransform>().position.x + textClone.GetComponent<RectTransform>().sizeDelta.x - 60 > Input.mousePosition.x &&
+            textClone.GetComponent<RectTransform>().position.y - textClone.GetComponent<RectTransform>().sizeDelta.y + 40 < Input.mousePosition.y &&
+            textClone.GetComponent<RectTransform>().position.y + textClone.GetComponent<RectTransform>().sizeDelta.y - 60 > Input.mousePosition.y)
+        {
+            textClone.transform.GetChild(2).gameObject.SetActive(true);
         }
 
         //ダブルクリック
