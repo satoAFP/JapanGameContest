@@ -6,25 +6,21 @@ using UnityEngine.UI;
 public class SmallWindow : MonoBehaviour
 {
     [SerializeField, Header("SmallWindow入れる")] private GameObject smallWindow;
+    [SerializeField, Header("NoTapArea入れる")] private GameObject noTapArea;
+    [SerializeField, Header("StageName入れる")] private Text stageName;
     [SerializeField, Header("スクショした画像を格納するオブジェクト")] private Image gameImg;
 
 
     private bool isScreenShot = false;//スクリーンショットをしたかどうか
+    private bool isOnTab = false;//カーソルがタブの上に乗っているとき
 
     //最初しか通らない
     private bool first = true;
 
-    private void Start()
-    {
-        
-
-        Debug.Log(transform.parent.name);
-    }
 
     // Update is called once per frame
     void Update()
     {
-
         //必要な情報の取得
         Vector2 pos = gameObject.GetComponent<RectTransform>().position;
         Vector2 size = gameObject.GetComponent<RectTransform>().sizeDelta;
@@ -46,15 +42,43 @@ public class SmallWindow : MonoBehaviour
                 //スクショのタイムラグを待つ
                 StartCoroutine("ScreenShotWait");
 
+                //SmallWindowのタブの名前を変える
+                stageName.text = managerAccessor.Instance.sceneMoveManager.GetSceneName() + "-" + (transform.parent.GetComponent<TabButton>().number + 1);
 
+                //カーソルがタブに乗っているとき
+                isOnTab = true;
                 first = false;
             }
 
         }
         else
         {
-            smallWindow.SetActive(false);
-            first = true;
+            //必要な情報の取得
+            Vector2 npos = noTapArea.GetComponent<RectTransform>().position;
+            Vector2 nsize = noTapArea.GetComponent<RectTransform>().sizeDelta;
+
+            //タブにカーソルが乗っていたとき&&NoTapAreaにカーソルが乗ってるいるとき
+            if (npos.x - (nsize.x / 2) < mouse.x && npos.x + (nsize.x / 2) > mouse.x &&
+                npos.y - (nsize.y / 2) < mouse.y && npos.y + (nsize.y / 2) > mouse.y && isOnTab) 
+            {
+                //ボタンが正しく動作した後
+                if(transform.parent.GetComponent<TabButton>().isPutButton)
+                {
+                    //SmallWindowを消す
+                    transform.parent.GetComponent<TabButton>().isPutButton = false;
+                    noTapArea.SetActive(false);
+                    smallWindow.SetActive(false);
+                    first = true;
+                    isOnTab = false;
+                }
+            }
+            else
+            {
+                smallWindow.SetActive(false);
+                noTapArea.SetActive(false);
+                first = true;
+                isOnTab = false;
+            }
         }
     }
 
@@ -90,5 +114,6 @@ public class SmallWindow : MonoBehaviour
 
         //SmallWindow表示
         smallWindow.SetActive(true);
+        noTapArea.SetActive(true);
     }
 }

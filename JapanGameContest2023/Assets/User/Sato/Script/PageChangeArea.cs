@@ -38,6 +38,7 @@ public class PageChangeArea : MonoBehaviour
             //‰Ÿ‚³‚ê‚½ƒ^ƒu‚Ì•\Ž¦
             stage[num - 1].SetActive(true);
             transform.GetChild(num - 1).gameObject.GetComponent<TabButton>().selectPanel.SetActive(true);
+            transform.GetChild(num - 1).gameObject.GetComponent<TabButton>().isPutButton = true;
         }
     }
 
