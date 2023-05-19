@@ -74,5 +74,13 @@ public class SceneMoveManager : MonoBehaviour
         return SceneManager.GetActiveScene().name;
     }
 
-
+    //ステージクリアデータリセット
+    public void ResetData()
+    {
+        for (int i = 0; i < managerAccessor.Instance.dataMagager.stageNum; i++)
+        {
+            PlayerPrefs.DeleteKey("Stage" + i);
+        }
+        managerAccessor.Instance.sceneMoveManager.SceneMoveName("Title");
+    }
 }
