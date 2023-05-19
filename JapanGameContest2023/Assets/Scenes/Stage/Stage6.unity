@@ -2067,7 +2067,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3983247672977390750, guid: 83bf3c5bd9f68694a8797e6330143438, type: 3}
       propertyPath: noTapAreas.Array.size
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3983247672977390750, guid: 83bf3c5bd9f68694a8797e6330143438, type: 3}
       propertyPath: noTapAreas.Array.data[0]
@@ -2085,6 +2085,10 @@ PrefabInstance:
       propertyPath: noTapAreas.Array.data[3]
       value: 
       objectReference: {fileID: 1174957448}
+    - target: {fileID: 3983247672977390750, guid: 83bf3c5bd9f68694a8797e6330143438, type: 3}
+      propertyPath: noTapAreas.Array.data[4]
+      value: 
+      objectReference: {fileID: 1649635335}
     - target: {fileID: 4054495362566365060, guid: 83bf3c5bd9f68694a8797e6330143438, type: 3}
       propertyPath: m_RootOrder
       value: 15
@@ -2873,6 +2877,11 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 6577071187039260812, guid: 876afd29f9074f8488d5666ef96292de, type: 3}
   m_PrefabInstance: {fileID: 1649635330}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1649635335 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1224103616956603885, guid: 876afd29f9074f8488d5666ef96292de, type: 3}
+  m_PrefabInstance: {fileID: 1649635330}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1679678788
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3307,6 +3316,10 @@ PrefabInstance:
     - target: {fileID: 2492245537486585181, guid: d72ec0ce7a325314895a598db759f813, type: 3}
       propertyPath: m_Name
       value: DataManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 2492245537486585182, guid: d72ec0ce7a325314895a598db759f813, type: 3}
+      propertyPath: objMax
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2492245537486585182, guid: d72ec0ce7a325314895a598db759f813, type: 3}
       propertyPath: duplicationMoveAmount.x
