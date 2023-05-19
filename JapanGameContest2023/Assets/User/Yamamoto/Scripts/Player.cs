@@ -259,9 +259,10 @@ public class Player : MonoBehaviour
             {
                 //ゴールしているキャラのカウントプラス
                 managerAccessor.Instance.dataMagager.goalPlayerNum++;
+                other.gameObject.GetComponent<Goal>().GoalEffect_animator.SetBool("Goal", true);//ゴールアニメーション再生
+                other.gameObject.GetComponent<Goal>().DastBox_animator.SetBool("dastboxchange", true);//ゴミ箱のイラスト変化
                 other.gameObject.GetComponent<Goal>().goalChara = false;
-                other.gameObject.GetComponent<Goal>().animator.SetBool("Goal", true);
-
+               
 
                 script.playercount--;//プレイヤーの数-1
                 Destroy(gameObject);//自身も削除
