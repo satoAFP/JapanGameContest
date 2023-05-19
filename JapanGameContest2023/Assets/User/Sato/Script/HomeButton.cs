@@ -6,12 +6,15 @@ public class HomeButton : MonoBehaviour
 {
     [SerializeField, Header("ホームウィンドウ")] private GameObject homeWindow;
 
+    [SerializeField, Header("ホームウィンドウ")] private GameObject noTapArea;
+
     [SerializeField, Header("シャットダウン後の画像")] private GameObject endImg;
 
     //シャットダウンなどを表示非表示させる関数
     public void WindowButton()
     {
         homeWindow.SetActive(!homeWindow.activeSelf);
+        noTapArea.SetActive(!noTapArea.activeSelf);
     }
 
     //ゲームを終了させる関数
