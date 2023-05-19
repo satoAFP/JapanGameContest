@@ -8,6 +8,8 @@ public class GoalSystem : MonoBehaviour
 
     [SerializeField, Header("ゴールするキャラの数")] private int charaNum;
 
+    [SerializeField, Header("ゴールパネルが出るまでの時間")] private float popTime;
+
     //一回しか通らない
     private bool first = true;
 
@@ -30,11 +32,18 @@ public class GoalSystem : MonoBehaviour
                     }
                 }
 
-                //クリアパネルの表示
-                ClearPanel.SetActive(true);
+                StartCoroutine("ClearPanelPop");
 
                 first = false;
             }
         }
     }
+
+    private IEnumerator ClearPanelPop()
+    {
+        yield return new WaitForSeconds(popTime);
+        //クリアパネルの表示
+        ClearPanel.SetActive(true);
+    }
+
 }
