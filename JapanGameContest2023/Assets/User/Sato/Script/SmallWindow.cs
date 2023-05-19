@@ -35,8 +35,13 @@ public class SmallWindow : MonoBehaviour
                 //自身の親の親のオブジェクトに格納されているステージのSetActiveがtrueの時スクショが出来る
                 if (transform.parent.parent.GetComponent<PageChangeArea>().stage[transform.parent.GetComponent<TabButton>().number].activeSelf)
                 {
-                    //画面のスクリーンショット
+#if UNITY_EDITOR
                     CaptureScreenShot("Assets/Resources/" + transform.parent.name + ".png");
+#else
+                    CaptureScreenShot("Resources/" + transform.parent.name + ".png");
+#endif
+
+                    //画面のスクリーンショット
                     isScreenShot = true;
                 }
                 //スクショのタイムラグを待つ
@@ -109,7 +114,11 @@ public class SmallWindow : MonoBehaviour
 
         if (isScreenShot)
         {
+#if UNITY_EDITOR
             ImgPaste("Assets/Resources/" + transform.parent.name + ".png");
+#else
+            ImgPaste("VIRUS PURGE_Data/Resources/" + transform.parent.name + ".png");
+#endif
         }
 
         //SmallWindow表示
