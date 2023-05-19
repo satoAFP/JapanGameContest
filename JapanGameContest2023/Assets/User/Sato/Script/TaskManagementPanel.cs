@@ -24,12 +24,13 @@ public class TaskManagementPanel : MonoBehaviour
     [SerializeField, Header("タスクマネージャー表示")] private GameObject taskManagement;
     [SerializeField, Header("NoTapArea表示")] private GameObject notapArea;
 
-    [SerializeField,Header("出せるオブジェクトの最大数")] private int objMax;
-
     [SerializeField, Header("スライダーの色変更用")] private Color[] color;
 
     //動かせるブロックの数格納
     private int blockChildObj = 0;
+
+    //シーン内に出せるブロックの最大数
+    private int objMax = 0;
 
     //ゴールの数格納
     private int goalChildObj = 0;
@@ -39,6 +40,7 @@ public class TaskManagementPanel : MonoBehaviour
     {
         //動かせるブロック数を取得
         blockChildObj = managerAccessor.Instance.objDataManager.blockParent.transform.childCount;
+        objMax = managerAccessor.Instance.dataMagager.objMax;
         goalChildObj = managerAccessor.Instance.objDataManager.goalParent.transform.childCount;
 
         //最大数未満の時
