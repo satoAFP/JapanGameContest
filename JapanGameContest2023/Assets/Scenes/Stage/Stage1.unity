@@ -1367,6 +1367,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: ModeChange
       objectReference: {fileID: 0}
+    - target: {fileID: 1105006744721971121, guid: 876afd29f9074f8488d5666ef96292de, type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: 19f9ddd3001a93b40a2e9248f3ced98c, type: 3}
     - target: {fileID: 6029827403666188302, guid: 876afd29f9074f8488d5666ef96292de, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -1483,6 +1487,10 @@ PrefabInstance:
       propertyPath: stage.Array.data[0]
       value: 
       objectReference: {fileID: 794336369}
+    - target: {fileID: 9041770737319352613, guid: 876afd29f9074f8488d5666ef96292de, type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: 19f9ddd3001a93b40a2e9248f3ced98c, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 876afd29f9074f8488d5666ef96292de, type: 3}
 --- !u!1001 &882554249
