@@ -833,6 +833,11 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &384655397 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1224103616956603885, guid: 876afd29f9074f8488d5666ef96292de, type: 3}
+  m_PrefabInstance: {fileID: 737543770}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &434890599
 GameObject:
   m_ObjectHideFlags: 0
@@ -2092,7 +2097,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3983247672977390750, guid: 83bf3c5bd9f68694a8797e6330143438, type: 3}
       propertyPath: noTapAreas.Array.size
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3983247672977390750, guid: 83bf3c5bd9f68694a8797e6330143438, type: 3}
       propertyPath: noTapAreas.Array.data[0]
@@ -2110,6 +2115,10 @@ PrefabInstance:
       propertyPath: noTapAreas.Array.data[3]
       value: 
       objectReference: {fileID: 335950327}
+    - target: {fileID: 3983247672977390750, guid: 83bf3c5bd9f68694a8797e6330143438, type: 3}
+      propertyPath: noTapAreas.Array.data[4]
+      value: 
+      objectReference: {fileID: 384655397}
     - target: {fileID: 4054495362566365060, guid: 83bf3c5bd9f68694a8797e6330143438, type: 3}
       propertyPath: m_RootOrder
       value: 15
@@ -3741,6 +3750,10 @@ PrefabInstance:
     - target: {fileID: 2492245537486585181, guid: d72ec0ce7a325314895a598db759f813, type: 3}
       propertyPath: m_Name
       value: DataManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 2492245537486585182, guid: d72ec0ce7a325314895a598db759f813, type: 3}
+      propertyPath: objMax
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2492245537486585182, guid: d72ec0ce7a325314895a598db759f813, type: 3}
       propertyPath: duplicationMoveAmount.x
