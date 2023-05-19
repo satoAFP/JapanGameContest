@@ -17,14 +17,10 @@ public class Goal : MonoBehaviour
         //主人公に当たった時
         if (collision.gameObject.tag == "Player") 
         {
-            //DastBox_animator.SetBool("dastboxchange", true);//ゴミ箱のイラスト変化
-
             //ゴールするとそこにはもう入らない
             if (goalChara)
             {
                
-                //animator.Play("GoalEffect");
-                //managerAccessor.Instance.dataMagager.goalPlayerNum++;
             }
         }
     }
