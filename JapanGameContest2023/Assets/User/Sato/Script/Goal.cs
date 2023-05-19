@@ -12,6 +12,17 @@ public class Goal : MonoBehaviour
     //ゴミ箱にプレイヤーが入っているアニメーション
     public Animator DastBox_animator;
 
+    //ゴミ箱のイラスト変更フラグ
+    public bool change = false;
+
+    private void Update()
+    {
+        if(change)
+        {
+            StartCoroutine("ChangeDastBox");
+        }
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         //主人公に当たった時
@@ -25,5 +36,11 @@ public class Goal : MonoBehaviour
         }
     }
 
+    IEnumerator ChangeDastBox()
+    {
+        yield return new WaitForSeconds(0.15f);
+
+        DastBox_animator.SetBool("dastboxchange", true);//ゴミ箱のイラスト変化
+    }
 
 }
