@@ -7,6 +7,8 @@ public class FileGene : MonoBehaviour
 
     public int playercount = 0;//プレイヤーの数を数える（ファイル削除命令用）
 
+    public bool posupdate = false;//プレイヤーにクリックした座標に移動させる命令を送るフラグ
+
     [SerializeField, Header("生成する移動指標オブジェクト")]
     private GameObject prefab;
 
@@ -40,6 +42,8 @@ public class FileGene : MonoBehaviour
                     managerAccessor.Instance.dataMagager.clickPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                     managerAccessor.Instance.dataMagager.clickPosition.z = 0; // z座標を0に設定（2Dゲームなので）
 
+                   
+                    posupdate = true;//Player側にクリックした座標に移動する命令を出す
 
                     if (CreateObj == null) //初めて移動指標オブジェクトを作るとき
                     {
@@ -56,6 +60,11 @@ public class FileGene : MonoBehaviour
 
 
 
+                }
+
+                if(Input.GetMouseButtonUp(0))
+                {
+                    posupdate = false;
                 }
             }
 
