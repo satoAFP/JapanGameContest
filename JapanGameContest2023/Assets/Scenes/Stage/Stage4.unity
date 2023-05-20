@@ -285,6 +285,11 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 5864074875077962130, guid: 2097171d4fb9a3143b37be5e9990ee24, type: 3}
   m_PrefabInstance: {fileID: 56560970}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &56560972 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4578275147063845563, guid: 2097171d4fb9a3143b37be5e9990ee24, type: 3}
+  m_PrefabInstance: {fileID: 56560970}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &164348375
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1994,7 +1999,7 @@ PrefabInstance:
     - target: {fileID: 3983247672977390750, guid: 83bf3c5bd9f68694a8797e6330143438, type: 3}
       propertyPath: noTapAreas.Array.data[4]
       value: 
-      objectReference: {fileID: 1633436243}
+      objectReference: {fileID: 56560972}
     - target: {fileID: 4054495362566365060, guid: 83bf3c5bd9f68694a8797e6330143438, type: 3}
       propertyPath: m_RootOrder
       value: 15
@@ -2996,11 +3001,6 @@ MonoBehaviour:
 --- !u!1 &1633436242 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6577071187039260812, guid: 876afd29f9074f8488d5666ef96292de, type: 3}
-  m_PrefabInstance: {fileID: 1633436238}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1633436243 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1224103616956603885, guid: 876afd29f9074f8488d5666ef96292de, type: 3}
   m_PrefabInstance: {fileID: 1633436238}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1749780755
