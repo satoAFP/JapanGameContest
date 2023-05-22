@@ -27,56 +27,60 @@ public class FileGene : MonoBehaviour
     {
         if (managerAccessor.Instance.dataMagager.playMode)//操作モードの時
         {
-
-            //Decoyファイルにふれたときおとりファイルを消去
-            if (managerAccessor.Instance.dataMagager.onDecoyFile)
+            //ゲームオーバーになっていなければ処理実行
+            if (!managerAccessor.Instance.dataMagager.fallDeth ||
+           !managerAccessor.Instance.dataMagager.infectionDeth ||
+           !managerAccessor.Instance.dataMagager.overDeth)
             {
-                Destroy(CreateObj);
-            }
-
-            if (!managerAccessor.Instance.dataMagager.noTapArea)
-            {
-                if (Input.GetMouseButtonDown(0))
+                //Decoyファイルにふれたときおとりファイルを消去
+                if (managerAccessor.Instance.dataMagager.onDecoyFile)
                 {
-                    // クリックされた位置を取得
-                    managerAccessor.Instance.dataMagager.clickPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                    managerAccessor.Instance.dataMagager.clickPosition.z = 0; // z座標を0に設定（2Dゲームなので）
-
-                   
-                    posupdate = true;//Player側にクリックした座標に移動する命令を出す
-
-                    if (CreateObj == null) //初めて移動指標オブジェクトを作るとき
-                    {
-
-                        CreateObj = Instantiate(prefab, managerAccessor.Instance.dataMagager.clickPosition, Quaternion.identity);//移動指標オブジェクト作成
-                    }
-                    else
-                    {
-                        //すでに移動指標オブジェクト作成が作られている場合
-                        Destroy(CreateObj);//前回作ったものを削除
-                        CreateObj = Instantiate(prefab, managerAccessor.Instance.dataMagager.clickPosition, Quaternion.identity);//新たに移動指標オブジェクト作成
-                    }
-
-
-
-
+                    Destroy(CreateObj);
                 }
 
-                if(Input.GetMouseButtonUp(0))
+                if (!managerAccessor.Instance.dataMagager.noTapArea)
                 {
-                    posupdate = false;
+                    if (Input.GetMouseButtonDown(0))
+                    {
+                        // クリックされた位置を取得
+                        managerAccessor.Instance.dataMagager.clickPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                        managerAccessor.Instance.dataMagager.clickPosition.z = 0; // z座標を0に設定（2Dゲームなので）
+
+
+                        posupdate = true;//Player側にクリックした座標に移動する命令を出す
+
+                        if (CreateObj == null) //初めて移動指標オブジェクトを作るとき
+                        {
+
+                            CreateObj = Instantiate(prefab, managerAccessor.Instance.dataMagager.clickPosition, Quaternion.identity);//移動指標オブジェクト作成
+                        }
+                        else
+                        {
+                            //すでに移動指標オブジェクト作成が作られている場合
+                            Destroy(CreateObj);//前回作ったものを削除
+                            CreateObj = Instantiate(prefab, managerAccessor.Instance.dataMagager.clickPosition, Quaternion.identity);//新たに移動指標オブジェクト作成
+                        }
+
+
+
+
+                    }
+
+                    if (Input.GetMouseButtonUp(0))
+                    {
+                        posupdate = false;
+                    }
+                }
+
+
+
+                if (playercount == 0)//移動しているプレイヤーが0になるとCreateObj削除
+                {
+                    Destroy(CreateObj);
+                    managerAccessor.Instance.dataMagager.isMoving = false;//プレイヤー全体の移動処理を終了
+                    playercount = GameObject.FindGameObjectsWithTag("Player").Length;//プレイヤーの数を再カウント
                 }
             }
-
-                
-
-            if (playercount == 0)//移動しているプレイヤーが0になるとCreateObj削除
-            {
-                Destroy(CreateObj);
-                managerAccessor.Instance.dataMagager.isMoving = false;//プレイヤー全体の移動処理を終了
-                playercount = GameObject.FindGameObjectsWithTag("Player").Length;//プレイヤーの数を再カウント
-            }
-           
 
         }
 

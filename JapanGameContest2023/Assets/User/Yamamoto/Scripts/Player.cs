@@ -29,11 +29,6 @@ public class Player : MonoBehaviour
 
     private FileGene script;//FileGeneスクリプト
 
-    //[System.NonSerialized]
-    //public GameObject CreateObj;//移動指標オブジェクトを入れる（削除命令に使う）
-
-    //private Vector2 mempos;//前フレーム時の座標
-
    
     //-----------アニメーション関係の変数の宣言---------------
 
