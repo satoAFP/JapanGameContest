@@ -14,13 +14,18 @@ public class HomeButton : MonoBehaviour
 
     [SerializeField, Header("ロードの画像")] private GameObject loadImg;
 
+    [SerializeField, Header("UserNameText")] private Text userNameText;
+
 
     private void FixedUpdate()
     {
+        //シャットダウンするときロード画像が回転する
         if(managerAccessor.Instance.dataMagager.sceneMoveStart)
         {
             loadImg.GetComponent<RectTransform>().eulerAngles += new Vector3(0, 0, 2);
         }
+
+        userNameText.text = PlayerPrefs.GetString("userName", "");
     }
 
     //シャットダウンなどを表示非表示させる関数

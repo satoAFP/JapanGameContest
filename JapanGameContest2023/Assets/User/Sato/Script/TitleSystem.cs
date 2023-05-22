@@ -29,6 +29,8 @@ public class TitleSystem : MonoBehaviour
         dt = DateTime.Now;
         timeText.text = dt.Hour.ToString("d2") + ":" + dt.Minute.ToString("d2");
         dayText.text = dt.Month.ToString() + "Œ" + dt.Day.ToString() + "“ú" + "(" + Week(dt.Year, dt.Month, dt.Day) + ")";
+
+        
     }
 
     //”NŒ“ú‚©‚ç—j“ú‚ğ‹‚ß‚éŠÖ”

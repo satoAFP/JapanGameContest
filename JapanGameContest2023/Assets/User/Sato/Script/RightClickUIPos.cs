@@ -23,7 +23,7 @@ public class RightClickUIPos : MonoBehaviour
                     //新しい右クリックUIの生成
                     managerAccessor.Instance.dataMagager.rightClickUIClone = Instantiate(objm.rightClickUI);
                     managerAccessor.Instance.dataMagager.rightClickUIClone.transform.localPosition = Input.mousePosition;
-                    managerAccessor.Instance.dataMagager.rightClickUIClone.transform.parent = objm.canvas.transform;
+                    managerAccessor.Instance.dataMagager.rightClickUIClone.transform.parent = gameObject.transform;
                     first = false;
                 }
             }
