@@ -2513,6 +2513,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: Home
       objectReference: {fileID: 0}
+    - target: {fileID: 6874984706834244157, guid: 2097171d4fb9a3143b37be5e9990ee24, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6874984706834244157, guid: 2097171d4fb9a3143b37be5e9990ee24, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 773041971}
+    - target: {fileID: 6874984706834244157, guid: 2097171d4fb9a3143b37be5e9990ee24, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SceneMoveName
+      objectReference: {fileID: 0}
+    - target: {fileID: 6874984706834244157, guid: 2097171d4fb9a3143b37be5e9990ee24, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: SceneMoveManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 6874984706834244157, guid: 2097171d4fb9a3143b37be5e9990ee24, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
+      value: Title
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2097171d4fb9a3143b37be5e9990ee24, type: 3}
 --- !u!1001 &8440388413963583575

@@ -85,6 +85,8 @@ public class DataManager : MonoBehaviour
 
     [Header("ƒ[ƒh‰æ‘œ‰ñ“]‘¬“x")] public float loadRotate;
 
+    [SerializeField, Header("UserName")] public InputField userName;
+
 
     private GameObject clonePanel = null;
 

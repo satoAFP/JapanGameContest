@@ -15,6 +15,11 @@ public class SceneMoveManager : MonoBehaviour
     //コルーチン呼び出し用
     public void SceneMoveName(string name)
     {
+        if (managerAccessor.Instance.sceneMoveManager.GetSceneName() == "Title")
+        {
+            PlayerPrefs.SetString("userName", managerAccessor.Instance.dataMagager.userName.text);
+        }
+
         managerAccessor.Instance.dataMagager.sceneMoveStart = true;
         StartCoroutine(CSceneMoveName(name));
     }
