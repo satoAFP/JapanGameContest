@@ -22,7 +22,7 @@ public class MoveObj : MonoBehaviour
         //リジットボディの取得
         rigidbody2D = gameObject.GetComponent<Rigidbody2D>();
 
-        memStartPos = transform.position;
+        
     }
 
     private void FixedUpdate()
@@ -39,6 +39,7 @@ public class MoveObj : MonoBehaviour
         if(managerAccessor.Instance.dataMagager.playMode)
         {
             isStartMove = false;
+            memStartPos = transform.position;
         }
         else
         {
