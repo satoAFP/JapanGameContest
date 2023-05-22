@@ -1505,6 +1505,11 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 8967756126598099130, guid: 876afd29f9074f8488d5666ef96292de, type: 3}
   m_PrefabInstance: {fileID: 8967756127003500630}
   m_PrefabAsset: {fileID: 0}
+--- !u!82 &1063226327 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 7988472205726930612, guid: b81e10c13b6a2e34eae9d873845d8d70, type: 3}
+  m_PrefabInstance: {fileID: 1225756993092574412}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1117042346 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6671429460971811951, guid: 779af25652b2d4948a0971094f0675b6, type: 3}
@@ -2314,6 +2319,14 @@ PrefabInstance:
     - target: {fileID: 1225756994204176040, guid: b81e10c13b6a2e34eae9d873845d8d70, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1225756994204176041, guid: b81e10c13b6a2e34eae9d873845d8d70, type: 3}
+      propertyPath: funSE
+      value: 
+      objectReference: {fileID: 1063226327}
+    - target: {fileID: 1225756994204176041, guid: b81e10c13b6a2e34eae9d873845d8d70, type: 3}
+      propertyPath: moveFunSE
+      value: 0.02
       objectReference: {fileID: 0}
     - target: {fileID: 1225756994204176047, guid: b81e10c13b6a2e34eae9d873845d8d70, type: 3}
       propertyPath: m_Name

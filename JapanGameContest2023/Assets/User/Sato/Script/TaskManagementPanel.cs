@@ -26,6 +26,9 @@ public class TaskManagementPanel : MonoBehaviour
 
     [SerializeField, Header("スライダーの色変更用")] private Color[] color;
 
+    [SerializeField, Header("ファンのSE")] private AudioSource funSE;
+    [SerializeField, Header("ファンのSEフェード時間")] private float moveFunSE;
+
     //動かせるブロックの数格納
     private int blockChildObj = 0;
 
@@ -48,18 +51,40 @@ public class TaskManagementPanel : MonoBehaviour
         {
             FillImage.color = color[0];
             managerAccessor.Instance.dataMagager.objMaxFrag = false;
+
+            //ファンの音設定
+            if (funSE.pitch > 0)
+            {
+                funSE.pitch -= moveFunSE;
+            }
         }
         //最大数の時
         else if (blockChildObj == objMax) 
         {
             FillImage.color = color[1];
             managerAccessor.Instance.dataMagager.objMaxFrag = false;
+
+            //ファンの音設定
+            if (funSE.pitch > 1)
+            {
+                funSE.pitch -= moveFunSE;
+            }
+            else if(funSE.pitch < 1)
+            {
+                funSE.pitch += moveFunSE;
+            }
         }
         //最大数を超えた時
         else if (blockChildObj > objMax)
         {
             FillImage.color = color[2];
             managerAccessor.Instance.dataMagager.objMaxFrag = true;
+
+            //ファンの音設定
+            if (funSE.pitch < 2)
+            {
+                funSE.pitch += moveFunSE;
+            }
         }
 
 
