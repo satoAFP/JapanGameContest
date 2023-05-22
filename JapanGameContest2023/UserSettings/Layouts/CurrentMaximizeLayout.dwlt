@@ -26,7 +26,7 @@ MonoBehaviour:
   m_MinSize: {x: 400, y: 200}
   m_MaxSize: {x: 32384, y: 16192}
   vertical: 0
-  controlID: 7322
+  controlID: 8345
 --- !u!114 &2
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -143,7 +143,7 @@ MonoBehaviour:
   m_MinSize: {x: 100, y: 200}
   m_MaxSize: {x: 8096, y: 16192}
   vertical: 1
-  controlID: 7314
+  controlID: 8346
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -687,8 +687,8 @@ MonoBehaviour:
     y: 0
     width: 269
     height: 947
-  m_MinSize: {x: 202, y: 221}
-  m_MaxSize: {x: 4002, y: 4021}
+  m_MinSize: {x: 200, y: 200}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 10}
   m_Panes:
   - {fileID: 10}
@@ -727,7 +727,7 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: 6a05f7ff040bf7ffea10f7ff8816f7ffee1bf7ff4621f7ff4027f7ff9e2cf7ffca31f7fff636f7ff2a3cf7ff9a63f7ffac68f7ffaa6df7ff7c72f7ff7677f7ff547ff7ffe884f7ffc88af7ff5c90f7ffbc95f7ff469bf7ff34a1f7ff88a6f7ffaaabf7fffab0f7ff1cb6f7ff3ebbf7ff30c0f7ffe0c4f7ffa8c9f7ffa8cef7ff3ad4f7ffc6d9f7ff96dff7ff0ce5f7ff94eaf7ffe8eff7ff2ef5f7ff26fbf7ff6e00f8ff9c05f8ffb20af8ffde0ff8ffd614f8ffcc19f8ff881ef8ff8623f8ff8adbfdff44ccfefff0d0feffd8d5feffdedafeff8adffeff60e4feff48e9feff1eeefeffd8f2feff32fdfeffe4faffff54890000e0b5000018cf000056cf000062d0000092d0000038d2000094d200000ed4000032d400005cd6000018d8000054d80000c6d9000010da000030dc000026de000082de000030e0000056e0000026e40000a8e4000036e80000a6e80000
+      m_ExpandedIDs: 38eef6ffd8f4f6ffc4f9f6ff4cfff6ff6a05f7ff040bf7ffea10f7ff8816f7ffee1bf7ff4621f7ff4027f7ff9e2cf7ffca31f7fff636f7ff2a3cf7ff9a63f7ffac68f7ffaa6df7ff7c72f7ff7677f7ff547ff7ffe884f7ffc88af7ff5c90f7ffbc95f7ff469bf7ff34a1f7ff88a6f7ffaaabf7fffab0f7ff1cb6f7ff3ebbf7ff30c0f7ffe0c4f7ffa8c9f7ffa8cef7ff3ad4f7ffc6d9f7ff96dff7ff0ce5f7ff94eaf7ffe8eff7ff2ef5f7ff26fbf7ff6e00f8ff9c05f8ffb20af8ffde0ff8ffd614f8ffcc19f8ff881ef8ff8623f8ff8adbfdff44ccfefff0d0feffd8d5feffdedafeff8adffeff60e4feff48e9feff1eeefeffd8f2feff32fdfeffe4faffff54890000e0b5000018cf000056cf000062d0000092d0000038d2000094d200000ed4000032d400005cd6000018d8000054d80000c6d9000010da000030dc000026de000082de000030e0000056e0000026e40000a8e4000036e80000a6e8000052480100
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -819,21 +819,21 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Scenes/Stage
+    - Assets/Prefab/SystemObj/UI
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 1
   m_StartGridSize: 16
   m_LastFolders:
-  - Assets/Scenes/Stage
+  - Assets/Prefab/SystemObj/UI
   m_LastFoldersGridSize: 16
   m_LastProjectPath: C:\Users\GA4\Desktop\Game\JapanGameContest2023
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 14660000
-    m_LastClickedID: 26132
+    m_SelectedIDs: d0780000
+    m_LastClickedID: 30928
     m_ExpandedIDs: 00000000ee650000f0650000f2650000f46500000e6600001a660000767500003a76000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -887,24 +887,24 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: fa7a0000
-    m_LastClickedInstanceID: 31482
+    m_SelectedInstanceIDs: 12e9f6ff
+    m_LastClickedInstanceID: -595694
     m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: 6c5c000060e40100
     m_RenameOverlay:
       m_UserAcceptedRename: 0
-      m_Name: Stage9
-      m_OriginalName: Stage9
+      m_Name: 
+      m_OriginalName: 
       m_EditFieldRect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 0
         height: 0
-      m_UserData: 27404
+      m_UserData: 0
       m_IsWaitingForDelay: 0
       m_IsRenaming: 0
-      m_OriginalEventType: 0
+      m_OriginalEventType: 11
       m_IsRenamingFilename: 1
       m_ClientGUIView: {fileID: 11}
     m_CreateAssetUtility:
@@ -1006,7 +1006,7 @@ MonoBehaviour:
     m_CachedPref: -160
     m_ControlHash: -371814159
     m_PrefName: Preview_InspectorPreview
-  m_LastInspectedObjectInstanceID: 31482
+  m_LastInspectedObjectInstanceID: -595694
   m_LastVerticalScrollValue: 0
   m_GlobalObjectId: 
   m_InspectorMode: 0

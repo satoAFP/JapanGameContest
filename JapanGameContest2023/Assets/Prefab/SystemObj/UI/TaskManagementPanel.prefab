@@ -860,7 +860,7 @@ MonoBehaviour:
   - {r: 1, g: 0.7056643, b: 0.08962262, a: 1}
   - {r: 1, g: 0, b: 0, a: 1}
   funSE: {fileID: 7988472205726930612}
-  moveFunSE: 0
+  moveFunSE: 0.02
 --- !u!1 &1225756994238690090
 GameObject:
   m_ObjectHideFlags: 0
