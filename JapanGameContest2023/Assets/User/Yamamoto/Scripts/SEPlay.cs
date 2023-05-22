@@ -63,7 +63,5 @@ public class SEPlay : MonoBehaviour
     {
         Debug.Log("staru");
         audioSource.PlayOneShot(fallse);
-
-      
     }
 }
