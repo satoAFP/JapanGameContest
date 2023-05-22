@@ -2,19 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//アニメーターに直接SEをつけるスクリプトです
+
 public class SEPlay : MonoBehaviour
 {
-    // Start is called before the first frame update
 
-    [SerializeField, Header("歩行SE")] private AudioClip walkse;
+    [Header("ここに効果音を入れる")]
+    [SerializeField] private AudioClip walkse;//歩行SE
+    [SerializeField] private AudioClip fallse;//落下SE
 
     private AudioSource audioSource;
 
-    public bool startse = false;
+    public bool startse = false;//SEを鳴らすフラグ
 
     public bool onese = true;//呼び出されたとき一度だけ音を鳴らす
 
-
+    public bool playfallse = false;//落下SEを鳴らすフラグ(trueはアニメーターでする)
 
     void Start()
     {
@@ -24,11 +27,12 @@ public class SEPlay : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        //現在プレイヤーが死んでいなければSEを鳴らす
         if(!managerAccessor.Instance.dataMagager.fallDeth||
            !managerAccessor.Instance.dataMagager.infectionDeth ||
            !managerAccessor.Instance.dataMagager.overDeth)
         {
-            if (startse)
+            if (startse)//アニメーターの方でstartseをtrueにする
             {
                 if (onese)
                 {
@@ -41,12 +45,25 @@ public class SEPlay : MonoBehaviour
             {
                 onese = true;
             }
+
+
+            if(playfallse)
+            {
+                StartFallSE();
+                playfallse = false;//ここでフラグ初期化
+            }
+
         }
         
     }
 
-    void SEstart()
-    {
 
+
+    public void StartFallSE()
+    {
+        Debug.Log("staru");
+        audioSource.PlayOneShot(fallse);
+
+      
     }
 }

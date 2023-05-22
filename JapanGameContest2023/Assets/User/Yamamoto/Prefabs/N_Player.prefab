@@ -192,7 +192,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   walkse: {fileID: 8300000, guid: ff2da61baa1e7b34aa516203997e4db0, type: 3}
+  fallse: {fileID: 8300000, guid: eaa6c79b6796f614aa69efea8b4ad039, type: 3}
   startse: 0
+  onese: 1
+  playfallse: 0
 --- !u!82 &7601441154629234939
 AudioSource:
   m_ObjectHideFlags: 0
@@ -205,7 +208,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.7
   m_Pitch: 1
   Loop: 0
   Mute: 0
