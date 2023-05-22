@@ -340,6 +340,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GoalEffect_animator: {fileID: 2950242899775773586}
   DastBox_animator: {fileID: 1724055232490222247}
+  change: 0
 --- !u!95 &1724055232490222247
 Animator:
   serializedVersion: 5

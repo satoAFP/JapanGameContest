@@ -12,6 +12,9 @@ public class DecoyFile : MonoBehaviour
     private int FrameCount = 0;
     private Animator anim;
 
+    [SerializeField, Header("感染爆発エフェクトアニメーション")]
+    private Animator effect_ani;
+
     private void Start()
     {
         anim = gameObject.GetComponent<Animator>();
@@ -42,11 +45,22 @@ public class DecoyFile : MonoBehaviour
             //感染したファイルになる
             //gameObject.GetComponent<SpriteRenderer>().sprite = infectionFile;
 
-            anim.SetBool("HitEnemy", true);
+
+            //ここでアニメーションを流すフラグをON
+            effect_ani.SetBool("PlayerHit", true);
+
+            StartCoroutine("ChangeDecoyFile");//コルーチン開始
 
             managerAccessor.Instance.dataMagager.onDecoyFile = true;
             managerAccessor.Instance.dataMagager.infectionDeth = true;
         }
+    }
+
+    IEnumerator ChangeDecoyFile()
+    {
+        yield return new WaitForSeconds(0.3f);//時間差でアニメーションを行う
+
+        anim.SetBool("HitEnemy", true);
     }
 
 }
