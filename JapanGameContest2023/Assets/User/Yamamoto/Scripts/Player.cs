@@ -159,17 +159,19 @@ public class Player : MonoBehaviour
         
         if (managerAccessor.Instance.dataMagager.playMode)//操作モードの時
         {
+            //他のプレイヤーがゲームオーバーになると自信の移動処理を止める
+            if (managerAccessor.Instance.dataMagager.playerlost || managerAccessor.Instance.dataMagager.isShutDown)
+            {
+                Debug.Log("ｗｗｗｗ");
+                MoveFinish();//移動処理終了
+            }
+
             //FreezeRotationのみオンにする（Freezeは上書きできる）
             rb.constraints = RigidbodyConstraints2D.FreezeRotation;
 
             rb.WakeUp();//動いていないとリジットボディが止まってしまうのでここで再起動
 
-            //他のプレイヤーがゲームオーバーになると自信の移動処理を止める
-            if (managerAccessor.Instance.dataMagager.playerlost)
-            {
-                Debug.Log("ｗｗｗｗ");
-                MoveFinish();//移動処理終了
-            }
+            
 
                 //落下処理　とりあえず今は落ちたら初期位置に戻る
                 if (transform.position.y <= -10)
@@ -182,40 +184,48 @@ public class Player : MonoBehaviour
             
 
             // 移動中の場合は移動する
-            if (moving && !managerAccessor.Instance.dataMagager.playerlost)
+            if (moving)
             {
-               
-                // キャラクターのX座標をクリックされた位置に向けて移動
-                transform.position = Vector2.MoveTowards(transform.position, new Vector2(managerAccessor.Instance.dataMagager.clickPosition.x, transform.position.y), speed * Time.deltaTime);
-
-                origin = transform.position;
-
-                // 移動が終わったらフラグを解除
-                if (transform.position.x == managerAccessor.Instance.dataMagager.clickPosition.x)
+                if(!managerAccessor.Instance.dataMagager.playerlost || !managerAccessor.Instance.dataMagager.isShutDown)
                 {
-                    //Debug.Log("cccc");
-                    MoveFinish();//移動処理終了
+                    // キャラクターのX座標をクリックされた位置に向けて移動
+                    transform.position = Vector2.MoveTowards(transform.position, new Vector2(managerAccessor.Instance.dataMagager.clickPosition.x, transform.position.y), speed * Time.deltaTime);
+
+                    origin = transform.position;
+
+                    // 移動が終わったらフラグを解除
+                    if (transform.position.x == managerAccessor.Instance.dataMagager.clickPosition.x)
+                    {
+                        //Debug.Log("cccc");
+                        MoveFinish();//移動処理終了
+                    }
                 }
+               
+               
 
             }
           
             //プレイヤーがオブジェクトに当たっていたら上昇する処理を開始
-            if(TimeStart && !managerAccessor.Instance.dataMagager.playerlost)
+            if(TimeStart)
             {
-               
-                //設定されたプレイヤー上昇時間分だけプレイヤーが上昇する
-                if (uptime >= 0)
+                if (!managerAccessor.Instance.dataMagager.playerlost || !managerAccessor.Instance.dataMagager.isShutDown)
                 {
-                   // Debug.Log("あたり");
-                    uptime -= Time.deltaTime;//プレイヤー上昇時間減少
+                    //設定されたプレイヤー上昇時間分だけプレイヤーが上昇する
+                    if (uptime >= 0)
+                    {
+                        // Debug.Log("あたり");
+                        uptime -= Time.deltaTime;//プレイヤー上昇時間減少
 
-                    this.rb.AddForce(transform.up * jumpForce);
+                        this.rb.AddForce(transform.up * jumpForce);
+                    }
+                    else
+                    {
+                        animator.SetBool("Wallhit", true);//壁から落ちるアニメーション開始
+                        MoveFinish();//プレイヤー上昇時間が0になるとプレイヤーの移動を止める
+                    }
                 }
-                else
-                {
-                    animator.SetBool("Wallhit", true);//壁から落ちるアニメーション開始
-                    MoveFinish();//プレイヤー上昇時間が0になるとプレイヤーの移動を止める
-                }
+
+                    
             }
            
 

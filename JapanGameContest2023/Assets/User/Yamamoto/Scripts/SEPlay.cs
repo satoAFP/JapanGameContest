@@ -36,9 +36,12 @@ public class SEPlay : MonoBehaviour
             {
                 if (onese)
                 {
-                    audioSource.PlayOneShot(walkse);
-                    onese = false;
-                    Debug.Log("sss");
+                    if (!managerAccessor.Instance.dataMagager.playerlost && !managerAccessor.Instance.dataMagager.isShutDown)
+                    {
+                        audioSource.PlayOneShot(walkse);
+                        onese = false;
+                        Debug.Log("sss");
+                    }
                 }
             }
             else
