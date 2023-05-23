@@ -15,16 +15,33 @@ public class FileGene : MonoBehaviour
     [System.NonSerialized]
     public GameObject CreateObj;//移動指標オブジェクトを入れる（削除命令に使う）
 
- 
+    [SerializeField] private AudioClip appse;//プレイヤー登場SE（ここで書く理由は、プレイヤー登場SEを重なって鳴らさないようにするため）
+
+    private AudioSource audioSource;
+
+    private bool oneshot = false;//一回だけ音を鳴らす
+
     // Start is called before the first frame update
     void Start()
     {
-        playercount = GameObject.FindGameObjectsWithTag("Player").Length;  
+        playercount = GameObject.FindGameObjectsWithTag("Player").Length;
+        audioSource = GetComponent<AudioSource>();//スクリプト取得
     }
 
     // Update is called once per frame
     void Update()
     {
+       
+        if(managerAccessor.Instance.sceneMoveManager.GetSceneName() == "Stage1")
+        {
+            //ステージ1ではないとき
+        }
+        else if(!oneshot)
+        {
+            audioSource.PlayOneShot(appse);//プレイヤー登場SE鳴らす
+            oneshot = true;
+        }
+
         if (managerAccessor.Instance.dataMagager.playMode)//操作モードの時
         {
             //ゲームオーバーになっていなければ処理実行

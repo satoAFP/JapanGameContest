@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//アニメーターに直接SEをつけるスクリプトです
+//アニメーターに直接SEをつけるスクリプトです(プレイヤー用）
 
 public class SEPlay : MonoBehaviour
 {
@@ -10,7 +10,7 @@ public class SEPlay : MonoBehaviour
     [Header("ここに効果音を入れる")]
     [SerializeField] private AudioClip walkse;//歩行SE
     [SerializeField] private AudioClip fallse;//落下SE
-
+   
     private AudioSource audioSource;
 
     public bool startse = false;//SEを鳴らすフラグ
@@ -63,7 +63,5 @@ public class SEPlay : MonoBehaviour
     {
         Debug.Log("staru");
         audioSource.PlayOneShot(fallse);
-
-      
     }
 }

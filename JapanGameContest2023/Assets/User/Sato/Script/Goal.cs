@@ -15,11 +15,21 @@ public class Goal : MonoBehaviour
     //ゴミ箱のイラスト変更フラグ
     public bool change = false;
 
+    [SerializeField] private AudioClip DastSE;//ゴミ箱に入った時のSE
+
+    private AudioSource audioSource;
+
+    private void Start()
+    {
+        audioSource = GetComponent<AudioSource>();//スクリプト取得
+    }
+
     private void Update()
     {
         if(change)
         {
-            StartCoroutine("ChangeDastBox");
+            StartCoroutine("ChangeDastBox");//ゴミ箱画像変更コルーチン
+            change = false;
         }
     }
 
@@ -38,6 +48,8 @@ public class Goal : MonoBehaviour
 
     IEnumerator ChangeDastBox()
     {
+        audioSource.PlayOneShot(DastSE);//ゴミ箱SE鳴らす
+
         yield return new WaitForSeconds(0.15f);
 
         DastBox_animator.SetBool("dastboxchange", true);//ゴミ箱のイラスト変化
