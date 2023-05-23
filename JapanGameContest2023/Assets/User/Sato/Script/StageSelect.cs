@@ -56,7 +56,7 @@ public class StageSelect : MonoBehaviour
                 //複製時の親、名前、画像の変更
                 stages.Add(Instantiate(managerAccessor.Instance.objDataManager.stageSelectObj));
                 stages[i].transform.parent = stageParent.transform;
-                stages[i].transform.GetChild(0).GetComponent<Text>().text = "STAGE" + (i + 1) + ".exe";
+                stages[i].transform.GetChild(0).GetComponent<Text>().text = "Stage" + (i + 1) + ".exe";
                 if (stageClear == 1) 
                 {
                     //クリアされていた時
@@ -71,101 +71,107 @@ public class StageSelect : MonoBehaviour
             clonefirst = false;
         }
 
-        //カーソルを合わせたときパネルが出る
-        for (int i = 0; i < stages.Count; i++)
-        {
-            RectTransform stageNum = stages[i].GetComponent<RectTransform>();
-            stageNum.transform.GetChild(2).gameObject.SetActive(false);
 
-            //マウスが座標内にいるとき
-            if (stageNum.position.x - stageNum.sizeDelta.x + 60 < Input.mousePosition.x &&
-                stageNum.position.x + stageNum.sizeDelta.x - 60 > Input.mousePosition.x &&
-                stageNum.position.y - stageNum.sizeDelta.y + 40 < Input.mousePosition.y &&
-                stageNum.position.y + stageNum.sizeDelta.y - 60 > Input.mousePosition.y)
+        //HomeWindow内にカーソルが無いとき
+        if (!managerAccessor.Instance.dataMagager.isOnHomeWindow)
+        {
+            //カーソルを合わせたときパネルが出る
+            for (int i = 0; i < stages.Count; i++)
             {
-                stageNum.transform.GetChild(2).gameObject.SetActive(true);
-            }
-        }
+                RectTransform stageNum = stages[i].GetComponent<RectTransform>();
+                stageNum.transform.GetChild(2).gameObject.SetActive(false);
 
-        //カーソルを合わせたときパネルが出る
-        textClone.transform.GetChild(2).gameObject.SetActive(false);
-
-        //マウスがテキストファイルの座標内にいるとき
-        if (textClone.GetComponent<RectTransform>().position.x - textClone.GetComponent<RectTransform>().sizeDelta.x + 60 < Input.mousePosition.x &&
-            textClone.GetComponent<RectTransform>().position.x + textClone.GetComponent<RectTransform>().sizeDelta.x - 60 > Input.mousePosition.x &&
-            textClone.GetComponent<RectTransform>().position.y - textClone.GetComponent<RectTransform>().sizeDelta.y + 40 < Input.mousePosition.y &&
-            textClone.GetComponent<RectTransform>().position.y + textClone.GetComponent<RectTransform>().sizeDelta.y - 60 > Input.mousePosition.y)
-        {
-            textClone.transform.GetChild(2).gameObject.SetActive(true);
-        }
-
-        if (!managerAccessor.Instance.dataMagager.sceneMoveStart)
-        {
-            //ダブルクリック
-            if (Input.GetMouseButton(0))
-            {
-                //長押しは反応しない
-                if (first1)
+                //マウスが座標内にいるとき
+                if (stageNum.position.x - stageNum.sizeDelta.x + 60 < Input.mousePosition.x &&
+                    stageNum.position.x + stageNum.sizeDelta.x - 60 > Input.mousePosition.x &&
+                    stageNum.position.y - stageNum.sizeDelta.y + 40 < Input.mousePosition.y &&
+                    stageNum.position.y + stageNum.sizeDelta.y - 60 > Input.mousePosition.y)
                 {
-                    for (int i = 0; i < stages.Count; i++)
-                    {
-                        //一旦選択状態解除
-                        stages[i].GetComponent<RectTransform>().transform.GetChild(1).gameObject.SetActive(false);
-                    }
-                    textClone.transform.GetChild(1).gameObject.SetActive(false);
-
-
-                    for (int i = 0; i < stages.Count; i++)
-                    {
-                        RectTransform stageNum = stages[i].GetComponent<RectTransform>();
-
-                        //マウスが座標内にいるとき
-                        if (stageNum.position.x - stageNum.sizeDelta.x + 60 < Input.mousePosition.x &&
-                            stageNum.position.x + stageNum.sizeDelta.x - 60 > Input.mousePosition.x &&
-                            stageNum.position.y - stageNum.sizeDelta.y + 40 < Input.mousePosition.y &&
-                            stageNum.position.y + stageNum.sizeDelta.y - 60 > Input.mousePosition.y)
-                        {
-                            //クリックしたステージ記憶
-                            stageNumber = i + 1;
-                            secondStageNumber = i + 1;
-                            //選択したアイコンを選択状態にする
-                            stageNum.transform.GetChild(1).gameObject.SetActive(true);
-                            isText = false;
-                            break;
-                        }
-                        else
-                        {
-                            stageNumber = 999;
-                            secondStageNumber = 999;
-                        }
-                    }
-
-                    //一回クリックされたら&&一回目と二回目のステージ番号が同じとき&&クリックした番号が存在しているとき
-                    if (oneClick && firstStageNumber == secondStageNumber && secondStageNumber != 999 || isText)
-                    {
-                        doubleClick = true;
-                    }
-
-
-                    //マウスが座標内にいるとき
-                    if (textClone.GetComponent<RectTransform>().position.x - textClone.GetComponent<RectTransform>().sizeDelta.x + 60 < Input.mousePosition.x &&
-                        textClone.GetComponent<RectTransform>().position.x + textClone.GetComponent<RectTransform>().sizeDelta.x - 60 > Input.mousePosition.x &&
-                        textClone.GetComponent<RectTransform>().position.y - textClone.GetComponent<RectTransform>().sizeDelta.y + 40 < Input.mousePosition.y &&
-                        textClone.GetComponent<RectTransform>().position.y + textClone.GetComponent<RectTransform>().sizeDelta.y - 60 > Input.mousePosition.y)
-                    {
-                        //選択したアイコンを選択状態にする
-                        textClone.transform.GetChild(1).gameObject.SetActive(true);
-                        isText = true;
-                    }
-
-                    oneClick = true;
-                    first1 = false;
-                    firstStageNumber = secondStageNumber;
+                    stageNum.transform.GetChild(2).gameObject.SetActive(true);
                 }
             }
-            else
+
+            //カーソルを合わせたときパネルが出る
+            textClone.transform.GetChild(2).gameObject.SetActive(false);
+
+            //マウスがテキストファイルの座標内にいるとき
+            if (textClone.GetComponent<RectTransform>().position.x - textClone.GetComponent<RectTransform>().sizeDelta.x + 60 < Input.mousePosition.x &&
+                textClone.GetComponent<RectTransform>().position.x + textClone.GetComponent<RectTransform>().sizeDelta.x - 60 > Input.mousePosition.x &&
+                textClone.GetComponent<RectTransform>().position.y - textClone.GetComponent<RectTransform>().sizeDelta.y + 40 < Input.mousePosition.y &&
+                textClone.GetComponent<RectTransform>().position.y + textClone.GetComponent<RectTransform>().sizeDelta.y - 60 > Input.mousePosition.y)
             {
-                first1 = true;
+                textClone.transform.GetChild(2).gameObject.SetActive(true);
+            }
+
+
+            if (!managerAccessor.Instance.dataMagager.sceneMoveStart)
+            {
+                //ダブルクリック
+                if (Input.GetMouseButton(0))
+                {
+                    //長押しは反応しない
+                    if (first1)
+                    {
+                        for (int i = 0; i < stages.Count; i++)
+                        {
+                            //一旦選択状態解除
+                            stages[i].GetComponent<RectTransform>().transform.GetChild(1).gameObject.SetActive(false);
+                        }
+                        textClone.transform.GetChild(1).gameObject.SetActive(false);
+
+
+                        for (int i = 0; i < stages.Count; i++)
+                        {
+                            RectTransform stageNum = stages[i].GetComponent<RectTransform>();
+
+                            //マウスが座標内にいるとき
+                            if (stageNum.position.x - stageNum.sizeDelta.x + 60 < Input.mousePosition.x &&
+                                stageNum.position.x + stageNum.sizeDelta.x - 60 > Input.mousePosition.x &&
+                                stageNum.position.y - stageNum.sizeDelta.y + 40 < Input.mousePosition.y &&
+                                stageNum.position.y + stageNum.sizeDelta.y - 60 > Input.mousePosition.y)
+                            {
+                                //クリックしたステージ記憶
+                                stageNumber = i + 1;
+                                secondStageNumber = i + 1;
+                                //選択したアイコンを選択状態にする
+                                stageNum.transform.GetChild(1).gameObject.SetActive(true);
+                                isText = false;
+                                break;
+                            }
+                            else
+                            {
+                                stageNumber = 999;
+                                secondStageNumber = 999;
+                            }
+                        }
+
+                        //一回クリックされたら&&一回目と二回目のステージ番号が同じとき&&クリックした番号が存在しているとき
+                        if (oneClick && firstStageNumber == secondStageNumber && secondStageNumber != 999 || isText)
+                        {
+                            doubleClick = true;
+                        }
+
+
+                        //マウスが座標内にいるとき
+                        if (textClone.GetComponent<RectTransform>().position.x - textClone.GetComponent<RectTransform>().sizeDelta.x + 60 < Input.mousePosition.x &&
+                            textClone.GetComponent<RectTransform>().position.x + textClone.GetComponent<RectTransform>().sizeDelta.x - 60 > Input.mousePosition.x &&
+                            textClone.GetComponent<RectTransform>().position.y - textClone.GetComponent<RectTransform>().sizeDelta.y + 40 < Input.mousePosition.y &&
+                            textClone.GetComponent<RectTransform>().position.y + textClone.GetComponent<RectTransform>().sizeDelta.y - 60 > Input.mousePosition.y)
+                        {
+                            //選択したアイコンを選択状態にする
+                            textClone.transform.GetChild(1).gameObject.SetActive(true);
+                            isText = true;
+                        }
+
+                        oneClick = true;
+                        first1 = false;
+                        firstStageNumber = secondStageNumber;
+                    }
+                }
+                else
+                {
+                    first1 = true;
+                }
             }
         }
 

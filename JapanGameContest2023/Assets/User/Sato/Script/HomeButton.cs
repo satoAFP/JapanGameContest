@@ -8,7 +8,7 @@ public class HomeButton : MonoBehaviour
 {
     [SerializeField, Header("ホームウィンドウ")] private GameObject homeWindow;
 
-    [SerializeField, Header("ホームウィンドウ")] private GameObject noTapArea;
+    [SerializeField, Header("noTapArea")] private GameObject noTapArea;
 
     [SerializeField, Header("シャットダウン後の画像")] private GameObject endImg;
 
@@ -24,6 +24,44 @@ public class HomeButton : MonoBehaviour
         {
             loadImg.GetComponent<RectTransform>().eulerAngles += new Vector3(0, 0, 2);
         }
+
+        //HomeWindowが出ていて尚且つ画像内にカーソルがいるときのbool型をとる
+        if(homeWindow.activeSelf)
+        {
+            RectTransform tra = homeWindow.GetComponent<RectTransform>();
+
+            if (tra.position.x - (tra.sizeDelta.x / 2) < Input.mousePosition.x &&
+                tra.position.x + (tra.sizeDelta.x / 2) > Input.mousePosition.x &&
+                tra.position.y - (tra.sizeDelta.y / 2) < Input.mousePosition.y &&
+                tra.position.y + (tra.sizeDelta.y / 2) > Input.mousePosition.y) 
+            {
+                managerAccessor.Instance.dataMagager.isOnHomeWindow = true;
+            }
+            else
+            {
+                managerAccessor.Instance.dataMagager.isOnHomeWindow = false;
+
+                //枠内にいない時クリックすると消える
+                if (Input.GetMouseButton(0))
+                {
+                    RectTransform button = gameObject.transform.GetChild(0).GetComponent<RectTransform>();
+                    //ボタンの上でクリックした時再表示されないための処理
+                    if (!(button.position.x - (button.sizeDelta.x / 2) < Input.mousePosition.x &&
+                        button.position.x + (button.sizeDelta.x / 2) > Input.mousePosition.x &&
+                        button.position.y - (button.sizeDelta.y / 2) < Input.mousePosition.y &&
+                        button.position.y + (button.sizeDelta.y / 2) > Input.mousePosition.y))
+                    {
+                        homeWindow.SetActive(false);
+                        noTapArea.SetActive(false);
+                    }
+                }
+            }
+        }
+        else
+        {
+            managerAccessor.Instance.dataMagager.isOnHomeWindow = false;
+        }
+
 
         userNameText.text = PlayerPrefs.GetString("userName", "");
     }
