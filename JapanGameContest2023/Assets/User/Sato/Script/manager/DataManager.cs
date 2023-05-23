@@ -109,6 +109,8 @@ public class DataManager : MonoBehaviour
     {
         //マネージャーアクセッサに登録
         managerAccessor.Instance.dataMagager = this;
+
+        Cursor.visible = false;
     }
 
     private void FixedUpdate()

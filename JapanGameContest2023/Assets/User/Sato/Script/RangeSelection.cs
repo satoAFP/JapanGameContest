@@ -27,6 +27,7 @@ public class RangeSelection : MonoBehaviour
         NONE,
     }
 
+    [SerializeField, Header("編集モード切替")] private bool isEdit;
 
     [SerializeField, Header("ドット描画時の間隔")] private float wide;
 
@@ -72,7 +73,7 @@ public class RangeSelection : MonoBehaviour
     void FixedUpdate()
     {
         //キャラを操作中は選択できない
-        if (!managerAccessor.Instance.dataMagager.playMode)
+        if (!managerAccessor.Instance.dataMagager.playMode || isEdit) 
         {
             //選択されてるオブジェクトが格納される
             Objs = managerAccessor.Instance.dataMagager.selectObjsData;
@@ -200,6 +201,7 @@ public class RangeSelection : MonoBehaviour
                     first = false;
                 }
 
+                Debug.Log("aaa");
                 //選択中
                 selectionMode = true;
                 //マウスの移動量で選択範囲算出
