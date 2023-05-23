@@ -16,6 +16,7 @@ public class SmallWindow : MonoBehaviour
 
     //最初しか通らない
     private bool first = true;
+    private bool first2 = true;
 
 
     // Update is called once per frame
@@ -25,6 +26,21 @@ public class SmallWindow : MonoBehaviour
         Vector2 pos = gameObject.GetComponent<RectTransform>().position;
         Vector2 size = gameObject.GetComponent<RectTransform>().sizeDelta;
         Vector2 mouse = Input.mousePosition;
+
+        if(first2)
+        {
+            //自身の親の親のオブジェクトに格納されているステージのSetActiveがtrueの時スクショが出来る
+            if (transform.parent.parent.GetComponent<PageChangeArea>().stage[transform.parent.GetComponent<TabButton>().number].activeSelf)
+            {
+#if UNITY_EDITOR
+                CaptureScreenShot("Assets/Resources/" + transform.parent.name + ".png");
+#else
+                CaptureScreenShot("Resources/" + transform.parent.name + ".png");
+#endif
+                Debug.Log("aaa");
+            }
+            first2 = false;
+        }
 
         //マウスが座標内にいるとき
         if (pos.x - (size.x / 2) < mouse.x && pos.x + (size.x / 2) > mouse.x &&
