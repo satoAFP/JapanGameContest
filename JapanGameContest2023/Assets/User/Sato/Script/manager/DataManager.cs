@@ -68,6 +68,14 @@ public class DataManager : MonoBehaviour
     [System.NonSerialized] public bool isNoClick = false;
 
 
+    //シャットダウンが始まった時
+    [System.NonSerialized] public bool isShutDown = false;
+
+
+    //カーソルがHomeWindowに入っているとき
+    [System.NonSerialized] public bool isOnHomeWindow = false;
+
+
     //落下ししたとき
     [System.NonSerialized] public bool fallDeth = false;
     //ウイルスに感染したとき
@@ -101,6 +109,8 @@ public class DataManager : MonoBehaviour
     {
         //マネージャーアクセッサに登録
         managerAccessor.Instance.dataMagager = this;
+
+        Cursor.visible = false;
     }
 
     private void FixedUpdate()
