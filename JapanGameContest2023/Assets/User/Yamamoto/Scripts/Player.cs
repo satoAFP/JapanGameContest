@@ -164,8 +164,15 @@ public class Player : MonoBehaviour
 
             rb.WakeUp();//動いていないとリジットボディが止まってしまうのでここで再起動
 
-            //落下処理　とりあえず今は落ちたら初期位置に戻る
-            if (transform.position.y <= -10)
+            //他のプレイヤーがゲームオーバーになると自信の移動処理を止める
+            if (managerAccessor.Instance.dataMagager.playerlost)
+            {
+                Debug.Log("ｗｗｗｗ");
+                MoveFinish();//移動処理終了
+            }
+
+                //落下処理　とりあえず今は落ちたら初期位置に戻る
+                if (transform.position.y <= -10)
             {
                 managerAccessor.Instance.dataMagager.playerlost = true;//プレイヤー敗北フラグをON
                 managerAccessor.Instance.dataMagager.fallDeth = true;//落下死の判定取得
@@ -193,7 +200,7 @@ public class Player : MonoBehaviour
             }
           
             //プレイヤーがオブジェクトに当たっていたら上昇する処理を開始
-            if(TimeStart)
+            if(TimeStart && !managerAccessor.Instance.dataMagager.playerlost)
             {
                
                 //設定されたプレイヤー上昇時間分だけプレイヤーが上昇する
