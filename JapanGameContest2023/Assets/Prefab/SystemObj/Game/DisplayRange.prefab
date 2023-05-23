@@ -44,5 +44,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ddfce0fbbf17e4745a43f96a31a97752, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wide: 0.15
-  changeSizeWidth: {x: 0.2, y: 0.2}
+  wide: 0.1
+  changeSizeWidth: {x: 0.15, y: 0.15}

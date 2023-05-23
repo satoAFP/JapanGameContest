@@ -30,6 +30,7 @@ public class GameOver : MonoBehaviour
         {
             gameObject.transform.GetChild(0).gameObject.SetActive(true);
 
+            //それぞれの死因でテキストを変える
             if(managerAccessor.Instance.dataMagager.fallDeth)
             {
                 putText.text = fallText;
