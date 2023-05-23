@@ -22,7 +22,7 @@ public class HomeButton : MonoBehaviour
         //シャットダウンするときロード画像が回転する
         if(managerAccessor.Instance.dataMagager.sceneMoveStart)
         {
-            loadImg.GetComponent<RectTransform>().eulerAngles += new Vector3(0, 0, 2);
+            loadImg.GetComponent<RectTransform>().eulerAngles -= new Vector3(0, 0, 2);
         }
 
         //HomeWindowが出ていて尚且つ画像内にカーソルがいるときのbool型をとる
