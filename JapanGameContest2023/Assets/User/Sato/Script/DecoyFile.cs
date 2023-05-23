@@ -8,6 +8,10 @@ public class DecoyFile : MonoBehaviour
 
     [SerializeField, Header("アニメーションの待機時間")] private int stopFrame;
 
+    [SerializeField] private AudioClip infectionse;//感染効果音
+
+    private AudioSource audioSource;
+
 
     private int FrameCount = 0;
     private Animator anim;
@@ -18,6 +22,7 @@ public class DecoyFile : MonoBehaviour
     private void Start()
     {
         anim = gameObject.GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();//スクリプト取得
     }
 
     // Update is called once per frame
@@ -48,6 +53,7 @@ public class DecoyFile : MonoBehaviour
 
             //ここでアニメーションを流すフラグをON
             effect_ani.SetBool("PlayerHit", true);
+            audioSource.PlayOneShot(infectionse);//感染SE鳴らす
 
             StartCoroutine("ChangeDecoyFile");//コルーチン開始
 
