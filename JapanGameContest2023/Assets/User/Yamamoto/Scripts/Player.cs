@@ -182,7 +182,7 @@ public class Player : MonoBehaviour
             
 
             // 移動中の場合は移動する
-            if (moving)
+            if (moving && !managerAccessor.Instance.dataMagager.playerlost)
             {
                
                 // キャラクターのX座標をクリックされた位置に向けて移動

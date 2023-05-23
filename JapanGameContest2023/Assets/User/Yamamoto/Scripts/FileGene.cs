@@ -57,7 +57,8 @@ public class FileGene : MonoBehaviour
 
                 if (!managerAccessor.Instance.dataMagager.noTapArea)
                 {
-                    if (Input.GetMouseButtonDown(0))
+                    //ゲームオーバー処理に入っていなければクリックで生成
+                    if (Input.GetMouseButtonDown(0) && !managerAccessor.Instance.dataMagager.playerlost)
                     {
                         // クリックされた位置を取得
                         managerAccessor.Instance.dataMagager.clickPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
