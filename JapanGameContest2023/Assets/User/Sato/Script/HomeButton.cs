@@ -43,14 +43,19 @@ public class HomeButton : MonoBehaviour
 
     private IEnumerator CShutDown()
     {
+        //ロードアニメーション再生
         managerAccessor.Instance.dataMagager.sceneMoveStart = true;
         yield return new WaitForSeconds(managerAccessor.Instance.dataMagager.loadTime);
+        //シャットダウン画像表示
         endImg.SetActive(true);
+        managerAccessor.Instance.dataMagager.isShutDown = true;
         yield return new WaitForSeconds(1.5f);
+
+        //ゲームプレイ終了
 #if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;//ゲームプレイ終了
+        UnityEditor.EditorApplication.isPlaying = false;
 #else
-        Application.Quit();//ゲームプレイ終了
+        Application.Quit();
 #endif
     }
 }

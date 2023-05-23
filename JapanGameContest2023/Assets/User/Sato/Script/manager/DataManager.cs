@@ -68,6 +68,10 @@ public class DataManager : MonoBehaviour
     [System.NonSerialized] public bool isNoClick = false;
 
 
+    //シャットダウンが始まった時
+    [System.NonSerialized] public bool isShutDown = false;
+
+
     //落下ししたとき
     [System.NonSerialized] public bool fallDeth = false;
     //ウイルスに感染したとき
