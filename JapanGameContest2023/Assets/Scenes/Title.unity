@@ -1151,17 +1151,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1109581645}
   m_CullTransparentMesh: 1
---- !u!114 &1128848636 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3096257620743555252, guid: aa18ca4f84612b747b8a77f5829f9a0d, type: 3}
-  m_PrefabInstance: {fileID: 1363146225}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dca849fb049345b49bd165c58ce04d87, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1153099460
 GameObject:
   m_ObjectHideFlags: 0
@@ -1668,10 +1657,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1128848636}
-        m_TargetAssemblyTypeName: SceneMoveManager, Assembly-CSharp
-        m_MethodName: SceneMoveName
-        m_Mode: 5
+      - m_Target: {fileID: 887137385}
+        m_TargetAssemblyTypeName: TitleSystem, Assembly-CSharp
+        m_MethodName: ClickLogIn
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
