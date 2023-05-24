@@ -25,6 +25,7 @@ public class Player : MonoBehaviour
 
     public bool TimeStart = false;//uptime開始のフラグ
 
+   
     //-----------Click関係の関数--------------------
 
     private FileGene script;//FileGeneスクリプト
@@ -75,11 +76,11 @@ public class Player : MonoBehaviour
             if (animator.GetCurrentAnimatorStateInfo(0).IsName("Stage1PlayerStart"))
             {
                 StartAction = false;//登場アニメーション再生中のため移動処理をクリック反応させない
-                Debug.Log("Animation finished");
+                //Debug.Log("Animation finished");
             }
             else
             {
-                Debug.Log("BB");
+               // Debug.Log("BB");
                 StartAction = true;
             }
 
@@ -100,12 +101,10 @@ public class Player : MonoBehaviour
             {
                 if(StartAction)
                 {
-
-                    // 移動中でなければクリックを受け付ける
+                    //プレイヤーの左右位置
                     if (script.posupdate && setblock)
                     {
-                        //※移動中に再度入力しても左右判定を受け付けない不具合！！
-
+                       
                         //クリックした場所の左右判定を取る
                         if (origin.x <= managerAccessor.Instance.dataMagager.clickPosition.x)//右
                         {
@@ -119,8 +118,10 @@ public class Player : MonoBehaviour
                             transform.eulerAngles = new Vector3(0, 180, 0);
                             Debug.Log("左");
                         }
+                        Debug.Log("kkkkkkkk");
 
                       
+
                         // 移動を開始
                         managerAccessor.Instance.dataMagager.isMoving = true;//プレイヤー全体の移動処理
                         moving = true;//そのプレイヤー自身の移動フラグもON
@@ -132,20 +133,7 @@ public class Player : MonoBehaviour
             }
                
 
-            if(moving)
-            {
-                animator.SetBool("Moving", true);//移動時のアニメーションに切り替え
-            }
-            else
-            {
-                animator.SetBool("Moving", false);//停止時のアニメーションに切り替え
-            }
-
-            if (setblock)
-            {
-                animator.SetBool("Wallhit", false);//壁から落ちるアニメーション終了
-                uptime = fuptime;
-            }
+            
 
         }
     
@@ -156,13 +144,13 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        Debug.Log("おまえなんなんだよ！" + moving);
         
         if (managerAccessor.Instance.dataMagager.playMode)//操作モードの時
         {
             //他のプレイヤーがゲームオーバーになると自信の移動処理を止める
             if (managerAccessor.Instance.dataMagager.playerlost || managerAccessor.Instance.dataMagager.isShutDown)
             {
-                Debug.Log("ｗｗｗｗ");
                 MoveFinish();//移動処理終了
             }
 
@@ -171,22 +159,20 @@ public class Player : MonoBehaviour
 
             rb.WakeUp();//動いていないとリジットボディが止まってしまうのでここで再起動
 
-            
 
-                //落下処理　とりあえず今は落ちたら初期位置に戻る
-                if (transform.position.y <= -10)
+            //落下処理　とりあえず今は落ちたら初期位置に戻る
+            if (transform.position.y <= -10)
             {
                 managerAccessor.Instance.dataMagager.playerlost = true;//プレイヤー敗北フラグをON
                 managerAccessor.Instance.dataMagager.fallDeth = true;//落下死の判定取得
                 Destroy(this.gameObject);
             }
 
-            
 
             // 移動中の場合は移動する
             if (moving)
             {
-                if(!managerAccessor.Instance.dataMagager.playerlost || !managerAccessor.Instance.dataMagager.isShutDown)
+                if(!managerAccessor.Instance.dataMagager.playerlost || !managerAccessor.Instance.dataMagager.sceneMoveStart)
                 {
                     // キャラクターのX座標をクリックされた位置に向けて移動
                     transform.position = Vector2.MoveTowards(transform.position, new Vector2(managerAccessor.Instance.dataMagager.clickPosition.x, transform.position.y), speed * Time.deltaTime);
@@ -213,24 +199,42 @@ public class Player : MonoBehaviour
                     //設定されたプレイヤー上昇時間分だけプレイヤーが上昇する
                     if (uptime >= 0)
                     {
-                        // Debug.Log("あたり");
+                         Debug.Log("あたり");
                         uptime -= Time.deltaTime;//プレイヤー上昇時間減少
 
                         this.rb.AddForce(transform.up * jumpForce);
                     }
                     else
                     {
+                        Debug.Log("おチル");
                         animator.SetBool("Wallhit", true);//壁から落ちるアニメーション開始
+                        //Objhit = false;
                         MoveFinish();//プレイヤー上昇時間が0になるとプレイヤーの移動を止める
                     }
                 }
-
-                    
+         
             }
-           
 
-          
-            
+
+            if (moving)
+            {
+                //Debug.Log("いどう");
+                animator.SetBool("Moving", true);//移動時のアニメーションに切り替え
+            }
+            else
+            {
+                //Debug.Log("tomaru");
+                animator.SetBool("Moving", false);//停止時のアニメーションに切り替え
+            }
+
+            if (setblock)
+            {
+                animator.SetBool("Wallhit", false);//壁から落ちるアニメーション終了
+                uptime = fuptime;
+            }
+
+
+
 
         }
         else//エディットモードの時
@@ -248,15 +252,14 @@ public class Player : MonoBehaviour
     {
         if (moving)
         {
+           
             script.playercount--;//プレイヤーの数-1
 
             TimeStart = false;//移動終了後に再度上昇しないようにする
 
-            //ray_hit = false;//移動終了後に再度飛ばないようにRayのフラグを切る
-
-            //playerPosition = transform.position;//プレイヤーが動いた場所を取得する
-
             moving = false;//目的地にたどり着いたプレイヤーの移動処理終了
+
+            script.posupdate = false;
         }
     }
 

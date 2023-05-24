@@ -26,6 +26,7 @@ public class SmallWindow : MonoBehaviour
         Vector2 size = gameObject.GetComponent<RectTransform>().sizeDelta;
         Vector2 mouse = Input.mousePosition;
 
+
         //マウスが座標内にいるとき
         if (pos.x - (size.x / 2) < mouse.x && pos.x + (size.x / 2) > mouse.x &&
             pos.y - (size.y / 2) < mouse.y && pos.y + (size.y / 2) > mouse.y)
