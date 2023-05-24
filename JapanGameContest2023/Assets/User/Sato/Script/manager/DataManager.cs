@@ -73,7 +73,7 @@ public class DataManager : MonoBehaviour
 
 
     //ƒJ[ƒ\ƒ‹‚ªHomeWindow‚É“ü‚Á‚Ä‚¢‚é‚Æ‚«
-    [System.NonSerialized] public bool isOnHomeWindow = false;
+    [System.NonSerialized] public bool isOnPopItem = false;
 
 
     //—‰º‚µ‚µ‚½‚Æ‚«

@@ -15,6 +15,8 @@ public class StageSelect : MonoBehaviour
 
     [SerializeField, Header("テキスト表示用オブジェクト")] private GameObject textObj;
 
+    [SerializeField, Header("テキスト表示用オブジェクト(NoTapArea)")] private GameObject textNoTapArea;
+
     private List<GameObject> stages = new List<GameObject>();   //ステージ記憶用
     private int frameCount = 0;                                 //ダブルクリックの間隔をカウント
     private bool oneClick = false;                            　//一回目クリックされた判定
@@ -73,7 +75,7 @@ public class StageSelect : MonoBehaviour
 
 
         //HomeWindow内にカーソルが無いとき
-        if (!managerAccessor.Instance.dataMagager.isOnHomeWindow)
+        if (!managerAccessor.Instance.dataMagager.noTapArea)
         {
             //カーソルを合わせたときパネルが出る
             for (int i = 0; i < stages.Count; i++)
@@ -214,6 +216,7 @@ public class StageSelect : MonoBehaviour
     public void EndText()
     {
         textObj.SetActive(false);
+        textNoTapArea.SetActive(false);
         isText = false;
     }
 
@@ -223,6 +226,7 @@ public class StageSelect : MonoBehaviour
         managerAccessor.Instance.dataMagager.sceneMoveStart = true;
         yield return new WaitForSeconds(managerAccessor.Instance.dataMagager.loadTime);
         textObj.SetActive(true);
+        textNoTapArea.SetActive(true);
         managerAccessor.Instance.dataMagager.sceneMoveStart = false;
     }
 

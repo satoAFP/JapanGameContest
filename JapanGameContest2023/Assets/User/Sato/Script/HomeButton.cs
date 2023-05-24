@@ -35,11 +35,11 @@ public class HomeButton : MonoBehaviour
                 tra.position.y - (tra.sizeDelta.y / 2) < Input.mousePosition.y &&
                 tra.position.y + (tra.sizeDelta.y / 2) > Input.mousePosition.y) 
             {
-                managerAccessor.Instance.dataMagager.isOnHomeWindow = true;
+                managerAccessor.Instance.dataMagager.isOnPopItem = true;
             }
             else
             {
-                managerAccessor.Instance.dataMagager.isOnHomeWindow = false;
+                managerAccessor.Instance.dataMagager.isOnPopItem = false;
 
                 //ògì‡Ç…Ç¢Ç»Ç¢éûÉNÉäÉbÉNÇ∑ÇÈÇ∆è¡Ç¶ÇÈ
                 if (Input.GetMouseButton(0))
@@ -59,7 +59,7 @@ public class HomeButton : MonoBehaviour
         }
         else
         {
-            managerAccessor.Instance.dataMagager.isOnHomeWindow = false;
+            managerAccessor.Instance.dataMagager.isOnPopItem = false;
         }
 
 
