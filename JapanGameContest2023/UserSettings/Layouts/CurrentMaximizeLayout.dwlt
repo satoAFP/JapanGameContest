@@ -26,7 +26,7 @@ MonoBehaviour:
   m_MinSize: {x: 400, y: 200}
   m_MaxSize: {x: 32384, y: 16192}
   vertical: 0
-  controlID: 50826
+  controlID: 51027
 --- !u!114 &2
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -143,7 +143,7 @@ MonoBehaviour:
   m_MinSize: {x: 100, y: 200}
   m_MaxSize: {x: 8096, y: 16192}
   vertical: 1
-  controlID: 50827
+  controlID: 51028
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -451,9 +451,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 0, y: 0, z: -10}
+    m_Target: {x: -0.7060477, y: -0.35842142, z: -9.935914}
     speed: 2
-    m_Value: {x: 0, y: 0, z: -10}
+    m_Value: {x: -0.7060477, y: -0.35842142, z: -9.935914}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -504,9 +504,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 12.124355
+    m_Target: 4.9554644
     speed: 2
-    m_Value: 12.124355
+    m_Value: 4.9554644
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -699,8 +699,8 @@ MonoBehaviour:
     y: 485
     width: 873
     height: 462
-  m_MinSize: {x: 201, y: 221}
-  m_MaxSize: {x: 4001, y: 4021}
+  m_MinSize: {x: 200, y: 200}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 2}
   m_Panes:
   - {fileID: 2}
@@ -757,8 +757,8 @@ MonoBehaviour:
     y: 0
     width: 286
     height: 947
-  m_MinSize: {x: 200, y: 200}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 202, y: 221}
+  m_MaxSize: {x: 4002, y: 4021}
   m_ActualView: {fileID: 10}
   m_Panes:
   - {fileID: 10}
@@ -797,7 +797,7 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: 0218ffffd435ffff023bffff1c41ffff5a47ffffa64dffffae53ffff8a59ffffd65fffffca65ffffa68fffffea95ffff0c9bffffb09dffff769efffff89ffffffe9fffff24a0ffffdea2ffff62a6ffff68a6ffff8ea6ffff72a8ffff38a9ffff6aa9ffff66acffff6cacffff92acffff6eaeffff34afffff78afffffb0b1ffff76b2ffff30b5ffff36b5ffff5cb5ffff86b5ffffbcbaffff48c0ffff0ec1ffffa0c3ffffa6c3ffffccc3fffffac3ffffaecbffff60d3ffffaadaffffc4e1ffffe2e8ffff64faffff50b7000024c2000052c40000b2c600005ec9000062e90000
+      m_ExpandedIDs: dc0cffffde0cffffe00cffff0218ffff0418ffff0618ffff8635ffff8c35ffffb235ffff1c38ffff2238ffff023bffff1c41ffff5a47ffffa64dffffae53ffff8a59ffffd65fffffca65ffffa68fffffea95ffff0c9bffffb09dffff769efffff89ffffffe9fffff24a0ffffdea2ffff62a6ffff68a6ffff8ea6ffff72a8ffff38a9ffff6aa9ffff66acffff6cacffff92acffff6eaeffff34afffff78afffffb0b1ffff76b2ffff30b5ffff36b5ffff5cb5ffff86b5ffffbcbaffff48c0ffff0ec1ffffa0c3ffffa6c3ffffccc3fffffac3ffffaecbffff60d3ffffaadaffffc4e1ffffe2e8ffff64faffff50b7000024c2000052c40000b2c600005ec900006ae80000bae80000f2e80000f6e8000062e90000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -889,21 +889,21 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/User/Shibatsuzi/Texture/Game/StageScreenShots
+    - Assets/Scenes/Stage
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 1
   m_StartGridSize: 16
   m_LastFolders:
-  - Assets/User/Shibatsuzi/Texture/Game/StageScreenShots
+  - Assets/Scenes/Stage
   m_LastFoldersGridSize: 16
   m_LastProjectPath: C:\Users\GA4\Desktop\Game\JapanGameContest2023
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 28700000
-    m_LastClickedID: 28712
+    m_SelectedIDs: 886f0000
+    m_LastClickedID: 28552
     m_ExpandedIDs: 00000000c2670000c4670000c6670000c8670000ce670000d0670000d26700008e74000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -957,9 +957,9 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: 
-    m_LastClickedInstanceID: 0
-    m_HadKeyboardFocusLastEvent: 0
+    m_SelectedInstanceIDs: 0a18ffff
+    m_LastClickedInstanceID: -59382
+    m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: bc7500008e5f000034660000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -1035,8 +1035,8 @@ MonoBehaviour:
     y: 0
     width: 407
     height: 947
-  m_MinSize: {x: 276, y: 71}
-  m_MaxSize: {x: 4001, y: 4021}
+  m_MinSize: {x: 275, y: 50}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 15}
   m_Panes:
   - {fileID: 15}
@@ -1076,7 +1076,7 @@ MonoBehaviour:
     m_CachedPref: -160
     m_ControlHash: -371814159
     m_PrefName: Preview_InspectorPreview
-  m_LastInspectedObjectInstanceID: -1
+  m_LastInspectedObjectInstanceID: -59382
   m_LastVerticalScrollValue: 0
   m_GlobalObjectId: 
   m_InspectorMode: 0
