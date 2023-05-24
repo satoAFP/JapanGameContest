@@ -12,11 +12,17 @@ public class TitleSystem : MonoBehaviour
 
     [SerializeField, Header("LoginMenu")] private GameObject loginMenu;
 
-
+    
     //現在時刻取得用
     private DateTime dt;
-
+    //アニメーター取得用
     private Animator anim;
+
+    private bool isFrashTap = false;
+    private bool isLoginTap = false;
+
+    private bool first = true;
+    private bool first2 = true;
 
     private void Start()
     {
@@ -30,7 +36,37 @@ public class TitleSystem : MonoBehaviour
         timeText.text = dt.Hour.ToString("d2") + ":" + dt.Minute.ToString("d2");
         dayText.text = dt.Month.ToString() + "月" + dt.Day.ToString() + "日" + "(" + Week(dt.Year, dt.Month, dt.Day) + ")";
 
-        
+        if (Input.GetKey(KeyCode.Return))
+        {
+            if (first)
+            {
+                if(!isFrashTap)
+                {
+                    isFrashTap = true;
+                }
+                else
+                {
+                    isLoginTap = true;
+                }
+
+                first = false;
+            }
+        }
+        else
+        {
+            first = true;
+        }
+
+        if (isFrashTap)
+        {
+            if (first2)
+                anim.SetBool("putButton", true);
+            first2 = false;
+        }
+        if (isLoginTap)
+        {
+            managerAccessor.Instance.sceneMoveManager.SceneMoveName("StageSelect");
+        }
     }
 
     //年月日から曜日を求める関数
@@ -46,6 +82,11 @@ public class TitleSystem : MonoBehaviour
 
     public void ClickTitle()
     {
-        anim.SetBool("putButton", true);
+        isFrashTap = true;
+    }
+
+    public void ClickLogIn()
+    {
+        isLoginTap = true;
     }
 }
