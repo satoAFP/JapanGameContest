@@ -57,38 +57,41 @@ public class FileGene : MonoBehaviour
 
                 if (!managerAccessor.Instance.dataMagager.noTapArea)
                 {
+                    //ゲームオーバー処理かシャットダウン処理に入っていなければクリックで生成
                     if (Input.GetMouseButtonDown(0))
                     {
-                        // クリックされた位置を取得
-                        managerAccessor.Instance.dataMagager.clickPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                        managerAccessor.Instance.dataMagager.clickPosition.z = 0; // z座標を0に設定（2Dゲームなので）
-
-
-                        posupdate = true;//Player側にクリックした座標に移動する命令を出す
-
-                        if (CreateObj == null) //初めて移動指標オブジェクトを作るとき
+                        if(!managerAccessor.Instance.dataMagager.playerlost || !managerAccessor.Instance.dataMagager.isShutDown)
                         {
+                            // クリックされた位置を取得
+                            managerAccessor.Instance.dataMagager.clickPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                            managerAccessor.Instance.dataMagager.clickPosition.z = 0; // z座標を0に設定（2Dゲームなので）
 
-                            CreateObj = Instantiate(prefab, managerAccessor.Instance.dataMagager.clickPosition, Quaternion.identity);//移動指標オブジェクト作成
+
+                            posupdate = true;//Player側にクリックした座標に移動する命令を出す
+
+                            if (CreateObj == null) //初めて移動指標オブジェクトを作るとき
+                            {
+
+                                CreateObj = Instantiate(prefab, managerAccessor.Instance.dataMagager.clickPosition, Quaternion.identity);//移動指標オブジェクト作成
+                            }
+                            else
+                            {
+                                //すでに移動指標オブジェクト作成が作られている場合
+                                Destroy(CreateObj);//前回作ったものを削除
+                                CreateObj = Instantiate(prefab, managerAccessor.Instance.dataMagager.clickPosition, Quaternion.identity);//新たに移動指標オブジェクト作成
+                            }
+
+                            if (Input.GetMouseButtonUp(0))
+                            {
+                                posupdate = false;
+                            }
                         }
-                        else
-                        {
-                            //すでに移動指標オブジェクト作成が作られている場合
-                            Destroy(CreateObj);//前回作ったものを削除
-                            CreateObj = Instantiate(prefab, managerAccessor.Instance.dataMagager.clickPosition, Quaternion.identity);//新たに移動指標オブジェクト作成
-                        }
-
-
-
-
                     }
-
-                    if (Input.GetMouseButtonUp(0))
-                    {
-                        posupdate = false;
-                    }
+                   
                 }
 
+
+               
 
 
                 if (playercount == 0)//移動しているプレイヤーが0になるとCreateObj削除
