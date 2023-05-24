@@ -120,7 +120,7 @@ public class Player : MonoBehaviour
                         }
                         Debug.Log("kkkkkkkk");
 
-                        script.posupdate = false;
+                      
 
                         // 移動を開始
                         managerAccessor.Instance.dataMagager.isMoving = true;//プレイヤー全体の移動処理
@@ -258,6 +258,8 @@ public class Player : MonoBehaviour
             TimeStart = false;//移動終了後に再度上昇しないようにする
 
             moving = false;//目的地にたどり着いたプレイヤーの移動処理終了
+
+            script.posupdate = false;
         }
     }
 
