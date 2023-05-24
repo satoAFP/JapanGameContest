@@ -28,27 +28,12 @@ public class ObjhitCollider : MonoBehaviour
         if (LayerMask.LayerToName(layer) == "Block" || LayerMask.LayerToName(layer) == "Ground")
         {
             // 特定のレイヤーに当たった場合の処理
-           // Debug.Log("緑ヶ丘綾小路");
-
             player.Objhit = true;//上昇開始フラグON
 
         }
 
        
     }
-
-    //private void OnTriggerStay2D(Collider2D other)
-    //{
-
-    //    // 当たったオブジェクトのレイヤーを判定する
-    //    int layer = other.gameObject.layer;
-
-    //    if (LayerMask.LayerToName(layer) == "Block" || LayerMask.LayerToName(layer) == "Ground")
-    //    {
-    //        // 特定のレイヤーに当たった場合の処理
-    //        //Debug.Log("緑ヶ丘綾小路");
-    //    }
-    //}
 
     private void OnTriggerExit2D(Collider2D other)
     {
