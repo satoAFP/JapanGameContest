@@ -538,6 +538,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: NoTapArea
       objectReference: {fileID: 0}
+    - target: {fileID: 7461622880818392538, guid: 94994bcce8391be428949ec20148c66b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7461622880818392539, guid: 94994bcce8391be428949ec20148c66b, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -2659,7 +2663,7 @@ PrefabInstance:
     - target: {fileID: 8440388415344758667, guid: 702fd187763f9ff4ba23e8dfb7940fb7, type: 3}
       propertyPath: textNoTapArea
       value: 
-      objectReference: {fileID: 713148259}
+      objectReference: {fileID: 1671025933}
     - target: {fileID: 8440388415344758668, guid: 702fd187763f9ff4ba23e8dfb7940fb7, type: 3}
       propertyPath: m_Name
       value: StageSet

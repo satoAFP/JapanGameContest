@@ -19,7 +19,6 @@ public class NoTapArea : MonoBehaviour
 
             if (noTapAreas[i].activeSelf)
             {
-                Debug.Log(managerAccessor.Instance.dataMagager.noTapArea);
                 //オブジェクト内にカーソルが入っている時、切り替える
                 if (pos.x - (size.x / 2) < mouse.x && pos.x + (size.x / 2) > mouse.x &&
                     pos.y - (size.y / 2) < mouse.y && pos.y + (size.y / 2) > mouse.y)

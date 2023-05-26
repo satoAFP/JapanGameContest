@@ -227,6 +227,7 @@ public class StageSelect : MonoBehaviour
         yield return new WaitForSeconds(managerAccessor.Instance.dataMagager.loadTime);
         textObj.SetActive(true);
         textNoTapArea.SetActive(true);
+        textClone.transform.GetChild(1).gameObject.SetActive(false);
         managerAccessor.Instance.dataMagager.sceneMoveStart = false;
     }
 
