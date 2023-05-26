@@ -24,6 +24,7 @@ public class StageSelect : MonoBehaviour
     private int stageNumber = 999;                              //ステージの番号
     private int firstStageNumber = 999;                         //最初クリックしたときのステージ番号
     private int secondStageNumber = 999;                        //二回目クリックしたときのステージ番号
+    private RectTransform stageNum;                             //ステージ表示するオブジェクトのRectTransform
     private GameObject textClone = null;                        //README表示用
     private bool isText = false;                                //テキストを選択しているか
 
@@ -80,7 +81,7 @@ public class StageSelect : MonoBehaviour
             //カーソルを合わせたときパネルが出る
             for (int i = 0; i < stages.Count; i++)
             {
-                RectTransform stageNum = stages[i].GetComponent<RectTransform>();
+                stageNum = stages[i].GetComponent<RectTransform>();
                 stageNum.transform.GetChild(2).gameObject.SetActive(false);
 
                 //マウスが座標内にいるとき
@@ -174,6 +175,15 @@ public class StageSelect : MonoBehaviour
                 {
                     first1 = true;
                 }
+            }
+        }
+        else
+        {
+            //NoTaoAreaに入ったときのファイル選択状態解除
+            for (int i = 0; i < stages.Count; i++)
+            {
+                stageNum = stages[i].GetComponent<RectTransform>();
+                stageNum.transform.GetChild(2).gameObject.SetActive(false);
             }
         }
 

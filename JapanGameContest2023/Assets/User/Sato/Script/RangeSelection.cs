@@ -201,7 +201,6 @@ public class RangeSelection : MonoBehaviour
                     first = false;
                 }
 
-                Debug.Log("aaa");
                 //選択中
                 selectionMode = true;
                 //マウスの移動量で選択範囲算出
