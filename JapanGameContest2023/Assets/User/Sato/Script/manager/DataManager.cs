@@ -82,6 +82,8 @@ public class DataManager : MonoBehaviour
     [System.NonSerialized] public bool infectionDeth = false;
     //CPUg—p—Ê‚ğ’´‚¦‚½‚Æ‚«
     [System.NonSerialized] public bool overDeth = false;
+    //§ŒÀŠÔ‚ğ’´‚¦‚½
+    [System.NonSerialized] public bool timeDeth = false;
 
 
 
