@@ -11,6 +11,8 @@ public class Player : MonoBehaviour
     //こいつはそのうちDataManagerに放り込む
     [System.NonSerialized] public bool setblock;//足元の判定がブロックに当たっていた時
 
+    [System.NonSerialized] public bool setplayer = false;//他のプレイヤーが足元の判定に乗っている  
+
     [SerializeField, Header("プレイヤー上昇タイマー")] private float uptime;//プレイヤーが一度に上昇できる時間
 
     private float fuptime;//uptimeの開始時の数値を入れる
@@ -19,7 +21,7 @@ public class Player : MonoBehaviour
 
     private Rigidbody2D rb;//プレイヤーリジッドボディ
 
-    private bool moving = false;//プレイヤー各自の移動フラグ
+   [SerializeField] private bool moving = false;//プレイヤー各自の移動フラグ
 
     public bool Objhit = false;//壁やブロックを登ることを許可するフラグ
 
@@ -144,8 +146,7 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        Debug.Log("おまえなんなんだよ！" + moving);
-        
+     
         if (managerAccessor.Instance.dataMagager.playMode)//操作モードの時
         {
             //他のプレイヤーがゲームオーバーになると自信の移動処理を止める
@@ -199,16 +200,15 @@ public class Player : MonoBehaviour
                     //設定されたプレイヤー上昇時間分だけプレイヤーが上昇する
                     if (uptime >= 0)
                     {
-                         Debug.Log("あたり");
+                         //Debug.Log("あたり");
                         uptime -= Time.deltaTime;//プレイヤー上昇時間減少
 
                         this.rb.AddForce(transform.up * jumpForce);
                     }
                     else
                     {
-                        Debug.Log("おチル");
+                       // Debug.Log("おチル");
                         animator.SetBool("Wallhit", true);//壁から落ちるアニメーション開始
-                        //Objhit = false;
                         MoveFinish();//プレイヤー上昇時間が0になるとプレイヤーの移動を止める
                     }
                 }
@@ -218,7 +218,7 @@ public class Player : MonoBehaviour
 
             if (moving)
             {
-                //Debug.Log("いどう");
+                Debug.Log("いどう");
                 animator.SetBool("Moving", true);//移動時のアニメーションに切り替え
             }
             else
@@ -232,6 +232,12 @@ public class Player : MonoBehaviour
                 animator.SetBool("Wallhit", false);//壁から落ちるアニメーション終了
                 uptime = fuptime;
             }
+            else if(setplayer)
+            {
+                animator.SetBool("Wallhit", false);//壁から落ちるアニメーション終了
+                //script.posupdate = false;
+
+            }
 
 
 
@@ -240,7 +246,9 @@ public class Player : MonoBehaviour
         else//エディットモードの時
         {
              MoveFinish();//移動処理終了
+            Debug.Log("とめる");
             animator.SetFloat("AniSpeed", 0.0f); // 一時停止
+            animator.SetBool("Moving", false);//停止時のアニメーションに切り替え
 
             //Rigidbodyを制限する
             rb.constraints = RigidbodyConstraints2D.FreezeAll;

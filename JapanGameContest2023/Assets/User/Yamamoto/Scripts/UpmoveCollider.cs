@@ -22,11 +22,16 @@ public class UpmoveCollider : MonoBehaviour
             player.setblock = true;//プレイヤーの足判定がついている時
             //Debug.Log("set");
         }
+        else if(other.gameObject.CompareTag("Player"))
+        {
+            player.setplayer = true;//プレイヤーの上に載っている
+            Debug.Log("set");
+        }
     }
 
     private void OnTriggerStay2D(Collider2D other)
     {
-        if (other.gameObject.CompareTag("Floor") || other.gameObject.CompareTag("MoveBlock"))
+        if (other.gameObject.CompareTag("Floor") || other.gameObject.CompareTag("MoveBlock") )
         {
             player.setblock = true;//プレイヤーの足判定がついている時
            // Debug.Log("2set"+ other.tag);
