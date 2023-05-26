@@ -87,6 +87,8 @@ public class DataManager : MonoBehaviour
 
     [Header("全ステージ数")] public int stageNum;
 
+    [Header("ステージ毎の制限時間")] public int stageTime;
+
     [SerializeField, Header("出せるオブジェクトの最大数")] public int objMax;
 
     [Header("シーン移動時のロード時間")] public float loadTime;
