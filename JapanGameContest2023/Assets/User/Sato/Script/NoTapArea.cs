@@ -9,6 +9,7 @@ public class NoTapArea : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         for (int i = 0; i < noTapAreas.Count; i++)
         {
             //•K—v‚Èî•ñ‚ÌŽæ“¾
@@ -29,6 +30,10 @@ public class NoTapArea : MonoBehaviour
                 {
                     managerAccessor.Instance.dataMagager.noTapArea = false;
                 }
+            }
+            else
+            {
+                managerAccessor.Instance.dataMagager.noTapArea = false;
             }
         }
 
