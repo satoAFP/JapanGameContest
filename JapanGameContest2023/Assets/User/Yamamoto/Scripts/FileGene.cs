@@ -94,7 +94,7 @@ public class FileGene : MonoBehaviour
                
 
 
-                if (playercount == 0)//移動しているプレイヤーが0になるとCreateObj削除
+                if (playercount <= 0)//移動しているプレイヤーが0になるとCreateObj削除
                 {
                     Destroy(CreateObj);
                     managerAccessor.Instance.dataMagager.isMoving = false;//プレイヤー全体の移動処理を終了
