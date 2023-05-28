@@ -82,10 +82,14 @@ public class DataManager : MonoBehaviour
     [System.NonSerialized] public bool infectionDeth = false;
     //CPU使用量を超えたとき
     [System.NonSerialized] public bool overDeth = false;
+    //制限時間を超えた時
+    [System.NonSerialized] public bool timeDeth = false;
 
 
 
     [Header("全ステージ数")] public int stageNum;
+
+    [Header("ステージ毎の制限時間")] public int stageTime;
 
     [SerializeField, Header("出せるオブジェクトの最大数")] public int objMax;
 
