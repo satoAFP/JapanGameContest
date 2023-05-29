@@ -2249,6 +2249,34 @@ PrefabInstance:
       propertyPath: m_Name
       value: TimeLimit
       objectReference: {fileID: 0}
+    - target: {fileID: 993249299437030521, guid: 9369b10a4be88294d9b53e0d0a58c481, type: 3}
+      propertyPath: shiftPos.x
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 993249299437030521, guid: 9369b10a4be88294d9b53e0d0a58c481, type: 3}
+      propertyPath: shiftPos.y
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 993249299437030521, guid: 9369b10a4be88294d9b53e0d0a58c481, type: 3}
+      propertyPath: outShiftPos.x
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 993249299437030521, guid: 9369b10a4be88294d9b53e0d0a58c481, type: 3}
+      propertyPath: outShiftPos.y
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 993249299437030521, guid: 9369b10a4be88294d9b53e0d0a58c481, type: 3}
+      propertyPath: windowPopTime
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 993249299437030521, guid: 9369b10a4be88294d9b53e0d0a58c481, type: 3}
+      propertyPath: windowInterval
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 993249299437030521, guid: 9369b10a4be88294d9b53e0d0a58c481, type: 3}
+      propertyPath: windowPopTimeInterval
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 993249299437030526, guid: 9369b10a4be88294d9b53e0d0a58c481, type: 3}
       propertyPath: m_RootOrder
       value: 21
@@ -2292,6 +2320,14 @@ PrefabInstance:
     - target: {fileID: 993249299437030526, guid: 9369b10a4be88294d9b53e0d0a58c481, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7153988779488467836, guid: 9369b10a4be88294d9b53e0d0a58c481, type: 3}
+      propertyPath: m_Volume
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7153988779488467836, guid: 9369b10a4be88294d9b53e0d0a58c481, type: 3}
+      propertyPath: m_audioClip
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9369b10a4be88294d9b53e0d0a58c481, type: 3}

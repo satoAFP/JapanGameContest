@@ -17,6 +17,9 @@ public class StageSelect : MonoBehaviour
 
     [SerializeField, Header("テキスト表示用オブジェクト(NoTapArea)")] private GameObject textNoTapArea;
 
+    [SerializeField, Header("ビギナーマーク")] private GameObject beginnerMark;
+
+
     private List<GameObject> stages = new List<GameObject>();   //ステージ記憶用
     private int frameCount = 0;                                 //ダブルクリックの間隔をカウント
     private bool oneClick = false;                            　//一回目クリックされた判定
@@ -49,6 +52,9 @@ public class StageSelect : MonoBehaviour
             textClone = Instantiate(managerAccessor.Instance.objDataManager.stageSelectObj);
             textClone.transform.parent = stageParent.transform;
             textClone.transform.GetChild(0).GetComponent<Text>().text = "README.txt";
+            GameObject cloneSE = Instantiate(beginnerMark);
+            cloneSE.transform.parent = textClone.transform.GetChild(0);
+            cloneSE.transform.localPosition = new Vector2(43, 54);
 
             //ステージの生成
             for (int i = 0; i < stage; i++)
