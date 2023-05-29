@@ -15,6 +15,8 @@ public class StageSelect : MonoBehaviour
 
     [SerializeField, Header("テキスト表示用オブジェクト")] private GameObject textObj;
 
+    [SerializeField, Header("テキスト表示用オブジェクト(NoTapArea)")] private GameObject textNoTapArea;
+
     private List<GameObject> stages = new List<GameObject>();   //ステージ記憶用
     private int frameCount = 0;                                 //ダブルクリックの間隔をカウント
     private bool oneClick = false;                            　//一回目クリックされた判定
@@ -22,6 +24,7 @@ public class StageSelect : MonoBehaviour
     private int stageNumber = 999;                              //ステージの番号
     private int firstStageNumber = 999;                         //最初クリックしたときのステージ番号
     private int secondStageNumber = 999;                        //二回目クリックしたときのステージ番号
+    private RectTransform stageNum;                             //ステージ表示するオブジェクトのRectTransform
     private GameObject textClone = null;                        //README表示用
     private bool isText = false;                                //テキストを選択しているか
 
@@ -73,12 +76,12 @@ public class StageSelect : MonoBehaviour
 
 
         //HomeWindow内にカーソルが無いとき
-        if (!managerAccessor.Instance.dataMagager.isOnHomeWindow)
+        if (!managerAccessor.Instance.dataMagager.noTapArea)
         {
             //カーソルを合わせたときパネルが出る
             for (int i = 0; i < stages.Count; i++)
             {
-                RectTransform stageNum = stages[i].GetComponent<RectTransform>();
+                stageNum = stages[i].GetComponent<RectTransform>();
                 stageNum.transform.GetChild(2).gameObject.SetActive(false);
 
                 //マウスが座標内にいるとき
@@ -174,6 +177,15 @@ public class StageSelect : MonoBehaviour
                 }
             }
         }
+        else
+        {
+            //NoTaoAreaに入ったときのファイル選択状態解除
+            for (int i = 0; i < stages.Count; i++)
+            {
+                stageNum = stages[i].GetComponent<RectTransform>();
+                stageNum.transform.GetChild(2).gameObject.SetActive(false);
+            }
+        }
 
         //ダブルクリックの判定消えるまでの時間計測処理
         if (oneClick)
@@ -214,6 +226,7 @@ public class StageSelect : MonoBehaviour
     public void EndText()
     {
         textObj.SetActive(false);
+        textNoTapArea.SetActive(false);
         isText = false;
     }
 
@@ -223,6 +236,8 @@ public class StageSelect : MonoBehaviour
         managerAccessor.Instance.dataMagager.sceneMoveStart = true;
         yield return new WaitForSeconds(managerAccessor.Instance.dataMagager.loadTime);
         textObj.SetActive(true);
+        textNoTapArea.SetActive(true);
+        textClone.transform.GetChild(1).gameObject.SetActive(false);
         managerAccessor.Instance.dataMagager.sceneMoveStart = false;
     }
 

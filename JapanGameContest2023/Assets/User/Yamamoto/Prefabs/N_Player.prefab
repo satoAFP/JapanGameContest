@@ -416,7 +416,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 2
-  uptime: 0.5
+  uptime: 0.55
   jumpForce: 15
   Objhit: 0
   TimeStart: 0

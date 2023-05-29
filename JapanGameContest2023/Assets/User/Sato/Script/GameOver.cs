@@ -22,6 +22,10 @@ public class GameOver : MonoBehaviour
 
     [SerializeField, Header("オブジェクト出しすぎの時ヒント")] private string overHintText;
 
+    [SerializeField, Header("時間制限を超えた時")] private string timeText;
+
+    [SerializeField, Header("時間制限を超えた時ヒント")] private string timeHintText;
+
     // Update is called once per frame
     void Update()
     {
@@ -45,6 +49,11 @@ public class GameOver : MonoBehaviour
             {
                 putText.text = overText;
                 hintText.text = overHintText;
+            }
+            else if (managerAccessor.Instance.dataMagager.timeDeth)
+            {
+                putText.text = timeText;
+                hintText.text = timeHintText;
             }
         }
     }
