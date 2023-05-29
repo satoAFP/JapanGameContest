@@ -14,6 +14,8 @@ public class GameOver : MonoBehaviour
 
     [SerializeField, Header("ウイルスが落下したときのヒント")] private string fallHintText;
 
+    [SerializeField, Header("ウイルスが落下したときのヒント")] private GameObject fallImg;
+
     [SerializeField, Header("ウイルスが感染したとき")] private string infectionText;
 
     [SerializeField, Header("ウイルスが感染したときヒント")] private string infectionHintText;
@@ -33,12 +35,14 @@ public class GameOver : MonoBehaviour
         if (managerAccessor.Instance.dataMagager.playerlost == true) 
         {
             gameObject.transform.GetChild(0).gameObject.SetActive(true);
+            fallImg.SetActive(false);
 
             //それぞれの死因でテキストを変える
-            if(managerAccessor.Instance.dataMagager.fallDeth)
+            if (managerAccessor.Instance.dataMagager.fallDeth)
             {
                 putText.text = fallText;
                 hintText.text = fallHintText;
+                fallImg.SetActive(true);
             }
             else if(managerAccessor.Instance.dataMagager.infectionDeth)
             {
