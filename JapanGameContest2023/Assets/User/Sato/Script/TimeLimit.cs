@@ -14,6 +14,8 @@ public class TimeLimit : MonoBehaviour
 
     [SerializeField, Header("エラーウィンドウを大量に出すタイミング")] private int windowPopTime;
 
+    [SerializeField, Header("エラーウィンドウを大量に出す時の間隔")] private int windowPopTimeInterval;
+
     [SerializeField, Header("エラーウィンドウをずらす距離")] private Vector3 shiftPos;
 
     [SerializeField, Header("エラーウィンドウが画面から出たときずらす距離")] private Vector3 outShiftPos;
@@ -23,8 +25,9 @@ public class TimeLimit : MonoBehaviour
     private float countTime = 0.0f;                     //deltaTimeの数値代入用
     private int windowPopCount = 0;                     //エラーウィンドウを出すタイミング
     private DataManager dataManager;                    //dataManager取得用
-    private GameObject clone;
-    private AudioSource audio;
+    private GameObject clone;                           //エラーウィンドウ複製用
+    private AudioSource audio;                          //SE再生用
+    private int frameCount = 0;                         //フレーム計測用
 
     //1度だけ実行する処理用
     private bool first = true;
@@ -65,19 +68,23 @@ public class TimeLimit : MonoBehaviour
                         windowPopCount += windowInterval;
                         DuplicationErrorWindow(new Vector3(Random.Range(-6.0f, 6.0f), Random.Range(-4.0f, 4.0f)));
                     }
-                    //決められた時間になると1フレームに1枚表示
+                    //決められた時間になるとwindowPopTimeIntervalフレームに1枚表示
                     else
                     {
-                        DuplicationErrorWindow(windowPopPos);
-                    }
+                        if (frameCount % windowPopTimeInterval == 0)
+                        {
+                            DuplicationErrorWindow(windowPopPos);
 
-                    if (clone.transform.localPosition.y >= restartPosY)
-                    {
-                        windowPopPos -= outShiftPos;
-                    }
+                            //表示する座標をずらす
+                            windowPopPos += shiftPos;
 
-                    //表示する座標をずらす
-                    windowPopPos += shiftPos;
+                            //折り返し処理
+                            if (clone.transform.localPosition.y >= restartPosY)
+                            {
+                                windowPopPos -= outShiftPos;
+                            }
+                        }
+                    }
                 }
             }
             //制限時間になると死亡判定
@@ -86,6 +93,9 @@ public class TimeLimit : MonoBehaviour
                 managerAccessor.Instance.dataMagager.playerlost = true;
                 managerAccessor.Instance.dataMagager.timeDeth = true;
             }
+
+            //フレーム加算
+            frameCount++;
         }
     }
 

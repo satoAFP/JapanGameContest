@@ -48,3 +48,6 @@ MonoBehaviour:
   noClearFile: {fileID: 21300000, guid: 91765b7a6051a8549b3eef92abe89725, type: 3}
   stageParent: {fileID: 0}
   clickFrameRate: 20
+  textObj: {fileID: 0}
+  textNoTapArea: {fileID: 0}
+  beginnerMark: {fileID: 6249324341373366910, guid: a87815fe8eccb3b4b9bce2fd0159d104, type: 3}
