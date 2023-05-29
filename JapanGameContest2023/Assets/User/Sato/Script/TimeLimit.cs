@@ -97,5 +97,6 @@ public class TimeLimit : MonoBehaviour
     {
         clone = Instantiate(errorWindow, gameObject.transform);
         clone.transform.localPosition = pos;
+        audio.PlayOneShot(errorWindowSE);
     }
 }

@@ -46,6 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   errorWindow: {fileID: 1841250930269920284, guid: 7f44aed4c6824534b87bd7448fb02ef8, type: 3}
+  errorWindowSE: {fileID: 8300000, guid: b3f2efa2135fd4a439362004037d4426, type: 3}
   windowPopPos: {x: -5, y: -1, z: 0}
   windowInterval: 1
   windowPopTime: 1
@@ -62,7 +63,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: b3f2efa2135fd4a439362004037d4426, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
