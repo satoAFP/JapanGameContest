@@ -50,8 +50,9 @@ MonoBehaviour:
   windowPopPos: {x: -5, y: -1, z: 0}
   windowInterval: 1
   windowPopTime: 1
+  windowPopTimeInterval: 2
   shiftPos: {x: 0.4, y: 0.4, z: 0}
-  outShiftPos: {x: 6, y: 8, z: 0}
+  outShiftPos: {x: 5, y: 8, z: 0}
   restartPosY: 4
 --- !u!82 &7153988779488467836
 AudioSource:
