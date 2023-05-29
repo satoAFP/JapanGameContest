@@ -6,16 +6,33 @@ public class TimeLimit : MonoBehaviour
 {
     [SerializeField, Header("エラーウィンドウ")] private GameObject errorWindow;
 
+    [SerializeField, Header("エラーウィンドウ表示時SE")] private AudioClip errorWindowSE;
+
+    [SerializeField, Header("エラーウィンドウ最初を出す座標")] private Vector3 windowPopPos;
+
+    [SerializeField, Header("エラーウィンドウ出す間隔")] private int windowInterval;
+
     [SerializeField, Header("エラーウィンドウを大量に出すタイミング")] private int windowPopTime;
+
+    [SerializeField, Header("エラーウィンドウをずらす距離")] private Vector3 shiftPos;
+
+    [SerializeField, Header("エラーウィンドウが画面から出たときずらす距離")] private Vector3 outShiftPos;
+
+    [SerializeField, Header("エラーウィンドウが切り返すY座標")] private float restartPosY;
 
     private float countTime = 0.0f;                     //deltaTimeの数値代入用
     private int windowPopCount = 0;                     //エラーウィンドウを出すタイミング
-    private Vector3 windowPopPos = new Vector3(0, 0, 0);//エラーウィンドウを出す座標
     private DataManager dataManager;                    //dataManager取得用
+    private GameObject clone;
+    private AudioSource audio;
 
     //1度だけ実行する処理用
     private bool first = true;
 
+    private void Start()
+    {
+        audio = gameObject.GetComponent<AudioSource>();
+    }
 
     // Update is called once per frame
     void FixedUpdate()
@@ -32,33 +49,43 @@ public class TimeLimit : MonoBehaviour
 
         //時間加算
         countTime += Time.deltaTime;
-        
-        //制限時間の半分の時間になるとエラーウィンドウを出し始める
-        if (dataManager.stageTime / 2 <= (int)countTime) 
+
+        //キャラが死ぬとエラーウィンドウが出ない
+        if (!managerAccessor.Instance.dataMagager.playerlost)
         {
-            //エラーウィンドウを出すタイミングを管理
-            if (windowPopCount <= (int)countTime)
+            //制限時間の半分の時間になるとエラーウィンドウを出し始める
+            if (dataManager.stageTime / 2 <= (int)countTime)
             {
-                //決められた時間になるまで1秒枚に表示
-                if (!(dataManager.stageTime - windowPopTime <= (int)countTime))
+                //エラーウィンドウを出すタイミングを管理
+                if (windowPopCount <= (int)countTime)
                 {
-                    windowPopCount++;
-                    DuplicationErrorWindow(windowPopPos);
+                    //決められた時間になるまで1秒枚に表示
+                    if (!(dataManager.stageTime - windowPopTime <= (int)countTime))
+                    {
+                        windowPopCount += windowInterval;
+                        DuplicationErrorWindow(new Vector3(Random.Range(-6.0f, 6.0f), Random.Range(-4.0f, 4.0f)));
+                    }
+                    //決められた時間になると1フレームに1枚表示
+                    else
+                    {
+                        DuplicationErrorWindow(windowPopPos);
+                    }
+
+                    if (clone.transform.localPosition.y >= restartPosY)
+                    {
+                        windowPopPos -= outShiftPos;
+                    }
+
+                    //表示する座標をずらす
+                    windowPopPos += shiftPos;
                 }
-                //決められた時間になると1フレームに1枚表示
-                else
-                {
-                    DuplicationErrorWindow(windowPopPos);
-                }
-                //表示する座標をずらす
-                windowPopPos += new Vector3(0.2f, 0.2f, 0);
             }
-        }
-        //制限時間になると死亡判定
-        if (dataManager.stageTime <= (int)countTime) 
-        {
-            managerAccessor.Instance.dataMagager.playerlost = true;
-            managerAccessor.Instance.dataMagager.timeDeth = true;
+            //制限時間になると死亡判定
+            if (dataManager.stageTime <= (int)countTime)
+            {
+                managerAccessor.Instance.dataMagager.playerlost = true;
+                managerAccessor.Instance.dataMagager.timeDeth = true;
+            }
         }
     }
 
@@ -68,7 +95,7 @@ public class TimeLimit : MonoBehaviour
     /// <param name="pos">複製する座標</param>
     private void DuplicationErrorWindow(Vector3 pos)
     {
-        GameObject clone = Instantiate(errorWindow, gameObject.transform);
+        clone = Instantiate(errorWindow, gameObject.transform);
         clone.transform.localPosition = pos;
     }
 }
