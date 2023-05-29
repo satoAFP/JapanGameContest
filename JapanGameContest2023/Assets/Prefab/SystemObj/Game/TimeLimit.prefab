@@ -48,8 +48,8 @@ MonoBehaviour:
   errorWindow: {fileID: 1841250930269920284, guid: 7f44aed4c6824534b87bd7448fb02ef8, type: 3}
   errorWindowSE: {fileID: 8300000, guid: b3f2efa2135fd4a439362004037d4426, type: 3}
   windowPopPos: {x: -5, y: -1, z: 0}
-  windowInterval: 1
-  windowPopTime: 1
+  windowInterval: 2
+  windowPopTime: 2
   windowPopTimeInterval: 2
   shiftPos: {x: 0.4, y: 0.4, z: 0}
   outShiftPos: {x: 5, y: 8, z: 0}
