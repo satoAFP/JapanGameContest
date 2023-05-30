@@ -33,7 +33,7 @@ public class GoalSystem : MonoBehaviour
                 }
 
                 StartCoroutine("ClearPanelPop");
-
+                managerAccessor.Instance.dataMagager.playerClear = true;
                 first = false;
             }
         }
