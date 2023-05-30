@@ -9,12 +9,12 @@ public class DataManager : MonoBehaviour
     [System.NonSerialized] public List<GameObject> selectObjsData = new List<GameObject>();
     //コピー用選択されたオブジェクト
     [System.NonSerialized] public List<GameObject> copyObjsData = new List<GameObject>();
+    //ペースト用選択されたオブジェクト
+    [System.NonSerialized] public List<GameObject> pasteObjsData = new List<GameObject>();
 
     //コピー用右クリックした時呼ばれるUI
     [System.NonSerialized] public GameObject rightClickUIClone = null;
 
-    //コピーを選択したか判断用
-    [System.NonSerialized] public bool objsCopy = false;
     //コピーデータの削除を最初の一回しか行わないためのフラグ
     [System.NonSerialized] public bool copyReset = true;
 
@@ -200,8 +200,14 @@ public class DataManager : MonoBehaviour
     {
         if (managerAccessor.Instance.dataMagager.copyObjsData.Count != 0)
         {
-            //コピーが押されている判定
-            managerAccessor.Instance.dataMagager.objsCopy = true;
+            //ペースト用のデータ破棄
+            managerAccessor.Instance.dataMagager.pasteObjsData.Clear();
+
+            //ペースト用に再記憶
+            for (int i = 0; i < managerAccessor.Instance.dataMagager.copyObjsData.Count; i++)
+            {
+                managerAccessor.Instance.dataMagager.pasteObjsData.Add(managerAccessor.Instance.dataMagager.copyObjsData[i]);
+            }
 
             //ボタンが押されたらUIが消える
             Destroy(managerAccessor.Instance.dataMagager.rightClickUIClone);
@@ -214,20 +220,20 @@ public class DataManager : MonoBehaviour
     {
         DataManager dataManager = managerAccessor.Instance.dataMagager;
 
-        //コピーが押されているとき
-        if (managerAccessor.Instance.dataMagager.objsCopy)
+        //ペーストする用のデータにオブジェクトが含まれているとき
+        if (managerAccessor.Instance.dataMagager.pasteObjsData.Count != 0) 
         {
-
+            Debug.Log(managerAccessor.Instance.dataMagager.pasteObjsData.Count);
             //マウスと元あったオブジェクトとの移動量計算
-            Vector3 moveAmount = MouseWorldChange() - dataManager.copyObjsData[0].transform.localPosition;
+            Vector3 moveAmount = MouseWorldChange() - dataManager.pasteObjsData[0].transform.localPosition;
 
             //以前選択されていたオブジェクトデータ削除
             dataManager.selectObjsData.Clear();
 
             //その場所に表示
-            for (int i = 0; i < dataManager.copyObjsData.Count; i++)
+            for (int i = 0; i < dataManager.pasteObjsData.Count; i++)
             {
-                GameObject clone = Instantiate(dataManager.copyObjsData[i]);
+                GameObject clone = Instantiate(dataManager.pasteObjsData[i]);
                 clone.transform.localPosition += moveAmount;
                 clone.transform.parent = managerAccessor.Instance.objDataManager.blockParent.transform;
             }

@@ -22,8 +22,6 @@ public class SelectObjs : MonoBehaviour
 
             //コピー用データを記憶
             managerAccessor.Instance.dataMagager.copyObjsData.Add(collision.gameObject);
-            //新しく記憶した場合コピーボタンを押すまで貼り付けれない
-            managerAccessor.Instance.dataMagager.objsCopy = false;
 
             //選択されているオブジェクトに入れるナンバーを進ませる
             managerAccessor.Instance.dataMagager.objNum++;
