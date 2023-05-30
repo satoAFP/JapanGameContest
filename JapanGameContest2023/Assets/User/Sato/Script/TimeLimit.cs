@@ -53,8 +53,8 @@ public class TimeLimit : MonoBehaviour
         //時間加算
         countTime += Time.deltaTime;
 
-        //キャラが死ぬとエラーウィンドウが出ない
-        if (!managerAccessor.Instance.dataMagager.playerlost)
+        //キャラが生きているかつはクリアしていない時エラーウィンドウをだす
+        if (!managerAccessor.Instance.dataMagager.playerlost && !managerAccessor.Instance.dataMagager.playerClear) 
         {
             //制限時間の半分の時間になるとエラーウィンドウを出し始める
             if (dataManager.stageTime / 2 <= (int)countTime)
