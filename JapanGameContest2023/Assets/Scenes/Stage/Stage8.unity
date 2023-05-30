@@ -4084,7 +4084,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2359931010143254886, guid: 5f3aa1b722a5fe14189c879c9129b0d4, type: 3}
       propertyPath: fallHintText
-      value: "\u30A6\u30A4\u30EB\u30B9\u306F\u30D5\u30A1\u30A4\u30EB\u306B\u5F93\u3044\u307E\u3059\u3002"
+      value: "\u30E2\u30FC\u30C9\u3092\u5909\u3048\u308C\u3070\u30D6\u30ED\u30C3\u30AF\u3092\u52D5\u304B\u305B\u307E\u3059\u3002"
       objectReference: {fileID: 0}
     - target: {fileID: 2359931010143254886, guid: 5f3aa1b722a5fe14189c879c9129b0d4, type: 3}
       propertyPath: infectionHintText
