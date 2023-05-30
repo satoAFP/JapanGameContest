@@ -799,7 +799,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2359931010143254886, guid: 5f3aa1b722a5fe14189c879c9129b0d4, type: 3}
       propertyPath: fallHintText
-      value: "\u5225\u306E\u30DA\u30FC\u30B8\u3092\u78BA\u8A8D\u3057\u3066\u307F\u307E\u3057\u3087\u3046\u3002"
+      value: "\u30E2\u30FC\u30C9\u3092\u5909\u3048\u308C\u3070\u30D6\u30ED\u30C3\u30AF\u3092\u52D5\u304B\u305B\u307E\u3059\u3002"
       objectReference: {fileID: 0}
     - target: {fileID: 2359931010143254886, guid: 5f3aa1b722a5fe14189c879c9129b0d4, type: 3}
       propertyPath: infectionHintText
