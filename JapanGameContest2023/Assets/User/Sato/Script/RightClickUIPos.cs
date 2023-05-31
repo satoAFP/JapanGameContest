@@ -14,7 +14,6 @@ public class RightClickUIPos : MonoBehaviour
         {
             if (Input.GetMouseButton(1))
             {
-
                 if (first)
                 {
                     //古い右クリックUIを消去
@@ -28,7 +27,9 @@ public class RightClickUIPos : MonoBehaviour
                 }
             }
             else
+            {
                 first = true;
+            }
 
             if(Input.GetMouseButton(0))
             {
